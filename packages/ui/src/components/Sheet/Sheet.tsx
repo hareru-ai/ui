@@ -15,7 +15,11 @@ export const SheetTrigger = forwardRef<HTMLButtonElement, SheetTriggerProps>(
   ({ asChild, children, ...props }, ref) => {
     if (asChild && isValidElement(children)) {
       return (
-        <BaseDialog.Trigger ref={ref} render={children as ReactElement<Record<string, unknown>>} {...props} />
+        <BaseDialog.Trigger
+          ref={ref}
+          render={children as ReactElement<Record<string, unknown>>}
+          {...props}
+        />
       );
     }
     return (
@@ -36,7 +40,11 @@ export const SheetClose = forwardRef<HTMLButtonElement, SheetCloseProps>(
   ({ asChild, children, ...props }, ref) => {
     if (asChild && isValidElement(children)) {
       return (
-        <BaseDialog.Close ref={ref} render={children as ReactElement<Record<string, unknown>>} {...props} />
+        <BaseDialog.Close
+          ref={ref}
+          render={children as ReactElement<Record<string, unknown>>}
+          {...props}
+        />
       );
     }
     return (

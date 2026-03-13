@@ -93,7 +93,7 @@
 }
 
 .hui-semantic-suggest__evidence > span + span::before {
-  content: '\00b7';
+  content: "\00b7";
   margin-right: var(--hui-spacing-2);
 }
 

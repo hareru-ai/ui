@@ -10,9 +10,7 @@ export interface FieldDiffProps extends HTMLAttributes<HTMLDivElement> {
 
 export const FieldDiff = forwardRef<HTMLDivElement, FieldDiffProps>(
   ({ className, original, corrected, changedFields, labels, ...props }, ref) => {
-    const allKeys = Array.from(
-      new Set([...Object.keys(original), ...Object.keys(corrected)]),
-    );
+    const allKeys = Array.from(new Set([...Object.keys(original), ...Object.keys(corrected)]));
 
     return (
       <div ref={ref} className={cn('hui-field-diff', className)} {...props}>
@@ -38,10 +36,7 @@ export const FieldDiff = forwardRef<HTMLDivElement, FieldDiffProps>(
               </span>
               <span className="hui-field-diff__arrow">{isChanged ? '\u2192' : ''}</span>
               <span
-                className={cn(
-                  'hui-field-diff__value',
-                  isChanged && 'hui-field-diff__value--added',
-                )}
+                className={cn('hui-field-diff__value', isChanged && 'hui-field-diff__value--added')}
               >
                 {corrVal}
               </span>

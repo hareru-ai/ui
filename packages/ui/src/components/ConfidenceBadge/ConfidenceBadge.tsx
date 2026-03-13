@@ -31,9 +31,7 @@ export const ConfidenceBadge = forwardRef<HTMLSpanElement, ConfidenceBadgeProps>
     const label = LEVEL_LABELS[level];
     const scoreText = score != null && showScore ? ` ${formatScore(score)}` : '';
     const titleText =
-      score != null
-        ? `Confidence: ${level} (${formatScore(score)})`
-        : `Confidence: ${level}`;
+      score != null ? `Confidence: ${level} (${formatScore(score)})` : `Confidence: ${level}`;
 
     return (
       <span
@@ -48,7 +46,8 @@ export const ConfidenceBadge = forwardRef<HTMLSpanElement, ConfidenceBadgeProps>
         title={titleText}
         {...props}
       >
-        {label}{scoreText}
+        {label}
+        {scoreText}
       </span>
     );
   },

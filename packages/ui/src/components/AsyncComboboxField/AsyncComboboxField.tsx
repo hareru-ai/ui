@@ -63,7 +63,7 @@ export const AsyncComboboxField = forwardRef<HTMLDivElement, AsyncComboboxFieldP
             const data = await res.json();
             const mapped = mapResponse
               ? mapResponse(data)
-              : (data.accounts ?? data.items ?? data) as AsyncComboboxItem[];
+              : ((data.accounts ?? data.items ?? data) as AsyncComboboxItem[]);
             setItems(mapped);
           }
         } catch {
@@ -98,16 +98,10 @@ export const AsyncComboboxField = forwardRef<HTMLDivElement, AsyncComboboxFieldP
         </span>
         <Combobox>
           <ComboboxTrigger>
-            {value
-              ? items.find((i) => i.value === value)?.label ?? value
-              : placeholder}
+            {value ? (items.find((i) => i.value === value)?.label ?? value) : placeholder}
           </ComboboxTrigger>
           <ComboboxContent>
-            <ComboboxInput
-              placeholder={placeholder}
-              value={query}
-              onValueChange={setQuery}
-            />
+            <ComboboxInput placeholder={placeholder} value={query} onValueChange={setQuery} />
             <ComboboxList>
               {loading ? (
                 <div className="hui-async-combobox-field__loading">読み込み中...</div>

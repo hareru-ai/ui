@@ -82,7 +82,7 @@ export const SemanticSuggest = forwardRef<HTMLDivElement, SemanticSuggestProps>(
     }
 
     return (
-      <div
+      <article
         ref={ref}
         className={cn(
           'hui-semantic-suggest',
@@ -92,12 +92,14 @@ export const SemanticSuggest = forwardRef<HTMLDivElement, SemanticSuggestProps>(
         )}
         data-type={type}
         data-status={status}
-        role="region"
         aria-label={title}
         {...props}
       >
         <div className="hui-semantic-suggest__header">
-          <span className={cn('hui-semantic-suggest__icon', `hui-semantic-suggest__icon--${type}`)} aria-hidden="true">
+          <span
+            className={cn('hui-semantic-suggest__icon', `hui-semantic-suggest__icon--${type}`)}
+            aria-hidden="true"
+          >
             {TYPE_ICON[type]}
           </span>
           <span>{title}</span>
@@ -108,21 +110,17 @@ export const SemanticSuggest = forwardRef<HTMLDivElement, SemanticSuggestProps>(
           )}
         </div>
 
-        {description && (
-          <p className="hui-semantic-suggest__description">{description}</p>
-        )}
+        {description && <p className="hui-semantic-suggest__description">{description}</p>}
 
         {evidenceParts.length > 0 && (
           <div className="hui-semantic-suggest__evidence">
-            {evidenceParts.map((part, i) => (
-              <span key={i}>{part}</span>
+            {evidenceParts.map((part) => (
+              <span key={part}>{part}</span>
             ))}
           </div>
         )}
 
-        {preview && (
-          <pre className="hui-semantic-suggest__preview">{preview}</pre>
-        )}
+        {preview && <pre className="hui-semantic-suggest__preview">{preview}</pre>}
 
         {status === 'pending' && (
           <div className="hui-semantic-suggest__actions">
@@ -146,11 +144,9 @@ export const SemanticSuggest = forwardRef<HTMLDivElement, SemanticSuggestProps>(
         )}
 
         {status !== 'pending' && (
-          <div className="hui-semantic-suggest__status-label">
-            {STATUS_LABEL[status]}
-          </div>
+          <div className="hui-semantic-suggest__status-label">{STATUS_LABEL[status]}</div>
         )}
-      </div>
+      </article>
     );
   },
 );
