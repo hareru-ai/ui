@@ -1,0 +1,7 @@
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles.css";
+
+/* Easing preview hover animation */
+.hui-easing-preview-card:hover .hui-easing-preview {
+  margin-left: calc(100% - var(--hui-spacing-6));
+}

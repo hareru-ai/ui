@@ -1,0 +1,148 @@
+/* ToolCallCard — tool execution visualization card */
+
+.hui-tool-call-card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  background-color: var(--hui-color-card);
+  color: var(--hui-color-card-foreground);
+  font-family: var(--hui-font-family-sans);
+  overflow: hidden;
+}
+
+/* Header */
+.hui-tool-call-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-2);
+  padding: var(--hui-spacing-3) var(--hui-spacing-4);
+}
+
+/* Icon */
+.hui-tool-call-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-tool-call-card__icon--executing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: hui-tool-spin 1s var(--hui-easing-linear) infinite;
+}
+
+/* Name */
+.hui-tool-call-card__name {
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-semibold);
+  font-family: var(--hui-font-family-mono);
+}
+
+/* Status badge */
+.hui-tool-call-card__status {
+  font-size: var(--hui-font-size-xs);
+  padding: 0 var(--hui-spacing-2);
+  border-radius: var(--hui-radius-full);
+  line-height: 1.6;
+}
+
+.hui-tool-call-card__status--pending {
+  background-color: var(--hui-color-muted);
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-tool-call-card__status--executing {
+  background-color: color-mix(in srgb, var(--hui-color-info) 15%, transparent);
+  color: var(--hui-color-info);
+}
+
+.hui-tool-call-card__status--done {
+  background-color: color-mix(in srgb, var(--hui-color-success) 15%, transparent);
+  color: var(--hui-color-success);
+}
+
+.hui-tool-call-card__status--error {
+  background-color: color-mix(in srgb, var(--hui-color-destructive) 15%, transparent);
+  color: var(--hui-color-destructive);
+}
+
+/* Duration */
+.hui-tool-call-card__duration {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  margin-left: auto;
+}
+
+/* Toggle */
+.hui-tool-call-card__toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--hui-spacing-1);
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  border-radius: var(--hui-radius-sm);
+  transition: background-color var(--hui-duration-fast);
+}
+
+.hui-tool-call-card__toggle:hover {
+  background-color: var(--hui-color-muted);
+}
+
+.hui-tool-call-card__toggle:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+/* Push toggle right when duration is absent */
+.hui-tool-call-card__status + .hui-tool-call-card__toggle {
+  margin-left: auto;
+}
+
+/* Body */
+.hui-tool-call-card__body {
+  padding: 0 var(--hui-spacing-4) var(--hui-spacing-3);
+  border-top: 1px solid var(--hui-color-border);
+}
+
+/* Args */
+.hui-tool-call-card__args {
+  margin: var(--hui-spacing-3) 0 0;
+  padding: var(--hui-spacing-3);
+  background-color: var(--hui-color-muted);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-mono);
+  font-size: var(--hui-font-size-xs);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Args streaming cursor */
+.hui-tool-call-card__args-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background-color: var(--hui-color-foreground);
+  animation: hui-cursor-blink 1s step-end infinite;
+}
+
+/* Result */
+.hui-tool-call-card__result {
+  margin-top: var(--hui-spacing-3);
+  font-size: var(--hui-font-size-sm);
+}
+
+/* Error */
+.hui-tool-call-card__error {
+  margin: var(--hui-spacing-3) 0 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-destructive);
+}

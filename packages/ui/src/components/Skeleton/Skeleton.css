@@ -1,0 +1,15 @@
+@keyframes hui-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.hui-skeleton {
+  background-color: var(--hui-color-muted);
+  border-radius: var(--hui-radius-md);
+  animation: hui-skeleton-pulse 2s var(--hui-easing-in-out) infinite;
+}

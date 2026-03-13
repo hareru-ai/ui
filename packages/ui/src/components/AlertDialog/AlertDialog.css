@@ -1,0 +1,149 @@
+/* Overlay */
+.hui-alert-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hui-z-index-modal);
+  background-color: var(--hui-color-overlay);
+  opacity: 0;
+  transition: opacity var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-alert-dialog__overlay[data-open] {
+  opacity: 1;
+}
+
+.hui-alert-dialog__overlay[data-ending-style] {
+  opacity: 0;
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-in);
+}
+
+/* Content */
+.hui-alert-dialog__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: var(--hui-z-index-modal);
+  transform: translate(-50%, -50%) scale(0.95);
+  display: grid;
+  width: 100%;
+  /* EXCEPTION: 32rem is outside the spacing scale — intentional fixed max-width matching Dialog */
+  max-width: 32rem;
+  gap: var(--hui-spacing-4);
+  padding: var(--hui-spacing-6);
+  background-color: var(--hui-color-background);
+  color: var(--hui-color-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  box-shadow: var(--hui-shadow-lg);
+  outline: none;
+  opacity: 0;
+  transition: opacity var(--hui-duration-normal) var(--hui-easing-out), transform
+    var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-alert-dialog__content[data-open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.hui-alert-dialog__content[data-ending-style] {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-in), transform
+    var(--hui-duration-fast) var(--hui-easing-in);
+}
+
+/* Header / Footer */
+.hui-alert-dialog__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-2);
+  text-align: center;
+}
+
+/* Breakpoint: sm (640px) — CSS custom properties cannot be used in media queries */
+@media (min-width: 640px) {
+  .hui-alert-dialog__header {
+    text-align: left;
+  }
+}
+
+.hui-alert-dialog__footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--hui-spacing-2);
+}
+
+/* Breakpoint: sm (640px) — CSS custom properties cannot be used in media queries */
+@media (min-width: 640px) {
+  .hui-alert-dialog__footer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+/* Title / Description */
+.hui-alert-dialog__title {
+  margin: 0;
+  font-size: var(--hui-font-size-lg);
+  font-weight: var(--hui-font-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--hui-font-tracking-tight);
+}
+
+.hui-alert-dialog__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+}
+
+/* Action button */
+.hui-alert-dialog__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hui-spacing-2) var(--hui-spacing-4);
+  border: none;
+  border-radius: var(--hui-radius-md);
+  background-color: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-alert-dialog__action:hover {
+  background-color: var(--hui-color-primary-hover);
+}
+
+.hui-alert-dialog__action:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Cancel button */
+.hui-alert-dialog__cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hui-spacing-2) var(--hui-spacing-4);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-md);
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--hui-duration-fast), border-color var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-alert-dialog__cancel:hover {
+  background-color: var(--hui-color-accent);
+  border-color: var(--hui-color-accent);
+}
+
+.hui-alert-dialog__cancel:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}

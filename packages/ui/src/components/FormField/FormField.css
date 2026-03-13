@@ -1,0 +1,34 @@
+.hui-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-2);
+}
+
+.hui-form-field__label {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: var(--hui-font-leading-none);
+  color: var(--hui-color-foreground);
+}
+
+.hui-form-field__label--error {
+  color: var(--hui-color-destructive);
+}
+
+.hui-form-field__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-form-field__message {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  color: var(--hui-color-foreground);
+}
+
+.hui-form-field__message--error {
+  color: var(--hui-color-destructive);
+}

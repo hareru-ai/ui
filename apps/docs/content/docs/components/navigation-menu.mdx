@@ -1,0 +1,67 @@
+---
+title: NavigationMenu
+description: Accessible top-level navigation menu with animated content panels, built on Base UI NavigationMenu.
+---
+
+**Category:** Navigation — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/navigation-menu`
+
+## Import
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuIndicator,
+  NavigationMenuViewport,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `NavigationMenu` | Component | Root context; includes `NavigationMenuViewport` automatically |
+| `NavigationMenuList` | Component | Horizontal list of menu items |
+| `NavigationMenuItem` | Component | Individual menu entry |
+| `NavigationMenuTrigger` | Component | Button that opens the associated content panel |
+| `NavigationMenuContent` | Component | Floating panel displayed below the trigger |
+| `NavigationMenuLink` | Component | Styled anchor link for use inside content panels |
+| `NavigationMenuIndicator` | Component | Animated indicator arrow (included in `NavigationMenu` by default) |
+| `NavigationMenuViewport` | Component | Viewport container for animating content panels (included in `NavigationMenu` by default) |
+
+## Usage
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@hareru/ui"
+
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink href="/about">About</NavigationMenuLink>
+        <NavigationMenuLink href="/docs">Docs</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Notes
+
+- `NavigationMenu` already renders `NavigationMenuViewport` and `NavigationMenuIndicator` — do not add them manually.
+- `NavigationMenuLink` can also be used with the `asChild` prop to wrap a router `<Link>` component.
+- Content panels are rendered in a shared viewport for smooth cross-item animations.

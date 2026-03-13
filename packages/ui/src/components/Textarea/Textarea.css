@@ -1,0 +1,39 @@
+.hui-textarea {
+  display: flex;
+  width: 100%;
+  min-height: 5rem;
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border: 1px solid var(--hui-color-input);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-normal);
+  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  outline: none;
+  resize: vertical;
+}
+
+.hui-textarea::placeholder {
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-textarea:focus-visible {
+  border-color: var(--hui-color-ring);
+  box-shadow: 0 0 0 1px var(--hui-color-ring);
+}
+
+.hui-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hui-textarea--error {
+  border-color: var(--hui-color-destructive);
+}
+
+.hui-textarea--error:focus-visible {
+  border-color: var(--hui-color-destructive);
+  box-shadow: 0 0 0 1px var(--hui-color-destructive);
+}

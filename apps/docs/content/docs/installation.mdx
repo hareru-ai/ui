@@ -1,0 +1,133 @@
+---
+title: Installation
+description: Framework-specific installation guides for Hareru UI
+---
+
+## Next.js
+
+### 1. Install packages
+
+```bash
+npm install @hareru/tokens @hareru/ui
+```
+
+### 2. Configure Next.js
+
+Add the following to `next.config.ts`:
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  transpilePackages: ["@hareru/ui", "@hareru/tokens"],
+};
+
+export default nextConfig;
+```
+
+### 3. Import styles
+
+In your `globals.css`:
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles.css";
+```
+
+### 4. Add providers
+
+```tsx
+// app/providers.tsx
+"use client"
+
+import { ThemeProvider, ToastProvider, Toaster } from "@hareru/ui"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider defaultTheme="system">
+      <ToastProvider>
+        {children}
+        <Toaster />
+      </ToastProvider>
+    </ThemeProvider>
+  )
+}
+```
+
+```tsx
+// app/layout.tsx
+import { Providers } from "./providers"
+import "./globals.css"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+## Vite
+
+### 1. Install packages
+
+```bash
+npm install @hareru/tokens @hareru/ui
+```
+
+### 2. Import styles
+
+In your entry CSS file:
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles.css";
+```
+
+### 3. Add providers
+
+```tsx
+// src/App.tsx
+import { ThemeProvider, ToastProvider, Toaster } from "@hareru/ui"
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="system">
+      <ToastProvider>
+        {/* Your app */}
+        <Toaster />
+      </ToastProvider>
+    </ThemeProvider>
+  )
+}
+```
+
+## Local Development (Monorepo)
+
+If you're using Hareru UI as a local dependency:
+
+```jsonc
+// package.json
+{
+  "@hareru/tokens": "file:../hareru-ui/packages/tokens",
+  "@hareru/ui": "file:../hareru-ui/packages/ui"
+}
+```
+
+Run `pnpm build` inside the hareru-ui directory first to generate the dist output.
+
+For Next.js with Turbopack, add:
+
+```typescript
+import path from "path";
+
+const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.join(__dirname, ".."),
+  },
+  transpilePackages: ["@hareru/ui", "@hareru/tokens"],
+};
+```

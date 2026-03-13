@@ -1,0 +1,46 @@
+{
+  "name": "@hareru/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens and CSS custom properties for Hareru UI",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hareru-ai/ui",
+    "directory": "packages/tokens"
+  },
+  "keywords": ["design-tokens", "css-variables", "hareru", "dtcg"],
+  "sideEffects": ["*.css"],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./presets": {
+      "types": "./dist/presets/index.d.ts",
+      "import": "./dist/presets/index.js",
+      "require": "./dist/presets/index.cjs"
+    },
+    "./css": "./dist/theme.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./tokens.schema.json": "./dist/tokens.schema.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.0.0"
+  }
+}

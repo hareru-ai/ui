@@ -1,0 +1,27 @@
+.hui-popover__content {
+  z-index: var(--hui-z-index-dropdown);
+  width: 18rem;
+  padding: var(--hui-spacing-4);
+  background-color: var(--hui-color-popover);
+  color: var(--hui-color-popover-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-md);
+  box-shadow: var(--hui-shadow-md);
+  outline: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-out), transform
+    var(--hui-duration-fast) var(--hui-easing-out);
+}
+
+.hui-popover__content[data-open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hui-popover__content[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-in), transform
+    var(--hui-duration-fast) var(--hui-easing-in);
+}

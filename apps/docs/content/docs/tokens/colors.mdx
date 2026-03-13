@@ -1,0 +1,65 @@
+---
+title: Colors
+description: OKLCH semantic color system
+---
+
+All color values use the OKLCH format (`oklch(0.205 0.015 265)`) for perceptual uniformity and gamut mapping.
+
+## Semantic Colors
+
+| Token | Description |
+|-------|-------------|
+| `--hui-color-background` | Page background |
+| `--hui-color-foreground` | Main text |
+| `--hui-color-primary` | Primary |
+| `--hui-color-primary-foreground` | Text on primary |
+| `--hui-color-primary-hover` | Primary hover |
+| `--hui-color-secondary` | Secondary |
+| `--hui-color-secondary-foreground` | Text on secondary |
+| `--hui-color-secondary-hover` | Secondary hover |
+| `--hui-color-destructive` | Destructive |
+| `--hui-color-destructive-foreground` | Text on destructive |
+| `--hui-color-destructive-hover` | Destructive hover |
+| `--hui-color-warning` | Warning |
+| `--hui-color-warning-foreground` | Text on warning |
+| `--hui-color-warning-hover` | Warning hover |
+| `--hui-color-success` | Success |
+| `--hui-color-success-foreground` | Text on success |
+| `--hui-color-success-hover` | Success hover |
+| `--hui-color-info` | Info |
+| `--hui-color-info-foreground` | Text on info |
+| `--hui-color-info-hover` | Info hover |
+| `--hui-color-muted` | Muted background |
+| `--hui-color-muted-foreground` | Muted text |
+| `--hui-color-accent` | Accent |
+| `--hui-color-accent-foreground` | Text on accent |
+| `--hui-color-accent-hover` | Accent hover |
+
+## Utility Colors
+
+| Token | Description |
+|-------|-------------|
+| `--hui-color-border` | Border |
+| `--hui-color-ring` | Focus ring |
+| `--hui-color-card` | Card background |
+| `--hui-color-card-foreground` | Text on card |
+| `--hui-color-popover` | Popover background |
+| `--hui-color-popover-foreground` | Text on popover |
+| `--hui-color-input` | Input border |
+| `--hui-color-overlay` | Overlay |
+
+## Chart Colors
+
+| Token | Description |
+|-------|-------------|
+| `--hui-color-chart-1` ~ `--hui-color-chart-5` | 5 chart colors |
+
+## Alpha Colors
+
+For transparency, use `color-mix`:
+
+```css
+.my-element {
+  background-color: color-mix(in oklch, var(--hui-color-primary) 50%, transparent);
+}
+```

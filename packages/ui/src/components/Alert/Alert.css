@@ -1,0 +1,36 @@
+.hui-alert {
+  position: relative;
+  width: 100%;
+  padding: var(--hui-spacing-4);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-alert--default {
+  background-color: var(--hui-color-background);
+  color: var(--hui-color-foreground);
+}
+
+.hui-alert--destructive {
+  border-color: var(--hui-color-destructive);
+  color: var(--hui-color-destructive);
+}
+
+.hui-alert__title {
+  margin: 0 0 var(--hui-spacing-1) 0;
+  font-weight: var(--hui-font-weight-medium);
+  line-height: var(--hui-font-leading-none);
+  letter-spacing: var(--hui-font-tracking-tight);
+}
+
+.hui-alert__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-relaxed);
+}
+
+.hui-alert--destructive .hui-alert__title {
+  color: var(--hui-color-destructive);
+}

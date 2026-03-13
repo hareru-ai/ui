@@ -1,0 +1,28 @@
+/* StreamingText — streaming text display */
+
+.hui-streaming-text {
+  position: relative;
+  display: inline;
+  font-family: var(--hui-font-family-sans);
+  line-height: var(--hui-font-leading-normal);
+}
+
+/* Cursor */
+.hui-streaming-text__cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background-color: var(--hui-color-foreground);
+}
+
+/* Blink animation */
+.hui-streaming-text__cursor--blink {
+  animation: hui-cursor-blink 1s step-end infinite;
+}
+
+/* Pulse animation */
+.hui-streaming-text__cursor--pulse {
+  animation: hui-cursor-pulse 1.5s var(--hui-easing-in-out) infinite;
+}

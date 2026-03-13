@@ -1,0 +1,90 @@
+---
+title: Card
+description: Semantic content container using article, header, and footer HTML elements.
+---
+
+**Category:** Layout / Composite
+
+## Import
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | HTML Element | BEM Class | Description |
+|------|-------------|-----------|-------------|
+| `Card` | `<article>` | `hui-card` | Root container |
+| `CardHeader` | `<header>` | `hui-card__header` | Top section for title and description |
+| `CardTitle` | `<h3>` | `hui-card__title` | Primary heading |
+| `CardDescription` | `<p>` | `hui-card__description` | Subtitle or supporting text |
+| `CardContent` | `<div>` | `hui-card__content` | Main body content area |
+| `CardFooter` | `<footer>` | `hui-card__footer` | Bottom section for actions |
+
+## Usage
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  Button,
+} from "@hareru/ui"
+
+// Full card
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description text</CardDescription>
+  </CardHeader>
+  <CardContent>
+    Content goes here.
+  </CardContent>
+  <CardFooter>
+    <Button variant="outline">Cancel</Button>
+    <Button>Save</Button>
+  </CardFooter>
+</Card>
+
+// Simple card without footer
+<Card>
+  <CardHeader>
+    <CardTitle>Account Settings</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Manage your account preferences.</p>
+  </CardContent>
+</Card>
+
+// Card with badge
+<Card>
+  <CardHeader>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <CardTitle>Invoice #1234</CardTitle>
+      <Badge variant="secondary">Pending</Badge>
+    </div>
+    <CardDescription>Due on March 31, 2025</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Total: $1,200.00</p>
+  </CardContent>
+</Card>
+```
+
+## Notes
+
+- `Card` uses semantic HTML (`<article>`, `<header>`, `<footer>`, `<h3>`) for accessibility and SEO.
+- All sub-components are independent — use only the ones you need. `CardHeader`, `CardContent`, and `CardFooter` are all optional.
+- No variants — visual customization is done via the `className` prop.
+- `CardTitle` renders as `<h3>`. Adjust the heading level to match your page hierarchy using the `as` pattern or by rendering a custom element via the `className` prop on another heading.

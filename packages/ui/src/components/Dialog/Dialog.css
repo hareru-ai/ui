@@ -1,0 +1,125 @@
+/* Overlay */
+.hui-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hui-z-index-modal);
+  background-color: var(--hui-color-overlay);
+  opacity: 0;
+  transition: opacity var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-dialog__overlay[data-open] {
+  opacity: 1;
+}
+
+.hui-dialog__overlay[data-ending-style] {
+  opacity: 0;
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-in);
+}
+
+/* Content */
+.hui-dialog__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: var(--hui-z-index-modal);
+  transform: translate(-50%, -50%) scale(0.95);
+  display: grid;
+  width: 100%;
+  /* 32rem: outside spacing scale — intentional fixed max-width for dialog */
+  max-width: 32rem;
+  gap: var(--hui-spacing-4);
+  padding: var(--hui-spacing-6);
+  background-color: var(--hui-color-background);
+  color: var(--hui-color-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  box-shadow: var(--hui-shadow-lg);
+  outline: none;
+  opacity: 0;
+  transition: opacity var(--hui-duration-normal) var(--hui-easing-out), transform
+    var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-dialog__content[data-open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.hui-dialog__content[data-ending-style] {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+  transition: opacity var(--hui-duration-fast) var(--hui-easing-in), transform
+    var(--hui-duration-fast) var(--hui-easing-in);
+}
+
+/* Close button */
+.hui-dialog__close {
+  position: absolute;
+  top: var(--hui-spacing-4);
+  right: var(--hui-spacing-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hui-spacing-1);
+  border: none;
+  border-radius: var(--hui-radius-sm);
+  background-color: transparent;
+  color: var(--hui-color-muted-foreground);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-dialog__close:hover {
+  opacity: 1;
+}
+
+.hui-dialog__close:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Header / Footer */
+.hui-dialog__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-2);
+  text-align: center;
+}
+
+/* Breakpoint: sm (640px) — CSS custom properties cannot be used in media queries */
+@media (min-width: 640px) {
+  .hui-dialog__header {
+    text-align: left;
+  }
+}
+
+.hui-dialog__footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--hui-spacing-2);
+}
+
+/* Breakpoint: sm (640px) — CSS custom properties cannot be used in media queries */
+@media (min-width: 640px) {
+  .hui-dialog__footer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+/* Title / Description */
+.hui-dialog__title {
+  margin: 0;
+  font-size: var(--hui-font-size-lg);
+  font-weight: var(--hui-font-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--hui-font-tracking-tight);
+}
+
+.hui-dialog__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+}

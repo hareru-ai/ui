@@ -1,0 +1,80 @@
+/* Toggle base */
+.hui-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hui-spacing-2);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-sans);
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-toggle:hover {
+  opacity: 0.9;
+}
+
+.hui-toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+.hui-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variants */
+.hui-toggle--default {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+}
+
+.hui-toggle--default:hover {
+  background-color: var(--hui-color-muted);
+}
+
+.hui-toggle--default[data-state="on"] {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-toggle--outline {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border-color: var(--hui-color-input);
+}
+
+.hui-toggle--outline:hover {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-toggle--outline[data-state="on"] {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+  border-color: var(--hui-color-accent);
+}
+
+/* Sizes */
+.hui-toggle--sm {
+  height: var(--hui-spacing-8);
+  padding-inline: var(--hui-spacing-2);
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-toggle--md {
+  height: var(--hui-spacing-10);
+  padding-inline: var(--hui-spacing-3);
+  font-size: var(--hui-font-size-base);
+}
+
+.hui-toggle--lg {
+  height: var(--hui-spacing-12);
+  padding-inline: var(--hui-spacing-4);
+  font-size: var(--hui-font-size-lg);
+}

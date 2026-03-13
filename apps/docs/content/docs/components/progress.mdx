@@ -1,0 +1,49 @@
+---
+title: Progress
+description: Displays a progress bar indicating how far along a task is.
+---
+
+**Category:** Feedback / Standalone
+
+Import from `@hareru/ui`:
+
+```tsx
+import { Progress } from "@hareru/ui"
+```
+
+## Exports
+
+| Export | Description |
+|--------|-------------|
+| `Progress` | Root progress bar. Automatically renders the inner indicator |
+| `ProgressIndicator` | Inner fill element (included automatically; export available for advanced use) |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `0` | Current progress value (0–100) |
+
+Standard HTML attributes for `<div>` are also accepted.
+
+## Usage
+
+```tsx
+import { Progress } from "@hareru/ui"
+
+<Progress value={60} />
+```
+
+Indeterminate state (no value):
+
+```tsx
+<Progress />
+```
+
+Dynamic value from state:
+
+```tsx
+const [progress, setProgress] = useState(0)
+
+<Progress value={progress} />
+```

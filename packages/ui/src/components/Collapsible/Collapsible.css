@@ -1,0 +1,52 @@
+/* Collapsible root */
+.hui-collapsible {
+  display: block;
+}
+
+/* Collapsible trigger */
+.hui-collapsible__trigger {
+  cursor: pointer;
+  outline: none;
+  transition: opacity var(--hui-duration-fast);
+}
+
+.hui-collapsible__trigger:hover {
+  opacity: 0.8;
+}
+
+.hui-collapsible__trigger:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+/* Collapsible content */
+.hui-collapsible__content {
+  overflow: hidden;
+  transition: height var(--hui-duration-normal);
+}
+
+.hui-collapsible__content[data-open] {
+  animation: collapsible-open var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-collapsible__content[data-ending-style] {
+  animation: collapsible-close var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+@keyframes collapsible-open {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--collapsible-panel-height);
+  }
+}
+
+@keyframes collapsible-close {
+  from {
+    height: var(--collapsible-panel-height);
+  }
+  to {
+    height: 0;
+  }
+}

@@ -1,0 +1,25 @@
+.hui-async-combobox-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-1, 0.25rem);
+}
+
+.hui-async-combobox-field__label {
+  font-size: var(--hui-font-size-sm, 0.875rem);
+  font-weight: 500;
+  color: var(--hui-color-text, #111827);
+}
+
+.hui-async-combobox-field__error {
+  font-size: var(--hui-font-size-xs, 0.75rem);
+  color: var(--hui-color-danger, #dc2626);
+}
+
+.hui-async-combobox-field__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hui-spacing-4, 1rem);
+  color: var(--hui-color-text-muted, #6b7280);
+  font-size: var(--hui-font-size-sm, 0.875rem);
+}

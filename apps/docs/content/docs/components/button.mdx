@@ -1,0 +1,73 @@
+---
+title: Button
+description: Interactive button element with variant and size support via CVA.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import { Button } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Button` | Component | Main button component |
+| `ButtonProps` | Type | Props interface |
+| `buttonVariants` | Function | CVA variant resolver |
+
+## Types
+
+```ts
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+```
+
+## Variants
+
+| Prop | Values | Default |
+|------|--------|---------|
+| `variant` | `default` \| `destructive` \| `outline` \| `secondary` \| `ghost` \| `link` | `default` |
+| `size` | `sm` \| `md` \| `lg` \| `icon` | `md` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `string` | `"default"` | Visual style variant |
+| `size` | `string` | `"md"` | Size variant |
+| `asChild` | `boolean` | `false` | Merge props into child element via Slot |
+
+## Usage
+
+```tsx
+import { Button } from "@hareru/ui"
+
+// Basic usage
+<Button>Save</Button>
+
+// With variant and size
+<Button variant="destructive" size="lg">Delete</Button>
+
+// As a link using asChild
+<Button asChild>
+  <a href="/link">Link Button</a>
+</Button>
+
+// Icon button
+<Button size="icon" variant="ghost" aria-label="Settings">
+  <SettingsIcon />
+</Button>
+```
+
+## Notes
+
+- `asChild` uses Slot to merge all props (including `className`) into the child element.
+- When `asChild` is true, the rendered element is determined by the child, not `<button>`.
+- All native `HTMLButtonElement` attributes are forwarded to the underlying element.

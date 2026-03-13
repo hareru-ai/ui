@@ -1,0 +1,107 @@
+---
+title: AI Integration
+description: Guide for AI agents using Hareru UI
+---
+
+Hareru UI is designed for scenarios where AI agents generate and control UI in real time.
+
+## Component Selection
+
+Provide AI agents with component Props and token constraints via JSON Schema.
+
+```typescript
+const buttonSchema = {
+  type: 'object',
+  properties: {
+    variant: {
+      type: 'string',
+      enum: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+      description: 'Button style variant',
+    },
+    size: {
+      type: 'string',
+      enum: ['sm', 'md', 'lg', 'icon'],
+    },
+    children: {
+      type: 'string',
+      description: 'Button text',
+    },
+  },
+  required: ['children'],
+};
+```
+
+### Best Practices
+
+**Do:**
+- Provide token aliases (color names) to the AI
+- Constrain prop types with JSON schema
+- Use semantic component variants
+
+**Don't:**
+- Let the AI generate class names directly
+- Use hardcoded CSS values
+- Let the AI specify `className` without props
+
+## Dynamic Theming
+
+AI agents can update CSS variables to change the theme dynamically.
+
+```typescript
+function applyThemeToDOM(theme: Record<string, string>) {
+  const root = document.documentElement;
+  Object.entries(theme).forEach(([key, value]) => {
+    root.style.setProperty(`--hui-color-${key}`, value);
+  });
+}
+```
+
+### Color Constraints
+
+- Use OKLCH color space for perceptual uniformity
+- Validate WCAG accessibility levels
+- Support both light and dark modes
+
+## Token Schema
+
+```typescript
+const hareruConstraints = {
+  colors: {
+    semantic: ['primary', 'secondary', 'destructive', 'warning', 'success', 'info', 'muted', 'accent'],
+    states: ['default', 'hover', 'active', 'focus', 'disabled'],
+    composite: ['foreground', 'background'],
+  },
+  spacing: { sizes: ['0', '1', '2', '3', '4', '6', '8', '12', '16'] },
+  radius: { sizes: ['none', 'sm', 'md', 'lg', 'full'] },
+  font: {
+    sizes: ['xs', 'sm', 'base', 'lg', 'xl', '2xl'],
+    weights: ['normal', 'medium', 'semibold', 'bold'],
+  },
+};
+```
+
+## AG-UI Event Mapping
+
+| AG-UI Event | Hareru Component | Props Mapping |
+|-------------|------------------|---------------|
+| `TEXT_MESSAGE_CONTENT` | `ChatMessage` + `StreamingText` | Append text to children |
+| `TOOL_CALL_START` | `ToolCallCard` | `toolName`, `status="running"` |
+| `TOOL_CALL_END` | `ToolCallCard` | `status="complete"`, `result` |
+| `STATE_DELTA` | `useAGUIState()` | Apply JSON Patch to state |
+| `RUN_STARTED` | `ReasoningPanel` | `status="thinking"` |
+| `RUN_FINISHED` | `ReasoningPanel` | `status="complete"` |
+
+### Responsibility Boundary
+
+Hareru UI provides **display components only**: ChatContainer, ChatMessage, ChatComposer, ToolCallCard, ApprovalCard, StreamingText, ReasoningPanel.
+
+**Application-side responsibilities** (not provided by Hareru UI): AG-UI transport, event stream parsing, authentication, message persistence.
+
+## Rules for AI Agents
+
+1. Import all components flat from `@hareru/ui`
+2. Use `var(--hui-*)` tokens for all CSS values
+3. Use `useTheme()` hook for theme switching
+4. Place ThemeProvider and ToastProvider at the application root
+5. Sub-path imports are prohibited
+6. Direct Base UI imports are prohibited

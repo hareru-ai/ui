@@ -1,0 +1,68 @@
+---
+title: Components
+description: 40+ accessible React components
+---
+
+All components are imported flat from `@hareru/ui`:
+
+```tsx
+import { Button, Card, Dialog, toast } from "@hareru/ui"
+```
+
+## Component Patterns
+
+### A. Standalone Components
+
+Basic elements that operate with props alone.
+
+| Component | Primary Use |
+|-----------|------------|
+| [Button](/docs/components/button) | Button with variant and size props |
+| [Badge](/docs/components/badge) | Status label |
+| [Input](/docs/components/input) | Text input |
+| [Textarea](/docs/components/textarea) | Multi-line text input |
+| [Label](/docs/components/label) | Form label |
+| [Separator](/docs/components/separator) | Divider line |
+| [Skeleton](/docs/components/skeleton) | Loading placeholder |
+| [Switch](/docs/components/switch) | Toggle switch |
+| [Progress](/docs/components/progress) | Progress bar |
+| [Toggle](/docs/components/toggle) | Toggle button |
+
+### B. Composite Components
+
+Used by combining multiple sub-components.
+
+| Component | Sub-components |
+|-----------|---------------|
+| [Card](/docs/components/card) | CardHeader, CardTitle, CardDescription, CardContent, CardFooter |
+| [Alert](/docs/components/alert) | AlertTitle, AlertDescription |
+| [EmptyState](/docs/components/empty-state) | EmptyStateIcon, EmptyStateTitle, EmptyStateDescription, EmptyStateAction |
+| [FormField](/docs/components/form-field) | FormFieldLabel, FormFieldControl, FormFieldDescription, FormFieldMessage |
+| [Tabs](/docs/components/tabs) | TabsList, TabsTrigger, TabsContent |
+| [BentoGrid](/docs/components/bento-grid) | BentoGridItem |
+
+### C. Base UI Overlay Components
+
+Overlay components wrapping Base UI primitives.
+
+| Component | Sub-components |
+|-----------|---------------|
+| [Dialog](/docs/components/dialog) | DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose |
+| [AlertDialog](/docs/components/alert-dialog) | AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel |
+| [Sheet](/docs/components/sheet) | SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription |
+| [Select](/docs/components/select) | SelectTrigger, SelectValue, SelectContent, SelectItem |
+| [DropdownMenu](/docs/components/dropdown-menu) | DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, ... |
+| [Popover](/docs/components/popover) | PopoverTrigger, PopoverContent |
+| [Tooltip](/docs/components/tooltip) | TooltipProvider, TooltipTrigger, TooltipContent |
+| [Combobox](/docs/components/combobox) | ComboboxTrigger, ComboboxContent, ComboboxInput, ComboboxList, ComboboxItem |
+| [Command](/docs/components/command) | CommandInput, CommandList, CommandGroup, CommandItem, CommandDialog |
+| [NavigationMenu](/docs/components/navigation-menu) | NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent |
+| [Collapsible](/docs/components/collapsible) | CollapsibleTrigger, CollapsibleContent |
+| [ScrollArea](/docs/components/scroll-area) | ScrollBar |
+
+### D. Global Services
+
+| Component | Use |
+|-----------|-----|
+| [Toast](/docs/components/toast) | Toast notifications via `toast()` function |
+| [Avatar](/docs/components/avatar) | AvatarImage, AvatarFallback |

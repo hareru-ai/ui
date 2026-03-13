@@ -1,0 +1,45 @@
+/* Base */
+.hui-confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+  border-radius: var(--hui-radius-full);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: 1;
+}
+
+/* Size: sm (default) */
+.hui-confidence-badge--sm {
+  font-size: var(--hui-font-size-xs);
+  padding: 0 var(--hui-spacing-2);
+}
+
+/* Size: md */
+.hui-confidence-badge--md {
+  font-size: var(--hui-font-size-sm);
+  padding: var(--hui-spacing-1) var(--hui-spacing-3);
+}
+
+/* Level: auto */
+.hui-confidence-badge--auto {
+  background: var(--hui-color-muted);
+  color: var(--hui-color-muted-foreground);
+}
+
+/* Level: validated */
+.hui-confidence-badge--validated {
+  background: color-mix(in srgb, var(--hui-color-info) 15%, transparent);
+  color: var(--hui-color-info);
+}
+
+/* Level: reviewed */
+.hui-confidence-badge--reviewed {
+  background: color-mix(in srgb, var(--hui-color-success) 15%, transparent);
+  color: var(--hui-color-success);
+}
+
+/* Level: authored */
+.hui-confidence-badge--authored {
+  background: color-mix(in srgb, var(--hui-color-primary) 15%, transparent);
+  color: var(--hui-color-primary);
+}

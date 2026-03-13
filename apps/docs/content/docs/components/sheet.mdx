@@ -1,0 +1,80 @@
+---
+title: Sheet
+description: Slide-in panel (drawer) anchored to any edge of the viewport, built on Base UI Dialog.
+---
+
+**Category:** Overlay — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/dialog`
+
+## Import
+
+```tsx
+import {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Sheet` | Component | Root sheet context provider |
+| `SheetTrigger` | Component | Button that opens the sheet; supports `asChild` |
+| `SheetClose` | Component | Button that closes the sheet; supports `asChild` |
+| `SheetContent` | Component | Slide-in panel; accepts `side` and `closeLabel` props |
+| `SheetHeader` | Component | Header section wrapper |
+| `SheetFooter` | Component | Footer section wrapper |
+| `SheetTitle` | Component | Required accessible sheet title |
+| `SheetDescription` | Component | Optional accessible sheet description |
+
+## Variants / Key Props
+
+| Prop | Values | Default | Description |
+|------|--------|---------|-------------|
+| `side` | `top` \| `bottom` \| `left` \| `right` | `right` | Edge from which the panel slides in |
+| `closeLabel` | `string` | `"Close"` | Accessible label for the built-in close button |
+
+## Usage
+
+```tsx
+import {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  Button,
+} from "@hareru/ui"
+
+<Sheet>
+  <SheetTrigger asChild><Button variant="outline">Open Panel</Button></SheetTrigger>
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Settings</SheetTitle>
+      <SheetDescription>Modify your settings.</SheetDescription>
+    </SheetHeader>
+    <div>Content</div>
+    <SheetFooter>
+      <SheetClose asChild><Button variant="outline">Close</Button></SheetClose>
+      <Button>Save</Button>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+## Notes
+
+- `SheetContent` renders a backdrop overlay and a built-in close (`×`) button automatically.
+- `SheetTitle` is required for screen reader accessibility.
+- Controlled mode: pass `open` and `onOpenChange` to `<Sheet>`.

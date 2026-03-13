@@ -1,0 +1,49 @@
+/* ChatContainer — chat layout container */
+
+.hui-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--hui-color-background);
+  color: var(--hui-color-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  overflow: hidden;
+}
+
+.hui-chat-container--embedded {
+  border: none;
+  border-radius: 0;
+}
+
+/* Header */
+.hui-chat-container__header {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-3);
+  padding: var(--hui-spacing-3) var(--hui-spacing-4);
+  border-bottom: 1px solid var(--hui-color-border);
+  flex-shrink: 0;
+}
+
+/* Messages */
+.hui-chat-container__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--hui-spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-4);
+}
+
+/* Prevent children from shrinking (avoids flex-shrink collapse for overflow:hidden children) */
+.hui-chat-container__messages > * {
+  flex-shrink: 0;
+}
+
+/* Footer */
+.hui-chat-container__footer {
+  padding: var(--hui-spacing-3) var(--hui-spacing-4);
+  border-top: 1px solid var(--hui-color-border);
+  flex-shrink: 0;
+}

@@ -1,0 +1,77 @@
+---
+title: Switch
+description: Accessible toggle switch built on Base UI Switch primitives.
+---
+
+**Category:** Form / Standalone
+
+**Dependency:** `@base-ui-components/react`
+
+## Import
+
+```tsx
+import { Switch, SwitchThumb } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Switch` | Component | Root toggle switch (renders `SwitchThumb` automatically) |
+| `SwitchThumb` | Component | The sliding thumb indicator |
+| `SwitchProps` | Type | Props interface for Switch |
+| `SwitchThumbProps` | Type | Props interface for SwitchThumb |
+
+## Types
+
+```ts
+export interface SwitchProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+  checked?: boolean
+  defaultChecked?: boolean
+  onCheckedChange?: (checked: boolean) => void
+  name?: string
+  required?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | — | Initial uncontrolled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when checked state changes |
+| `disabled` | `boolean` | `false` | Disables the switch |
+| `name` | `string` | — | Form field name for native form submission |
+| `required` | `boolean` | `false` | Marks the field as required |
+
+## Usage
+
+```tsx
+import { Switch, Label } from "@hareru/ui"
+
+// Basic usage
+<Switch />
+
+// With a label
+<div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+  <Switch id="notifications" />
+  <Label htmlFor="notifications">Enable notifications</Label>
+</div>
+
+// Controlled
+<Switch
+  checked={enabled}
+  onCheckedChange={setEnabled}
+/>
+
+// Disabled
+<Switch disabled defaultChecked />
+```
+
+## Notes
+
+- `Switch` renders `SwitchThumb` internally — you do not need to add it manually.
+- `SwitchThumb` is exported for cases where you need custom styling or rendering.
+- The underlying element is a `<button type="button">` for keyboard and assistive technology support.

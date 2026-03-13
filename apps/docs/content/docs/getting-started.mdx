@@ -1,0 +1,156 @@
+---
+title: Getting Started
+description: Set up Hareru UI in your React project
+---
+
+## Installation
+
+```bash
+npm install @hareru/tokens @hareru/ui
+```
+
+## CSS Setup
+
+Add the following imports to your global stylesheet (e.g., `globals.css`):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles.css";
+```
+
+Both lines are required. Omitting either will prevent token variables and component styles from being applied.
+
+## Provider Setup
+
+Create a providers component to wrap your application:
+
+```tsx
+"use client"
+
+import { ThemeProvider, ToastProvider, Toaster } from "@hareru/ui"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider defaultTheme="system">
+      <ToastProvider>
+        {children}
+        <Toaster />
+      </ToastProvider>
+    </ThemeProvider>
+  )
+}
+```
+
+Then integrate it in your root layout:
+
+```tsx
+// app/layout.tsx
+import { Providers } from "./providers"
+import "./globals.css"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+## Package Exports
+
+### @hareru/tokens
+
+| Export path | Contents |
+|-------------|---------|
+| `@hareru/tokens` | Type definitions + TokenGenerator + defaultTheme |
+| `@hareru/tokens/presets` | Preset themes |
+| `@hareru/tokens/css` | Pre-generated theme CSS variables |
+
+### @hareru/ui
+
+| Export path | Contents |
+|-------------|---------|
+| `@hareru/ui` | All components, utilities, providers, Toast API |
+| `@hareru/ui/styles.css` | Bundled component CSS |
+
+All components are imported flat from `@hareru/ui`. Sub-path imports like `@hareru/ui/components/Button` are not available.
+
+## useTheme API
+
+```tsx
+const { theme, setTheme, resolvedTheme } = useTheme()
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `theme` | `'light' \| 'dark' \| 'system'` | Current setting value |
+| `resolvedTheme` | `'light' \| 'dark'` | The actual resolved theme |
+| `setTheme` | `(theme) => void` | Function to set the theme |
+
+## Common Recipes
+
+### Form
+
+```tsx
+import {
+  FormField, FormFieldLabel, FormFieldControl,
+  FormFieldDescription, FormFieldMessage, Input, Button
+} from "@hareru/ui"
+
+<FormField error={!!errors.email}>
+  <FormFieldLabel>Email address</FormFieldLabel>
+  <FormFieldControl>
+    <Input type="email" placeholder="you@example.com" />
+  </FormFieldControl>
+  <FormFieldDescription>The email address used for login</FormFieldDescription>
+  <FormFieldMessage>Please enter a valid email address</FormFieldMessage>
+</FormField>
+```
+
+### Confirmation Dialog
+
+```tsx
+import {
+  AlertDialog, AlertDialogTrigger, AlertDialogContent,
+  AlertDialogHeader, AlertDialogFooter, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogAction, AlertDialogCancel,
+  Button
+} from "@hareru/ui"
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive">Delete</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+### Toast Notification
+
+```tsx
+import { toast } from "@hareru/ui"
+
+toast({ title: "Saved", description: "Your changes have been saved." })
+toast({ title: "Error", description: "Failed to save changes.", variant: "destructive" })
+```
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| CSS variables not working | `@import` not configured | Add `@import "@hareru/tokens/css"` and `@import "@hareru/ui/styles.css"` to globals.css |
+| Styles not applied in Next.js | transpilePackages missing | Add `transpilePackages: ["@hareru/ui", "@hareru/tokens"]` to next.config |
+| TypeScript type error | dist not generated | Run `pnpm build` in hareru-ui directory |
+| Theme switching not working | ThemeProvider missing | Place ThemeProvider in root layout |

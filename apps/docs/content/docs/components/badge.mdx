@@ -1,0 +1,66 @@
+---
+title: Badge
+description: Compact status label with semantic color variants.
+---
+
+**Category:** Data Display / Standalone
+
+## Import
+
+```tsx
+import { Badge } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Badge` | Component | Main badge component |
+| `BadgeProps` | Type | Props interface |
+| `badgeVariants` | Function | CVA variant resolver |
+
+## Types
+
+```ts
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
+```
+
+## Variants
+
+| Prop | Values | Default |
+|------|--------|---------|
+| `variant` | `default` \| `secondary` \| `destructive` \| `outline` | `default` |
+
+## Usage
+
+```tsx
+import { Badge } from "@hareru/ui"
+
+// Default (primary color)
+<Badge>New</Badge>
+
+// Secondary
+<Badge variant="secondary">Draft</Badge>
+
+// Destructive (error/danger)
+<Badge variant="destructive">Error</Badge>
+
+// Outline (border only)
+<Badge variant="outline">Tag</Badge>
+
+// In a card header
+<CardHeader>
+  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+    <CardTitle>Invoice #1234</CardTitle>
+    <Badge variant="secondary">Pending</Badge>
+  </div>
+</CardHeader>
+```
+
+## Notes
+
+- Renders as a `<div>` element. Use `role="status"` if the badge content is dynamic and should be announced by screen readers.
+- All native `HTMLDivElement` attributes are forwarded.
+- `badgeVariants` can be used independently to apply badge styling to other elements.

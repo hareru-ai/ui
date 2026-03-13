@@ -1,0 +1,52 @@
+---
+title: Alert
+description: Displays a feedback message to the user with optional title and description.
+---
+
+**Category:** Feedback / Composite
+
+Import from `@hareru/ui`:
+
+```tsx
+import { Alert, AlertTitle, AlertDescription } from "@hareru/ui"
+```
+
+## Exports
+
+| Export | Description |
+|--------|-------------|
+| `Alert` | Root element. Renders with `role="alert"` |
+| `AlertTitle` | Heading text inside the alert |
+| `AlertDescription` | Body text inside the alert |
+| `alertVariants` | CVA variant function for external use |
+
+## Variants
+
+`Alert` accepts a `variant` prop:
+
+| Value | Description |
+|-------|-------------|
+| `default` | Neutral informational style (default) |
+| `destructive` | Error or danger style |
+
+## Usage
+
+```tsx
+import { Alert, AlertTitle, AlertDescription } from "@hareru/ui"
+
+<Alert variant="destructive">
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>Something went wrong.</AlertDescription>
+</Alert>
+```
+
+Informational alert:
+
+```tsx
+<Alert>
+  <AlertTitle>Heads up</AlertTitle>
+  <AlertDescription>
+    You can change your preferences in the settings page.
+  </AlertDescription>
+</Alert>
+```

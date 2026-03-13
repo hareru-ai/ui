@@ -1,0 +1,75 @@
+---
+title: AlertDialog
+description: Accessible confirmation dialog that requires an explicit user action before proceeding.
+---
+
+**Category:** Overlay — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/alert-dialog`
+
+## Import
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `AlertDialog` | Component | Root alert dialog context provider |
+| `AlertDialogTrigger` | Component | Button that opens the dialog; supports `asChild` |
+| `AlertDialogContent` | Component | Modal panel; includes overlay automatically |
+| `AlertDialogHeader` | Component | Header section wrapper |
+| `AlertDialogFooter` | Component | Footer section wrapper |
+| `AlertDialogTitle` | Component | Required accessible dialog title |
+| `AlertDialogDescription` | Component | Required accessible dialog description |
+| `AlertDialogAction` | Component | Confirmation button that closes the dialog |
+| `AlertDialogCancel` | Component | Cancellation button that closes the dialog |
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+  Button,
+} from "@hareru/ui"
+
+<AlertDialog>
+  <AlertDialogTrigger asChild><Button variant="destructive">Delete</Button></AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Notes
+
+- Unlike `Dialog`, `AlertDialog` does not include a built-in close (`×`) button. The user must choose `AlertDialogAction` or `AlertDialogCancel`.
+- Both `AlertDialogTitle` and `AlertDialogDescription` are required for screen reader accessibility.
+- `AlertDialogAction` and `AlertDialogCancel` both close the dialog on click. Attach your async handler inside `AlertDialogAction`.

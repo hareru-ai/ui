@@ -1,0 +1,33 @@
+---
+title: Introduction
+description: Hareru UI — Semantic CSS design system for React
+---
+
+Hareru UI is a semantic CSS design system built for React applications. It provides 40+ accessible components, a comprehensive design token system, and first-class AI agent integration.
+
+## Key Features
+
+- **OKLCH Color System** — Perceptually uniform colors with full gamut mapping
+- **BEM Naming** — Predictable `hui-*` class names with no conflicts
+- **CSS Custom Properties** — 150+ design tokens via `--hui-*` variables
+- **Light & Dark Themes** — Seamless switching via `data-theme` attribute
+- **Accessible Components** — Base UI primitives with semantic HTML
+- **AI-Ready** — MCP server for AI agent integration
+
+## Architecture
+
+| Decision | Choice | Reason |
+|----------|--------|--------|
+| CSS variable prefix | `--hui-` | Short, unique abbreviation |
+| BEM naming | `hui-button--variant` | Semantic + collision avoidance |
+| Theme switching | `data-theme` attribute | Clear CSS variable scoping |
+| Color format | OKLCH | Perceptually uniform + gamut mapping |
+| Component pattern | `forwardRef` | Guarantees external ref access |
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `@hareru/tokens` | Design tokens + CSS variable generation (DTCG format) |
+| `@hareru/ui` | 40+ React components with BEM CSS |
+| `@hareru/mcp` | MCP server for AI agent integration |

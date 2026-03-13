@@ -1,0 +1,170 @@
+/* SemanticSuggest — semantic improvement suggestion card */
+
+.hui-semantic-suggest {
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  padding: var(--hui-spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-3);
+  font-family: var(--hui-font-family-sans);
+}
+
+/* Status variants */
+.hui-semantic-suggest--pending {
+  /* default border */
+}
+
+.hui-semantic-suggest--accepted {
+  border-color: var(--hui-color-success);
+  background: color-mix(in srgb, var(--hui-color-success) 5%, transparent);
+}
+
+.hui-semantic-suggest--rejected {
+  opacity: 0.6;
+}
+
+/* Header */
+.hui-semantic-suggest__header {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-2);
+  font-weight: var(--hui-font-weight-semibold);
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-snug);
+}
+
+/* Type icon */
+.hui-semantic-suggest__icon {
+  width: var(--hui-spacing-6);
+  height: var(--hui-spacing-6);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--hui-radius-md);
+  font-size: var(--hui-font-size-sm);
+  flex-shrink: 0;
+}
+
+.hui-semantic-suggest__icon--add_synonym {
+  background: color-mix(in srgb, var(--hui-color-info) 15%, transparent);
+  color: var(--hui-color-info);
+}
+
+.hui-semantic-suggest__icon--add_gotcha {
+  background: color-mix(in srgb, var(--hui-color-warning) 15%, transparent);
+  color: var(--hui-color-warning);
+}
+
+.hui-semantic-suggest__icon--split_metric {
+  background: color-mix(in srgb, var(--hui-color-destructive) 15%, transparent);
+  color: var(--hui-color-destructive);
+}
+
+.hui-semantic-suggest__icon--update_instruction {
+  background: color-mix(in srgb, var(--hui-color-primary) 15%, transparent);
+  color: var(--hui-color-primary);
+}
+
+/* Confidence */
+.hui-semantic-suggest__confidence {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  margin-left: auto;
+  font-weight: var(--hui-font-weight-normal);
+}
+
+/* Description */
+.hui-semantic-suggest__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+  line-height: var(--hui-font-leading-relaxed);
+}
+
+/* Evidence */
+.hui-semantic-suggest__evidence {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-2);
+  flex-wrap: wrap;
+}
+
+.hui-semantic-suggest__evidence > span + span::before {
+  content: '\00b7';
+  margin-right: var(--hui-spacing-2);
+}
+
+/* Preview */
+.hui-semantic-suggest__preview {
+  font-family: var(--hui-font-family-mono);
+  font-size: var(--hui-font-size-xs);
+  background: var(--hui-color-muted);
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  border-radius: var(--hui-radius-md);
+  border-left: 3px solid var(--hui-color-primary);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+/* Actions */
+.hui-semantic-suggest__actions {
+  display: flex;
+  gap: var(--hui-spacing-2);
+  justify-content: flex-end;
+}
+
+.hui-semantic-suggest__accept,
+.hui-semantic-suggest__reject {
+  padding: var(--hui-spacing-1) var(--hui-spacing-3);
+  border-radius: var(--hui-radius-md);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--hui-duration-fast);
+}
+
+.hui-semantic-suggest__accept {
+  background: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+  border-color: var(--hui-color-primary);
+}
+
+.hui-semantic-suggest__accept:hover {
+  opacity: 0.9;
+}
+
+.hui-semantic-suggest__reject {
+  background: transparent;
+  color: var(--hui-color-muted-foreground);
+  border-color: var(--hui-color-border);
+}
+
+.hui-semantic-suggest__reject:hover {
+  background: var(--hui-color-muted);
+}
+
+.hui-semantic-suggest__accept:focus-visible,
+.hui-semantic-suggest__reject:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+/* Status label */
+.hui-semantic-suggest__status-label {
+  font-size: var(--hui-font-size-xs);
+  font-weight: var(--hui-font-weight-medium);
+  text-align: right;
+}
+
+.hui-semantic-suggest--accepted .hui-semantic-suggest__status-label {
+  color: var(--hui-color-success);
+}
+
+.hui-semantic-suggest--rejected .hui-semantic-suggest__status-label {
+  color: var(--hui-color-muted-foreground);
+}

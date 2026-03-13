@@ -1,0 +1,57 @@
+---
+title: Popover
+description: Non-modal floating panel anchored to a trigger element, built on Base UI Popover.
+---
+
+**Category:** Overlay — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/popover`
+
+## Import
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverAnchor,
+  PopoverContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Popover` | Component | Root popover context provider |
+| `PopoverTrigger` | Component | Element that toggles the popover; supports `asChild` |
+| `PopoverAnchor` | Component | Alternative positioning anchor (optional) |
+| `PopoverContent` | Component | Floating panel content |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `start` \| `center` \| `end` | `center` | Horizontal alignment relative to the trigger |
+| `sideOffset` | `number` | `4` | Gap in pixels between trigger and content |
+
+## Usage
+
+```tsx
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Button,
+} from "@hareru/ui"
+
+<Popover>
+  <PopoverTrigger asChild><Button variant="outline">Open</Button></PopoverTrigger>
+  <PopoverContent><p>Popover content</p></PopoverContent>
+</Popover>
+```
+
+## Notes
+
+- Popover closes when the user clicks outside or presses `Escape`.
+- Controlled mode: pass `open` and `onOpenChange` to `<Popover>`.
+- `PopoverAnchor` can be used when the popover should be positioned relative to a different element than the trigger.

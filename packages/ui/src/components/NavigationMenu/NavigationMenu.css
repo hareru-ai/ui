@@ -1,0 +1,144 @@
+/* Root */
+.hui-navigation-menu {
+  position: relative;
+  z-index: var(--hui-z-index-base);
+  display: flex;
+  max-width: max-content;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+/* List */
+.hui-navigation-menu__list {
+  display: flex;
+  flex: 1;
+  list-style: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hui-spacing-1);
+  margin: 0;
+  padding: 0;
+}
+
+/* Trigger */
+.hui-navigation-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hui-spacing-1);
+  height: 2.25rem; /* 36px — compact trigger height */
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  color: var(--hui-color-foreground);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--hui-radius-md);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast);
+}
+
+.hui-navigation-menu__trigger:hover {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-navigation-menu__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Chevron */
+.hui-navigation-menu__chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform var(--hui-duration-fast);
+}
+
+.hui-navigation-menu__trigger[data-popup-open] > .hui-navigation-menu__chevron {
+  transform: rotate(180deg);
+}
+
+/* Backdrop — invisible, handles outside click dismiss */
+.hui-navigation-menu__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hui-z-index-dropdown);
+}
+
+/* Positioner */
+.hui-navigation-menu__positioner {
+  z-index: var(--hui-z-index-dropdown);
+  outline: none;
+}
+
+/* Popup */
+.hui-navigation-menu__popup {
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-md);
+  background-color: var(--hui-color-popover);
+  color: var(--hui-color-popover-foreground);
+  box-shadow: var(--hui-shadow-lg);
+  overflow: hidden;
+  outline: none;
+}
+
+/* Content — grid-area overlap keeps intrinsic width measurable */
+.hui-navigation-menu__content {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/* Viewport */
+.hui-navigation-menu__viewport {
+  display: grid;
+  overflow: hidden;
+  max-height: var(--available-height);
+  max-width: var(--available-width);
+}
+
+/* Link */
+.hui-navigation-menu__link {
+  display: block;
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  color: var(--hui-color-foreground);
+  text-decoration: none;
+  border-radius: var(--hui-radius-md);
+  outline: none;
+  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast);
+}
+
+.hui-navigation-menu__link:hover {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-navigation-menu__link:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Indicator */
+.hui-navigation-menu__indicator {
+  top: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 0.375rem; /* 6px — indicator height */
+  overflow: hidden;
+}
+
+.hui-navigation-menu__indicator-arrow {
+  position: relative;
+  top: 60%; /* optical center for arrow */
+  width: 0.5rem; /* 8px — indicator arrow size */
+  height: 0.5rem; /* 8px — indicator arrow size */
+  background-color: var(--hui-color-border);
+  border-radius: var(--hui-radius-sm);
+  transform: rotate(45deg);
+  box-shadow: var(--hui-shadow);
+}

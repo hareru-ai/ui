@@ -1,0 +1,73 @@
+---
+title: Dialog
+description: Accessible modal dialog built on Base UI Dialog primitives.
+---
+
+**Category:** Overlay — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/dialog`
+
+## Import
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Dialog` | Component | Root dialog context provider |
+| `DialogTrigger` | Component | Button that opens the dialog; supports `asChild` |
+| `DialogContent` | Component | Modal panel; includes overlay and close button automatically |
+| `DialogHeader` | Component | Header section wrapper |
+| `DialogFooter` | Component | Footer section wrapper |
+| `DialogTitle` | Component | Required accessible dialog title |
+| `DialogDescription` | Component | Optional accessible dialog description |
+| `DialogClose` | Component | Button that closes the dialog; supports `asChild` |
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+  Button,
+} from "@hareru/ui"
+
+<Dialog>
+  <DialogTrigger asChild><Button>Open Dialog</Button></DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Title</DialogTitle>
+      <DialogDescription>Description</DialogDescription>
+    </DialogHeader>
+    <p>Content</p>
+    <DialogFooter>
+      <DialogClose asChild><Button variant="outline">Close</Button></DialogClose>
+      <Button>Save</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Notes
+
+- `DialogContent` renders the backdrop overlay and a close (`×`) button automatically.
+- `DialogTitle` is required for screen reader accessibility. Use `DialogDescription` when additional context is helpful.
+- Controlled mode: pass `open` and `onOpenChange` to `<Dialog>`.

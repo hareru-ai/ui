@@ -1,0 +1,90 @@
+---
+title: Typography
+description: Font tokens and typography composite tokens
+---
+
+## Font Family
+
+| Token | Value |
+|-------|-------|
+| `--hui-font-family-sans` | 'Inter', 'Noto Sans JP', system-ui, -apple-system, sans-serif |
+| `--hui-font-family-mono` | 'JetBrains Mono', 'Fira Code', ui-monospace, monospace |
+
+## Font Size
+
+| Token | Value |
+|-------|-------|
+| `--hui-font-size-xs` | 0.75rem (12px) |
+| `--hui-font-size-sm` | 0.875rem (14px) |
+| `--hui-font-size-base` | 1rem (16px) |
+| `--hui-font-size-lg` | 1.125rem (18px) |
+| `--hui-font-size-xl` | 1.25rem (20px) |
+| `--hui-font-size-2xl` | 1.5rem (24px) |
+| `--hui-font-size-3xl` | 1.875rem (30px) |
+| `--hui-font-size-4xl` | 2.25rem (36px) |
+| `--hui-font-size-5xl` | 2.5rem (40px) |
+| `--hui-font-size-6xl` | 3rem (48px) |
+
+## Font Weight
+
+| Token | Value |
+|-------|-------|
+| `--hui-font-weight-normal` | 400 |
+| `--hui-font-weight-medium` | 500 |
+| `--hui-font-weight-semibold` | 600 |
+| `--hui-font-weight-bold` | 700 |
+
+## Line Height
+
+| Token | Value |
+|-------|-------|
+| `--hui-font-leading-none` | 1 |
+| `--hui-font-leading-tight` | 1.25 |
+| `--hui-font-leading-snug` | 1.375 |
+| `--hui-font-leading-normal` | 1.5 |
+| `--hui-font-leading-relaxed` | 1.625 |
+| `--hui-font-leading-loose` | 2 |
+
+## Letter Spacing
+
+| Token | Value |
+|-------|-------|
+| `--hui-font-tracking-tighter` | -0.05em |
+| `--hui-font-tracking-tight` | -0.025em |
+| `--hui-font-tracking-normal` | 0em |
+| `--hui-font-tracking-wide` | 0.025em |
+| `--hui-font-tracking-wider` | 0.05em |
+| `--hui-font-tracking-widest` | 0.1em |
+
+## Composite Typography Tokens
+
+Preset combinations of font properties for common text styles.
+
+| Variant | font-size | font-weight | line-height | letter-spacing |
+|---------|-----------|-------------|-------------|----------------|
+| `h1` | 2.25rem | 700 | 1.25 | -0.025em |
+| `h2` | 1.875rem | 700 | 1.3 | -0.025em |
+| `h3` | 1.5rem | 600 | 1.375 | 0em |
+| `h4` | 1.25rem | 600 | 1.4 | 0em |
+| `body` | 1rem | 400 | 1.5 | 0em |
+| `body-sm` | 0.875rem | 400 | 1.5 | 0em |
+| `caption` | 0.75rem | 500 | 1.25 | 0.025em |
+
+### Using as CSS Variables
+
+```css
+.my-heading {
+  font-size: var(--hui-typography-h1-font-size);
+  font-weight: var(--hui-typography-h1-font-weight);
+  line-height: var(--hui-typography-h1-line-height);
+  letter-spacing: var(--hui-typography-h1-letter-spacing);
+}
+```
+
+### Using as Utility Classes
+
+```html
+<h1 class="hui-typography-h1">Heading</h1>
+<p class="hui-typography-body">Body text</p>
+<span class="hui-typography-caption">Caption</span>
+```

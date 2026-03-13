@@ -1,0 +1,45 @@
+{
+  "name": "@hareru/mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Hareru UI design system — exposes tokens, schema, and component registry to AI agents",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hareru-ai/ui",
+    "directory": "packages/mcp"
+  },
+  "keywords": ["mcp", "model-context-protocol", "design-system", "hareru", "ai"],
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "hareru-mcp": "./bin/hareru-mcp.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@hareru/tokens": "workspace:*",
+    "@hareru/ui": "workspace:*",
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.0.0"
+  }
+}

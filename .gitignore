@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.turbo/
+.next/
+.source/
+*.tsbuildinfo
+tsup.config.bundled_*
+test-output.txt
+.DS_Store
+*.local
+test-results/
+playwright-report/
+.playwright-mcp/
+# Claude private config
+.claude/
+
+# Internal dev-orchestrator docs
+projects/
+
+# Pencil design files
+design/*.pen

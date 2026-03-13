@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "rules": {
+    "imports": {
+      "description": "Import rules for Hareru UI packages",
+      "rules": [
+        "Import all components from '@hareru/ui' — no subpath imports exist",
+        "Import token types from '@hareru/tokens'",
+        "Never import from '@base-ui-components/*' directly — use Hareru wrappers"
+      ],
+      "examples": {
+        "correct": "import { Button, Card, Dialog } from '@hareru/ui'",
+        "incorrect": "import { Button } from '@hareru/ui/components/Button'"
+      }
+    },
+    "styling": {
+      "description": "CSS styling rules when using Hareru UI",
+      "rules": [
+        "Use CSS variables (var(--hui-*)) for all style values — never hardcode",
+        "Add custom styles via className prop + CSS file",
+        "Do not use Tailwind utilities to duplicate token values"
+      ],
+      "examples": {
+        "correct": "padding: var(--hui-spacing-4); background-color: var(--hui-color-muted);",
+        "incorrect": "padding: 16px; background-color: #f5f5f5;"
+      }
+    },
+    "theming": {
+      "description": "Theme management rules",
+      "rules": [
+        "Use useTheme() hook for theme switching",
+        "Never manipulate data-theme attribute directly",
+        "Dark theme overrides color and shadow tokens only — spacing, font, radius are shared"
+      ],
+      "examples": {
+        "correct": "const { setTheme } = useTheme(); setTheme('dark');",
+        "incorrect": "document.documentElement.setAttribute('data-theme', 'dark');"
+      }
+    },
+    "providers": {
+      "description": "Required provider setup",
+      "rules": [
+        "Wrap app root with ThemeProvider, ToastProvider, and Toaster",
+        "toast() requires ToastProvider + Toaster in the provider tree"
+      ],
+      "examples": {
+        "correct": "<ThemeProvider><ToastProvider>{children}<Toaster /></ToastProvider></ThemeProvider>"
+      }
+    },
+    "cssImports": {
+      "description": "Required CSS imports",
+      "rules": [
+        "Add '@hareru/tokens/css' and '@hareru/ui/styles.css' to your global CSS",
+        "Both imports are mandatory — omitting either breaks styling"
+      ],
+      "examples": {
+        "correct": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles.css';"
+      }
+    }
+  },
+  "tokenQuickReference": {
+    "color": "--hui-color-{name} (primary, secondary, destructive, warning, success, info, muted, accent)",
+    "spacing": "--hui-spacing-{0|1|2|3|4|5|6|8|10|12|16}",
+    "radius": "--hui-radius-{none|sm|md|lg|xl|full}",
+    "font": "--hui-font-{size|weight|family|leading|tracking}-{value}",
+    "shadow": "--hui-shadow{-sm|-md|-lg|-xl} (DEFAULT: --hui-shadow)",
+    "duration": "--hui-duration-{fast|normal|slow|slower}",
+    "easing": "--hui-easing-{linear|in|out|in-out}",
+    "zIndex": "--hui-z-index-{base|dropdown|sticky|modal|toast}"
+  }
+}
