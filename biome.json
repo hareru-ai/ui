@@ -10,7 +10,8 @@
       "**/playwright-report/**",
       "**/.next/**",
       "**/.source/**",
-      "**/*.module.css"
+      "**/*.module.css",
+      "**/next-env.d.ts"
     ]
   },
   "organizeImports": { "enabled": true },
