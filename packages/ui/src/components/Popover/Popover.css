@@ -4,6 +4,7 @@
   padding: var(--hui-spacing-4);
   background-color: var(--hui-color-popover);
   color: var(--hui-color-popover-foreground);
+  font-family: var(--hui-font-family-sans);
   border: 1px solid var(--hui-color-border);
   border-radius: var(--hui-radius-md);
   box-shadow: var(--hui-shadow-md);

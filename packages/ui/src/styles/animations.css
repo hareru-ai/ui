@@ -1,0 +1,32 @@
+/* @hareru/ui — Global Shared Keyframes
+ * Component-specific keyframes (e.g. hui-toast-slide-in) remain in their own CSS files.
+ * Only keyframes used by multiple components belong here. */
+
+@keyframes hui-cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes hui-cursor-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes hui-tool-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

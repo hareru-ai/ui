@@ -154,6 +154,7 @@
   border: 1px solid var(--hui-color-border);
   border-radius: var(--hui-radius-lg);
   background-color: var(--hui-color-popover);
+  font-family: var(--hui-font-family-sans);
   box-shadow: var(--hui-shadow-lg);
   outline: none;
   overflow: hidden;

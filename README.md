@@ -36,12 +36,42 @@ Peer dependencies: `react` >= 19, `react-dom` >= 19
 
 ### 1. Import CSS
 
-Add the following two imports to your global CSS file:
+**A. Standalone** (Hareru-only app — one import, everything included):
+
+```css
+@import "@hareru/ui/styles.css";
+```
+
+**B. Portable** (alongside other frameworks — no global reset):
 
 ```css
 @import "@hareru/tokens/css";
-@import "@hareru/ui/styles.css";
+@import "@hareru/ui/styles/components.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in: .hui-root subtree typography */
 ```
+
+**C. Tailwind v4 coexistence** (recommended for Tailwind projects):
+
+```css
+@layer theme, base, hui, components, utilities;
+@import "tailwindcss";
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components.layer.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in */
+```
+
+**D. Per-component** (minimal bundle):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components/Button.css";
+@import "@hareru/ui/styles/components/Card.css";
+/* Add @hareru/ui/styles/animations.css when using StreamingText, ReasoningPanel, or ToolCallCard */
+```
+
+> `styles.css` already bundles tokens, so `@hareru/tokens/css` is not needed when using it.
+>
+> If your host app has no CSS reset, optionally add `@import "@hareru/ui/styles/baseline.css"` for `box-sizing: border-box` and form element font inheritance.
 
 ### 2. Set up the provider
 

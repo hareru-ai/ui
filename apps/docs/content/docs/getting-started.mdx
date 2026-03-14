@@ -11,14 +11,44 @@ npm install @hareru/tokens @hareru/ui
 
 ## CSS Setup
 
-Add the following imports to your global stylesheet (e.g., `globals.css`):
+Add one of the following import patterns to your global stylesheet (e.g., `globals.css`):
+
+**A. Standalone** (Hareru-only app — includes tokens, reset, and all component styles):
 
 ```css
-@import "@hareru/tokens/css";
 @import "@hareru/ui/styles.css";
 ```
 
-Both lines are required. Omitting either will prevent token variables and component styles from being applied.
+**B. Portable** (alongside other frameworks — no global reset):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in: .hui-root subtree typography */
+```
+
+**C. Tailwind v4 coexistence** (recommended for Tailwind projects):
+
+```css
+@layer theme, base, hui, components, utilities;
+@import "tailwindcss";
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components.layer.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in */
+```
+
+**D. Per-component** (minimal bundle):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components/Button.css";
+@import "@hareru/ui/styles/components/Card.css";
+/* Add @hareru/ui/styles/animations.css when using StreamingText, ReasoningPanel, or ToolCallCard */
+```
+
+> `styles.css` already bundles tokens, so `@hareru/tokens/css` is not needed when using it.
+>
+> If your host app has no CSS reset, optionally add `@import "@hareru/ui/styles/baseline.css"` for `box-sizing: border-box` and form element font inheritance.
 
 ## Provider Setup
 
@@ -74,7 +104,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 | Export path | Contents |
 |-------------|---------|
 | `@hareru/ui` | All components, utilities, providers, Toast API |
-| `@hareru/ui/styles.css` | Bundled component CSS |
+| `@hareru/ui/styles.css` | Convenience bundle (tokens + reset + components) |
+| `@hareru/ui/styles.layer.css` | Convenience bundle wrapped in `@layer hui` |
+| `@hareru/ui/styles/components.css` | Component styles only (portable) |
+| `@hareru/ui/styles/components.layer.css` | Component styles wrapped in `@layer hui` (Tailwind coexistence) |
+| `@hareru/ui/styles/baseline.css` | Minimal reset (box-sizing, font: inherit) |
+| `@hareru/ui/styles/scope.css` | `.hui-root` typography scope helper |
+| `@hareru/ui/styles/animations.css` | Shared keyframes (for per-component usage) |
+| `@hareru/ui/styles/components/*.css` | Per-component CSS (49 files) |
 
 All components are imported flat from `@hareru/ui`. Sub-path imports like `@hareru/ui/components/Button` are not available.
 
@@ -150,7 +187,7 @@ toast({ title: "Error", description: "Failed to save changes.", variant: "destru
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| CSS variables not working | `@import` not configured | Add `@import "@hareru/tokens/css"` and `@import "@hareru/ui/styles.css"` to globals.css |
+| CSS variables not working | `@import` not configured | Add `@import "@hareru/ui/styles.css"` (standalone) or `@import "@hareru/tokens/css"` + `@import "@hareru/ui/styles/components.css"` (portable) to globals.css |
 | Styles not applied in Next.js | transpilePackages missing | Add `transpilePackages: ["@hareru/ui", "@hareru/tokens"]` to next.config |
 | TypeScript type error | dist not generated | Run `pnpm build` in hareru-ui directory |
 | Theme switching not working | ThemeProvider missing | Place ThemeProvider in root layout |

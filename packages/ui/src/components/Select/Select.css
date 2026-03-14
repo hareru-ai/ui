@@ -48,6 +48,7 @@
   color: var(--hui-color-popover-foreground);
   border: 1px solid var(--hui-color-border);
   border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
   box-shadow: var(--hui-shadow-md);
 }
 

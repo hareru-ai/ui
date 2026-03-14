@@ -21,6 +21,13 @@
       "require": "./dist/index.cjs"
     },
     "./styles.css": "./dist/styles.css",
+    "./styles.layer.css": "./dist/styles.layer.css",
+    "./styles/baseline.css": "./dist/styles/baseline.css",
+    "./styles/components.css": "./dist/styles/components.css",
+    "./styles/components.layer.css": "./dist/styles/components.layer.css",
+    "./styles/scope.css": "./dist/styles/scope.css",
+    "./styles/animations.css": "./dist/styles/animations.css",
+    "./styles/components/*.css": "./dist/styles/components/*.css",
     "./component-registry.json": "./dist/component-registry.json"
   },
   "publishConfig": {

@@ -9,5 +9,6 @@ export default defineConfig({
   clean: true,
   external: ['react', 'react-dom', 'react-grid-layout'],
   banner: { js: '"use client";' },
-  onSuccess: 'node scripts/bundle-css.mjs && node scripts/generate-registry.mjs',
+  onSuccess:
+    'node scripts/bundle-css.mjs && node scripts/generate-registry.mjs && node scripts/verify-css-bundle.mjs',
 });

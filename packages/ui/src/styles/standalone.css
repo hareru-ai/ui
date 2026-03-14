@@ -1,9 +1,8 @@
-/* @hareru/ui — Reset + Base Styles */
+/* @hareru/ui — Standalone Styles (Hareru-owned app only) */
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -21,34 +20,4 @@ body {
   background-color: var(--hui-color-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Shared keyframes */
-@keyframes hui-cursor-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes hui-cursor-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
-}
-
-@keyframes hui-tool-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

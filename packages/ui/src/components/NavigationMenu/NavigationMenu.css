@@ -80,6 +80,7 @@
   border-radius: var(--hui-radius-md);
   background-color: var(--hui-color-popover);
   color: var(--hui-color-popover-foreground);
+  font-family: var(--hui-font-family-sans);
   box-shadow: var(--hui-shadow-lg);
   overflow: hidden;
   outline: none;

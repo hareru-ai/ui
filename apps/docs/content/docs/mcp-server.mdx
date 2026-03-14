@@ -69,11 +69,25 @@ const server = createServer();
 await server.connect(transport);
 ```
 
+## CSS Exports
+
+| Export path | Contents |
+|-------------|---------|
+| `@hareru/tokens/css` | CSS variables (colors, spacing, typography tokens) |
+| `@hareru/ui/styles.css` | Convenience bundle (tokens + reset + components — one import) |
+| `@hareru/ui/styles.layer.css` | Convenience bundle wrapped in `@layer hui` |
+| `@hareru/ui/styles/components.css` | Component styles only (portable — pair with `@hareru/tokens/css`) |
+| `@hareru/ui/styles/components.layer.css` | Component styles wrapped in `@layer hui` (Tailwind v4 coexistence) |
+| `@hareru/ui/styles/baseline.css` | Minimal reset (box-sizing, font: inherit) — optional |
+| `@hareru/ui/styles/scope.css` | `.hui-root` typography scope helper (portable opt-in) |
+| `@hareru/ui/styles/animations.css` | Shared keyframes (for per-component usage) |
+| `@hareru/ui/styles/components/*.css` | Per-component CSS (49 files) |
+
 ## MCP Apps Compatibility
 
 Hareru UI works in iframe sandboxes because:
 
-1. **CSS variables are scope-complete** — All styling uses `--hui-*` custom properties. Injecting `theme.css` provides the full design system.
+1. **CSS variables are scope-complete** — All styling uses `--hui-*` custom properties. Injecting `@hareru/tokens/css` provides all design tokens.
 2. **`data-theme` works on any root** — Theme switching works on any element, not just `document.documentElement`.
 3. **No CSS-in-JS runtime** — Static CSS files with BEM classes.
 4. **No framework runtime conflicts** — Standard React with no required global providers.
