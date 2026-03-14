@@ -121,6 +121,16 @@ describe('MCP Server integration', () => {
       expect(text).toContain('--hui-');
     });
 
+    it('create-ui prompt does not contain variant="primary"', async () => {
+      const result = await client.getPrompt({
+        name: 'create-ui',
+        arguments: { description: 'test' },
+      });
+      const text = (result.messages[0].content as { text: string }).text;
+      expect(text).not.toContain('variant="primary"');
+      expect(text).toContain('variant="default"');
+    });
+
     it('returns consumer-rules prompt with import and styling rules', async () => {
       const result = await client.getPrompt({ name: 'consumer-rules', arguments: {} });
       expect(result.messages).toHaveLength(1);
@@ -130,6 +140,53 @@ describe('MCP Server integration', () => {
       expect(text).toContain('styling');
       expect(text).toContain('Token Quick Reference');
       expect(text).toContain('--hui-');
+    });
+
+    it('consumer-rules prompt formats cssImports examples as code fences', async () => {
+      const result = await client.getPrompt({ name: 'consumer-rules', arguments: {} });
+      const text = (result.messages[0].content as { text: string }).text;
+      expect(text).toContain('```css');
+      expect(text).toContain("@import '@hareru/ui/styles.css'");
+    });
+  });
+
+  describe('registry metadata', () => {
+    it('every component has a group field', async () => {
+      const result = await client.readResource({ uri: 'hareru-ui://components' });
+      const text = (result.contents[0] as { text: string }).text;
+      const data = JSON.parse(text);
+      for (const comp of data.components) {
+        expect(comp.group, `${comp.name} should have group`).toBeTruthy();
+      }
+    });
+
+    // Button has no shared keyframe dependencies — verify it stays clean
+    it('Button has correct cssArtifact and empty requiredCssArtifacts', async () => {
+      const result = await client.readResource({ uri: 'hareru-ui://components' });
+      const text = (result.contents[0] as { text: string }).text;
+      const data = JSON.parse(text);
+      const button = data.components.find((c: { name: string }) => c.name === 'Button');
+      expect(button.cssArtifact).toBe('styles/components/Button.css');
+      expect(button.requiredCssArtifacts).toEqual([]);
+    });
+
+    it('StreamingText requires animations.css', async () => {
+      const result = await client.readResource({ uri: 'hareru-ui://components' });
+      const text = (result.contents[0] as { text: string }).text;
+      const data = JSON.parse(text);
+      const st = data.components.find((c: { name: string }) => c.name === 'StreamingText');
+      expect(st.requiredCssArtifacts).toContain('styles/animations.css');
+    });
+
+    it('every component has tokenCategories array', async () => {
+      const result = await client.readResource({ uri: 'hareru-ui://components' });
+      const text = (result.contents[0] as { text: string }).text;
+      const data = JSON.parse(text);
+      for (const comp of data.components) {
+        expect(Array.isArray(comp.tokenCategories), `${comp.name} tokenCategories is array`).toBe(
+          true,
+        );
+      }
     });
   });
 });

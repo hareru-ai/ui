@@ -47,7 +47,10 @@ if (styles) {
   assert(styles.includes('-webkit-text-size-adjust'), 'styles.css contains standalone reset');
   assert(styles.includes('.hui-button'), 'styles.css contains .hui-button');
   assert(styles.includes('.hui-dialog__content'), 'styles.css contains .hui-dialog__content');
-  assert(styles.includes('@keyframes hui-cursor-blink'), 'styles.css contains @keyframes hui-cursor-blink');
+  assert(
+    styles.includes('@keyframes hui-cursor-blink'),
+    'styles.css contains @keyframes hui-cursor-blink',
+  );
   assert(
     countOccurrences(styles, '@keyframes hui-cursor-blink') === 1,
     'styles.css has exactly 1 @keyframes hui-cursor-blink (no duplicate)',
@@ -58,7 +61,10 @@ if (styles) {
 const baseline = readFile(join(DIST, 'styles/baseline.css'));
 assert(baseline !== null, 'dist/styles/baseline.css exists');
 if (baseline) {
-  assert(baseline.includes('box-sizing: border-box'), 'baseline.css contains box-sizing: border-box');
+  assert(
+    baseline.includes('box-sizing: border-box'),
+    'baseline.css contains box-sizing: border-box',
+  );
   assert(baseline.includes('font: inherit'), 'baseline.css contains font: inherit');
   assert(!baseline.match(/^body\s*\{/m), 'baseline.css does NOT contain body rule');
   assert(!baseline.includes('@keyframes'), 'baseline.css does NOT contain @keyframes');
@@ -69,7 +75,10 @@ const components = readFile(join(DIST, 'styles/components.css'));
 assert(components !== null, 'dist/styles/components.css exists');
 if (components) {
   assert(components.includes('.hui-button'), 'components.css contains .hui-button');
-  assert(components.includes('.hui-dialog__content'), 'components.css contains .hui-dialog__content');
+  assert(
+    components.includes('.hui-dialog__content'),
+    'components.css contains .hui-dialog__content',
+  );
   assert(
     components.includes('@keyframes hui-cursor-blink'),
     'components.css contains @keyframes hui-cursor-blink',
@@ -149,7 +158,10 @@ const stylesLayer = readFile(join(DIST, 'styles.layer.css'));
 assert(stylesLayer !== null, 'dist/styles.layer.css exists');
 if (stylesLayer) {
   assert(stylesLayer.includes('@layer hui'), 'styles.layer.css contains @layer hui');
-  assert(stylesLayer.includes(':root {') || stylesLayer.includes(':root{'), 'styles.layer.css contains :root');
+  assert(
+    stylesLayer.includes(':root {') || stylesLayer.includes(':root{'),
+    'styles.layer.css contains :root',
+  );
   assert(stylesLayer.includes('.hui-button'), 'styles.layer.css contains .hui-button');
 }
 
@@ -159,19 +171,14 @@ assert(existsSync(componentsDir), 'dist/styles/components/ directory exists');
 if (existsSync(componentsDir)) {
   const perComponentFiles = readdirSync(componentsDir).filter((f) => f.endsWith('.css'));
 
-  // Dynamically derive expected count from bundle-css.mjs's componentCssFiles
-  // We import it indirectly by counting source files
-  const srcComponentsDir = join(PKG_ROOT, 'src/components');
-  const srcDirs = readdirSync(srcComponentsDir, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .filter((d) => {
-      const cssPath = join(srcComponentsDir, d.name, `${d.name}.css`);
-      return existsSync(cssPath);
-    });
+  // Use component-manifest.json as the single source of truth for expected count
+  const manifestForCount = JSON.parse(
+    readFileSync(join(PKG_ROOT, 'scripts', 'component-manifest.json'), 'utf-8'),
+  );
 
   assert(
-    perComponentFiles.length === srcDirs.length,
-    `per-component file count (${perComponentFiles.length}) === source component CSS count (${srcDirs.length})`,
+    perComponentFiles.length === manifestForCount.length,
+    `per-component file count (${perComponentFiles.length}) === manifest count (${manifestForCount.length})`,
   );
 
   // Spot-check individual files
@@ -184,7 +191,10 @@ if (existsSync(componentsDir)) {
   const dialogCss = readFile(join(componentsDir, 'Dialog.css'));
   assert(dialogCss !== null, 'components/Dialog.css exists');
   if (dialogCss) {
-    assert(dialogCss.includes('.hui-dialog__content'), 'components/Dialog.css contains .hui-dialog__content');
+    assert(
+      dialogCss.includes('.hui-dialog__content'),
+      'components/Dialog.css contains .hui-dialog__content',
+    );
   }
 }
 
@@ -227,6 +237,83 @@ for (const [exportPath, label] of exportPaths) {
     const resolvedFile = join(PKG_ROOT, resolvedTarget);
     assert(existsSync(resolvedFile), `${resolvedTarget} file exists on disk`);
   }
+}
+
+// --- Artifact consistency (component-manifest.json ↔ dist ↔ registry) ---
+console.log('\nArtifact consistency check...');
+
+const manifestPath = join(PKG_ROOT, 'scripts', 'component-manifest.json');
+const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+const manifestNames = manifest.map((f) => {
+  const parts = f.split('/');
+  return parts[parts.length - 1].replace('.css', '');
+});
+
+// 1. Every manifest entry has a corresponding dist/styles/components/{Name}.css
+for (const name of manifestNames) {
+  const distFile = join(DIST, 'styles', 'components', `${name}.css`);
+  assert(existsSync(distFile), `manifest → dist: ${name}.css exists`);
+}
+
+// 2. Registry consistency
+const registryPath = join(DIST, 'component-registry.json');
+if (existsSync(registryPath)) {
+  const registry = JSON.parse(readFileSync(registryPath, 'utf-8'));
+  const registryNames = registry.components.map((c) => c.name);
+
+  // Every registry entry has cssArtifact and group set (catches TAXONOMY update omission)
+  const VALID_GROUPS = [
+    'core',
+    'form',
+    'layout',
+    'overlay',
+    'navigation',
+    'feedback',
+    'data-display',
+    'agent',
+    'di-domain',
+  ];
+  for (const comp of registry.components) {
+    assert(
+      comp.cssArtifact !== undefined && comp.cssArtifact !== null,
+      `registry: ${comp.name} has cssArtifact`,
+    );
+    assert(
+      VALID_GROUPS.includes(comp.group),
+      `registry: ${comp.name} has valid group "${comp.group}"`,
+    );
+  }
+
+  // 3. Three-way consistency: manifest ↔ registry (incl. taxonomy) ↔ dist
+  const manifestSet = new Set(manifestNames);
+  const registrySet = new Set(registryNames);
+
+  // Check manifest entries are all in registry
+  for (const name of manifestNames) {
+    assert(registrySet.has(name), `manifest → registry: ${name} exists in registry`);
+  }
+
+  // Check registry entries with cssArtifact are all in manifest
+  for (const comp of registry.components) {
+    if (comp.cssArtifact) {
+      // cssArtifact is "styles/components/Button.css" → extract "Button"
+      const fileName = comp.cssArtifact.split('/').pop().replace('.css', '');
+      assert(manifestSet.has(fileName), `registry → manifest: ${fileName} exists in manifest`);
+    }
+  }
+
+  const distComponentCount = existsSync(componentsDir)
+    ? readdirSync(componentsDir).filter((f) => f.endsWith('.css')).length
+    : 0;
+  assert(
+    manifestNames.length === distComponentCount,
+    `manifest count (${manifestNames.length}) === dist count (${distComponentCount})`,
+  );
+  console.log(
+    `  Manifest: ${manifestNames.length}, Registry: ${registryNames.length}, Dist: ${distComponentCount}`,
+  );
+} else {
+  console.log('  SKIP: component-registry.json not found (run generate-registry first)');
 }
 
 // --- Summary ---

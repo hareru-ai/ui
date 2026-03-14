@@ -1,5 +1,5 @@
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -8,6 +8,82 @@ const SRC_DIR = join(PKG_ROOT, 'src');
 const COMPONENTS_DIR = join(SRC_DIR, 'components');
 const INDEX_FILE = join(SRC_DIR, 'index.ts');
 const OUT_FILE = join(PKG_ROOT, 'dist', 'component-registry.json');
+
+// --- Taxonomy: component → group mapping ---
+const TAXONOMY = {
+  Alert: 'feedback',
+  AlertDialog: 'overlay',
+  ApprovalCard: 'agent',
+  AspectRatio: 'layout',
+  AsyncComboboxField: 'form',
+  Avatar: 'data-display',
+  Badge: 'feedback',
+  BentoGrid: 'layout',
+  Button: 'core',
+  Card: 'layout',
+  ChatComposer: 'agent',
+  ChatContainer: 'agent',
+  ChatMessage: 'agent',
+  Collapsible: 'layout',
+  Combobox: 'form',
+  Command: 'overlay',
+  ConfidenceBadge: 'data-display',
+  DataQualityIndicator: 'data-display',
+  DefinitionBrowser: 'di-domain',
+  Dialog: 'overlay',
+  DropdownMenu: 'overlay',
+  EmptyState: 'feedback',
+  FieldDiff: 'data-display',
+  FormField: 'form',
+  Input: 'core',
+  KeyValueList: 'data-display',
+  Label: 'core',
+  MetricCard: 'di-domain',
+  NavigationMenu: 'navigation',
+  Popover: 'overlay',
+  Progress: 'feedback',
+  QueryFeedback: 'di-domain',
+  ReadonlyField: 'data-display',
+  ReasoningPanel: 'agent',
+  ScrollArea: 'layout',
+  Select: 'form',
+  SemanticSuggest: 'di-domain',
+  Separator: 'core',
+  Sheet: 'overlay',
+  Skeleton: 'layout',
+  StreamingText: 'agent',
+  Switch: 'core',
+  Table: 'data-display',
+  Tabs: 'navigation',
+  Textarea: 'core',
+  Toast: 'feedback',
+  Toggle: 'core',
+  ToolCallCard: 'agent',
+  Tooltip: 'overlay',
+};
+
+// --- Token category detection ---
+const TOKEN_CATEGORIES = [
+  { category: 'color', prefix: '--hui-color-' },
+  { category: 'spacing', prefix: '--hui-spacing-' },
+  { category: 'radius', prefix: '--hui-radius-' },
+  { category: 'font', prefix: '--hui-font-' },
+  { category: 'typography', prefix: '--hui-typography-' },
+  { category: 'shadow', prefix: '--hui-shadow' },
+  { category: 'duration', prefix: '--hui-duration-' },
+  { category: 'easing', prefix: '--hui-easing-' },
+  { category: 'zIndex', prefix: '--hui-z-index-' },
+];
+
+// --- Component manifest (single source of truth) ---
+const componentManifest = JSON.parse(
+  readFileSync(join(__dirname, 'component-manifest.json'), 'utf-8'),
+);
+
+// --- Shared keyframes extraction from animations.css ---
+const animationsCssPath = join(PKG_ROOT, 'src/styles/animations.css');
+const animationsSrc = existsSync(animationsCssPath) ? readFileSync(animationsCssPath, 'utf-8') : '';
+const sharedKeyframes = [...animationsSrc.matchAll(/@keyframes\s+([\w-]+)/g)].map((m) => m[1]);
 
 /**
  * Collect all regex matches as an array.
@@ -93,7 +169,7 @@ function parseCVA(source) {
     // Parse defaultVariants block (flat object, no nested braces)
     const defaultKeyMatch = body.match(/defaultVariants\s*:\s*\{([^}]*)\}/);
     if (defaultKeyMatch) {
-      const defRegex = /(\w+)\s*:\s*['"](\w+)['"]/g;
+      const defRegex = /(\w+)\s*:\s*['"]([\w-]+)['"]/g;
       for (const defMatch of matchAll(defRegex, defaultKeyMatch[1])) {
         defaultVariants[defMatch[1]] = defMatch[2];
       }
@@ -205,9 +281,48 @@ for (const dir of componentDirs) {
     (e) => /^[A-Z]/.test(e) && !e.endsWith('Variants') && e !== dir,
   );
 
+  // --- Phase 2C: group, cssArtifact, requiredCssArtifacts, tokenCategories ---
+  const group = TAXONOMY[dir];
+  if (!group) {
+    console.warn(`  WARN: No taxonomy group for "${dir}" — skipping Phase 2C fields`);
+  }
+
+  // cssArtifact: derive from component-manifest.json
+  // manifest: "src/components/Button/Button.css" → artifact: "styles/components/Button.css"
+  const manifestEntry = componentManifest.find((f) => basename(f, '.css') === dir);
+  if (!manifestEntry) {
+    console.warn(`  WARN: No manifest entry for "${dir}" — cssArtifact will use convention-based fallback`);
+  }
+  const cssArtifact = manifestEntry
+    ? `styles/components/${basename(manifestEntry)}`
+    : `styles/components/${dir}.css`;
+
+  // Read component CSS once for requiredCssArtifacts and tokenCategories detection
+  let cssContent = '';
+  if (manifestEntry) {
+    try {
+      cssContent = readFileSync(join(PKG_ROOT, manifestEntry), 'utf-8');
+    } catch {
+      // CSS file may not exist for some components
+    }
+  }
+
+  // requiredCssArtifacts: check if component CSS references shared keyframes
+  const usesSharedKeyframes = sharedKeyframes.some((kf) => cssContent.includes(kf));
+  const requiredCssArtifacts = usesSharedKeyframes ? ['styles/animations.css'] : [];
+
+  // tokenCategories: scan CSS for --hui-* variable usage
+  const tokenCategories = TOKEN_CATEGORIES.filter(({ prefix }) => cssContent.includes(prefix)).map(
+    ({ category }) => category,
+  );
+
   const entry = {
     name: dir,
     displayName: displayNames[0] || dir,
+    group,
+    cssArtifact,
+    requiredCssArtifacts,
+    tokenCategories,
     subcomponents: subcomponents.length > 0 ? subcomponents : undefined,
     variants:
       cvaVariants.length > 0

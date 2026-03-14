@@ -154,6 +154,10 @@ test.describe('AI artifacts — component-registry.json', () => {
     components: Array<{
       name: string;
       displayName: string;
+      group: string;
+      cssArtifact: string;
+      requiredCssArtifacts: string[];
+      tokenCategories: string[];
       subcomponents?: string[];
       variants?: Array<{
         name: string;
@@ -248,6 +252,45 @@ test.describe('AI artifacts — component-registry.json', () => {
     const names = registry.components.map((c) => c.name);
     const sorted = [...names].sort();
     expect(names).toEqual(sorted);
+  });
+
+  test('every component has group from valid enum', () => {
+    const validGroups = ['core', 'form', 'layout', 'overlay', 'navigation', 'feedback', 'data-display', 'agent', 'di-domain'];
+    for (const comp of registry.components) {
+      expect(validGroups, `${comp.name} group "${comp.group}" should be valid`).toContain(comp.group);
+    }
+  });
+
+  test('every component has cssArtifact matching styles/components/{Name}.css format', () => {
+    const cssArtifactPattern = /^styles\/components\/[^/]+\.css$/;
+    for (const comp of registry.components) {
+      expect(comp.cssArtifact, `${comp.name} should have cssArtifact`).toBeTruthy();
+      expect(comp.cssArtifact, `${comp.name} cssArtifact "${comp.cssArtifact}" should match pattern`).toMatch(cssArtifactPattern);
+    }
+  });
+
+  test('every component has requiredCssArtifacts array', () => {
+    for (const comp of registry.components) {
+      expect(Array.isArray(comp.requiredCssArtifacts), `${comp.name} requiredCssArtifacts should be array`).toBe(true);
+    }
+  });
+
+  test('every component has tokenCategories with valid enum values', () => {
+    const validCategories = ['color', 'spacing', 'radius', 'font', 'typography', 'shadow', 'duration', 'easing', 'zIndex'];
+    for (const comp of registry.components) {
+      expect(Array.isArray(comp.tokenCategories), `${comp.name} tokenCategories should be array`).toBe(true);
+      for (const cat of comp.tokenCategories) {
+        expect(validCategories, `${comp.name} category "${cat}" should be valid`).toContain(cat);
+      }
+    }
+  });
+
+  test('requiredCssArtifacts values are valid artifact paths', () => {
+    for (const comp of registry.components) {
+      for (const artifact of comp.requiredCssArtifacts) {
+        expect(artifact, `${comp.name} artifact "${artifact}" should start with styles/`).toMatch(/^styles\//);
+      }
+    }
   });
 
   test('registry is importable via package exports path', () => {

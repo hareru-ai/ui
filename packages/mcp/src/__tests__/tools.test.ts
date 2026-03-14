@@ -58,6 +58,38 @@ describe('get-component-usage', () => {
     expect(text).toContain('Card');
     expect(text).toContain('@hareru/ui');
   });
+
+  it('outputs standalone and per-component CSS patterns', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Button' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('**Standalone:**');
+    expect(text).toContain("@import '@hareru/ui/styles.css'");
+    expect(text).toContain('**Per-component:**');
+    expect(text).toContain("@import '@hareru/tokens/css'");
+    expect(text).toContain("@import '@hareru/ui/styles/components/Button.css'");
+  });
+
+  it('includes animations.css for StreamingText per-component CSS', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'StreamingText' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain("@import '@hareru/ui/styles/animations.css'");
+    expect(text).toContain("@import '@hareru/ui/styles/components/StreamingText.css'");
+  });
+
+  it('includes animations.css for ToolCallCard per-component CSS', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'ToolCallCard' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain("@import '@hareru/ui/styles/animations.css'");
+  });
 });
 
 describe('validate-token-value', () => {

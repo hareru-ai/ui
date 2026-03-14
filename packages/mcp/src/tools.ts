@@ -28,13 +28,32 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
 
   parts.push(`# ${entry.displayName}`);
   parts.push('');
+
+  // Import section
   parts.push('## Import');
   parts.push('');
   parts.push('```tsx');
   const subs = entry.subcomponents ?? [];
   const allNames = [entry.name, ...subs];
   parts.push(`import { ${allNames.join(', ')} } from '@hareru/ui';`);
-  parts.push(`import '@hareru/ui/styles.css';`);
+  parts.push('```');
+  parts.push('');
+
+  // CSS section (registry-driven)
+  parts.push('## CSS');
+  parts.push('');
+  parts.push('**Standalone:**');
+  parts.push('```css');
+  parts.push(`@import '@hareru/ui/styles.css';`);
+  parts.push('```');
+  parts.push('');
+  parts.push('**Per-component:**');
+  parts.push('```css');
+  parts.push(`@import '@hareru/tokens/css';`);
+  for (const dep of entry.requiredCssArtifacts ?? []) {
+    parts.push(`@import '@hareru/ui/${dep}';`);
+  }
+  parts.push(`@import '@hareru/ui/${entry.cssArtifact}';`);
   parts.push('```');
   parts.push('');
 
@@ -52,7 +71,11 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
     parts.push('## Props');
     parts.push('');
     for (const prop of props) {
-      parts.push(`- **${prop.name}** extends \`${prop.extends}\``);
+      if (prop.extends) {
+        parts.push(`- **${prop.name}** extends \`${prop.extends}\``);
+      } else {
+        parts.push(`- **${prop.name}**`);
+      }
     }
     parts.push('');
   }

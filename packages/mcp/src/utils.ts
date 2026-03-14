@@ -73,9 +73,35 @@ export interface ComponentRegistryJSON {
   components: ComponentEntry[];
 }
 
+export type ComponentGroup =
+  | 'core'
+  | 'form'
+  | 'layout'
+  | 'overlay'
+  | 'navigation'
+  | 'feedback'
+  | 'data-display'
+  | 'agent'
+  | 'di-domain';
+
+export type TokenCategory =
+  | 'color'
+  | 'spacing'
+  | 'radius'
+  | 'font'
+  | 'typography'
+  | 'shadow'
+  | 'duration'
+  | 'easing'
+  | 'zIndex';
+
 export interface ComponentEntry {
   name: string;
   displayName: string;
+  group: ComponentGroup;
+  cssArtifact: string;
+  requiredCssArtifacts: string[];
+  tokenCategories: TokenCategory[];
   subcomponents?: string[];
   variants?: VariantDef[];
   props?: PropDef[];
@@ -89,7 +115,7 @@ interface VariantDef {
 
 interface PropDef {
   name: string;
-  extends: string;
+  extends: string | null;
 }
 
 export function loadTokens(): TokensJSON {

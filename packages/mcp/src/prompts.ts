@@ -50,8 +50,8 @@ ${cssVars}, ...
 
 ## Rules
 
-1. Import components from '@hareru/ui' and styles from '@hareru/ui/styles.css'
-2. Use only semantic variant props (e.g. variant="primary"), never hardcode CSS values
+1. Import components from '@hareru/ui'. For CSS setup, refer to the consumer-rules (standalone: '@hareru/ui/styles.css', portable: '@hareru/tokens/css' + '@hareru/ui/styles/components.css')
+2. Use only semantic variant props (e.g. variant="default"), never hardcode CSS values
 3. Use CSS variables (--hui-*) for any custom styling
 4. All components support forwardRef
 5. Use BEM class naming (hui-*) if adding custom classes
@@ -76,11 +76,17 @@ Generate a complete ${fw} component that fulfills this requirement.`,
     async () => {
       const rules = loadConsumerRules();
 
+      const CODE_BLOCK_SECTIONS = new Set(['cssImports']);
+
       const rulesSections = Object.entries(rules.rules)
         .map(([key, section]) => {
           const ruleList = section.rules.map((r) => `- ${r}`).join('\n');
           const examples = Object.entries(section.examples)
-            .map(([label, code]) => `  ${label}: ${code}`)
+            .map(([label, code]) =>
+              CODE_BLOCK_SECTIONS.has(key)
+                ? `**${label}:**\n\`\`\`css\n${code}\n\`\`\``
+                : `  ${label}: ${code}`,
+            )
             .join('\n');
           return `### ${key}\n${section.description}\n\n${ruleList}\n\nExamples:\n${examples}`;
         })

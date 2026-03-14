@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "rules": {
     "imports": {
       "description": "Import rules for Hareru UI packages",
@@ -40,21 +40,26 @@
     "providers": {
       "description": "Required provider setup",
       "rules": [
-        "Wrap app root with ThemeProvider, ToastProvider, and Toaster",
-        "toast() requires ToastProvider + Toaster in the provider tree"
+        "Wrap app root with ThemeProvider and Toaster — Toaster includes ToastProvider internally",
+        "toast() requires Toaster in the component tree"
       ],
       "examples": {
-        "correct": "<ThemeProvider><ToastProvider>{children}<Toaster /></ToastProvider></ThemeProvider>"
+        "correct": "<ThemeProvider>{children}<Toaster /></ThemeProvider>"
       }
     },
     "cssImports": {
-      "description": "Required CSS imports",
+      "description": "CSS import patterns — choose based on your project setup",
       "rules": [
-        "Add '@hareru/tokens/css' and '@hareru/ui/styles.css' to your global CSS",
-        "Both imports are mandatory — omitting either breaks styling"
+        "Standalone: @import '@hareru/ui/styles.css' — all-in-one bundle, no separate token import needed",
+        "Portable: @import '@hareru/tokens/css' + @import '@hareru/ui/styles/components.css' — no global reset. Optionally add @hareru/ui/styles/baseline.css for minimal reset, @hareru/ui/styles/scope.css for .hui-root typography scoping",
+        "Tailwind v4: declare @layer order first, then tokens + components.layer.css. components.layer.css is pre-wrapped in @layer hui for correct cascade with Tailwind utilities",
+        "Per-component: @import '@hareru/tokens/css' + individual @hareru/ui/styles/components/{Name}.css — minimal bundle. Add animations.css if using StreamingText, ReasoningPanel, or ToolCallCard"
       ],
       "examples": {
-        "correct": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles.css';"
+        "standalone": "@import '@hareru/ui/styles.css';",
+        "portable": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components.css';\n@import '@hareru/ui/styles/scope.css'; /* opt-in */",
+        "tailwind": "@layer theme, base, hui, components, utilities;\n@import 'tailwindcss';\n@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components.layer.css';",
+        "per-component": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components/Button.css';\n@import '@hareru/ui/styles/components/Card.css';"
       }
     }
   },
