@@ -371,6 +371,18 @@ pnpm changeset        # Select package(s) and bump type (patch/minor/major)
 # Commit the generated .changeset/*.md file along with your changes
 ```
 
+### Sync Targets for Public Contract Changes
+
+When modifying public API, registry fields, or generated artifacts, also update:
+
+- `AGENTS.md` — this file (project structure, MCP/CLI/Registry sections)
+- `.cursorrules` — AI agent rules
+- `README.md` (root + affected packages) — feature lists, counts
+- `apps/docs/content/docs/` — relevant documentation pages
+- `packages/ui/data/consumer-rules.json` — if import/styling rules change
+
+Verify hardcoded counts: `rg '\b\d+\+? components\b' -g '!**/dist/**' -g '!**/node_modules/**'`
+
 ## Token Validation
 
 The MCP server exposes a `validate-token-value` tool. Use token type names from the schema:

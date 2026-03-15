@@ -469,6 +469,26 @@ if (existsSync(registryPath)) {
     console.log('  SKIP: component-registry.schema.json not found');
   }
 
+  // --- Enum state integrity checks ---
+  console.log('\nEnum state integrity checks...');
+
+  for (const comp of registry.components) {
+    for (const state of comp.states ?? []) {
+      if (state.type === 'enum') {
+        assert(
+          Array.isArray(state.values) && state.values.length > 0,
+          `enum-state: ${comp.name}.${state.name} has non-empty values array`,
+        );
+        if (state.defaultValue !== undefined && state.defaultValue !== null) {
+          assert(
+            state.values.includes(state.defaultValue),
+            `enum-state: ${comp.name}.${state.name} defaultValue "${state.defaultValue}" is in values`,
+          );
+        }
+      }
+    }
+  }
+
   // --- Phase 3C: states / a11y / examples representative checks ---
   console.log('\nPhase 3C representative checks...');
 
