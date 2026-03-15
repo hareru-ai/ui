@@ -1,0 +1,81 @@
+---
+title: AsyncComboboxField
+description: Combobox with debounced async search, loading state, and integrated label and error message.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import {
+  AsyncComboboxField,
+  type AsyncComboboxFieldProps,
+  type AsyncComboboxItem,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `AsyncComboboxField` | Component | Async combobox with label |
+| `AsyncComboboxFieldProps` | Type | Props interface |
+| `AsyncComboboxItem` | Type | `{ value: string; label: string; [key: string]: unknown }` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Field label (required) |
+| `fetchUrl` | `string` | — | URL endpoint for fetching options (required) |
+| `placeholder` | `string` | `"Search..."` | Input placeholder |
+| `queryParam` | `string` | `"q"` | Query parameter name appended to `fetchUrl` |
+| `value` | `string` | — | Controlled selected value |
+| `onValueChange` | `(value: string, item?: AsyncComboboxItem) => void` | — | Called when selection changes |
+| `debounceMs` | `number` | `300` | Debounce delay in milliseconds |
+| `mapResponse` | `(data: unknown) => AsyncComboboxItem[]` | — | Custom response mapper (defaults to `data.accounts ?? data.items ?? data`) |
+| `required` | `boolean` | — | Shows required indicator |
+| `error` | `string` | — | Error message displayed below the field |
+
+## Usage
+
+```tsx
+import { AsyncComboboxField } from "@hareru/ui"
+
+// Basic usage
+<AsyncComboboxField
+  label="Account"
+  fetchUrl="/api/accounts"
+  value={selectedAccount}
+  onValueChange={(value, item) => setSelectedAccount(value)}
+/>
+
+// With custom response mapping and debounce
+<AsyncComboboxField
+  label="Customer"
+  fetchUrl="/api/customers/search"
+  queryParam="name"
+  debounceMs={500}
+  mapResponse={(data) =>
+    (data as { results: Array<{ id: string; name: string }> }).results.map(
+      (c) => ({ value: c.id, label: c.name })
+    )
+  }
+  required
+/>
+
+// With error
+<AsyncComboboxField
+  label="Product"
+  fetchUrl="/api/products"
+  error="Please select a product"
+/>
+```
+
+## Notes
+
+- Built on top of the `Combobox` component — wraps `ComboboxTrigger`, `ComboboxContent`, `ComboboxInput`, `ComboboxList`, and `ComboboxItem`.
+- Fetches options automatically as the user types, with configurable debounce delay.
+- Default response mapping tries `data.accounts`, `data.items`, then falls back to `data` as an array. Use `mapResponse` for custom API shapes.
+- The `required` prop adds a visual asterisk after the label.

@@ -1,0 +1,48 @@
+---
+title: FieldDiff
+description: Side-by-side comparison of original and corrected field values with change highlighting.
+---
+
+**Category:** Data Display / Standalone
+
+## Import
+
+```tsx
+import { FieldDiff, type FieldDiffProps } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `FieldDiff` | Component | Field diff comparison |
+| `FieldDiffProps` | Type | Props interface |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `original` | `Record<string, unknown>` | — | Original field values (required) |
+| `corrected` | `Record<string, unknown>` | — | Corrected field values (required) |
+| `changedFields` | `string[]` | — | List of field keys that were changed (required) |
+| `labels` | `Record<string, string>` | — | Human-readable labels for field keys |
+
+## Usage
+
+```tsx
+import { FieldDiff } from "@hareru/ui"
+
+<FieldDiff
+  original={{ name: "John", email: "john@old.com", role: "user" }}
+  corrected={{ name: "John", email: "john@new.com", role: "admin" }}
+  changedFields={["email", "role"]}
+  labels={{ name: "Name", email: "Email", role: "Role" }}
+/>
+```
+
+## Notes
+
+- All keys from both `original` and `corrected` are displayed. Changed fields are highlighted with `hui-field-diff__row--changed` modifier.
+- Changed values show original (with `--removed` styling) → arrow → corrected (with `--added` styling).
+- If `labels` is not provided, the raw field key is used as the display label.
+- Values are converted to strings via `String()` for display.

@@ -1,0 +1,84 @@
+---
+title: ToolCallCard
+description: Displays a single agent tool invocation with its name, arguments, and execution status.
+---
+
+**Category:** AI / Chat / Standalone
+
+## Import
+
+```tsx
+import {
+  ToolCallCard,
+  type ToolCallCardProps,
+  type ToolCallStatus,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ToolCallCard` | Component | Tool call display card |
+| `ToolCallCardProps` | Type | Props interface |
+| `ToolCallStatus` | Type | `"pending" \| "executing" \| "done" \| "error"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `toolName` | `string` | — | Tool name (required) |
+| `status` | `ToolCallStatus` | — | Execution status (required) |
+| `args` | `Record<string, unknown> \| string` | — | Tool arguments (object or partial JSON string for streaming) |
+| `argsStreaming` | `boolean` | `false` | Whether args are still streaming |
+| `result` | `ReactNode` | — | Execution result |
+| `error` | `string` | — | Error message |
+| `duration` | `number` | — | Execution duration in ms (shown when status is `"done"`) |
+| `collapsible` | `boolean` | `true` | Whether the body section is collapsible |
+| `defaultExpanded` | `boolean` | `false` | Initial expanded state |
+
+## Usage
+
+```tsx
+import { ToolCallCard } from "@hareru/ui"
+
+// Executing
+<ToolCallCard
+  toolName="search_documents"
+  status="executing"
+  args={{ query: "quarterly revenue", limit: 10 }}
+/>
+
+// Completed with result and duration
+<ToolCallCard
+  toolName="search_documents"
+  status="done"
+  args={{ query: "quarterly revenue", limit: 10 }}
+  result={<span>Found 3 documents</span>}
+  duration={245}
+  defaultExpanded
+/>
+
+// Error state
+<ToolCallCard
+  toolName="search_documents"
+  status="error"
+  args={{ query: "quarterly revenue" }}
+  error="Connection timeout"
+/>
+
+// Streaming args
+<ToolCallCard
+  toolName="run_query"
+  status="executing"
+  args='{"sql": "SELECT * FROM'
+  argsStreaming
+/>
+```
+
+## Notes
+
+- Status icons: `○` pending, `↻` executing, `✓` done, `✗` error.
+- When `collapsible` is true (default), args/result/error are hidden behind a toggle button.
+- `args` accepts both an object (displayed as formatted JSON) and a raw string (for streaming partial JSON).
+- The `error` message is rendered with `role="alert"`.

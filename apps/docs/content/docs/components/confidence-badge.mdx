@@ -1,0 +1,62 @@
+---
+title: ConfidenceBadge
+description: Displays a confidence level with color-coded source-type styling and optional numeric score.
+---
+
+**Category:** DI Domain / Standalone
+
+## Import
+
+```tsx
+import {
+  ConfidenceBadge,
+  type ConfidenceBadgeProps,
+  type ConfidenceLevel,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ConfidenceBadge` | Component | Confidence level badge (`<span>`) |
+| `ConfidenceBadgeProps` | Type | Props interface |
+| `ConfidenceLevel` | Type | `"auto" \| "validated" \| "reviewed" \| "authored"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `level` | `ConfidenceLevel` | — | Confidence level (required) |
+| `score` | `number` | — | Confidence score (0.0–1.0), displayed as percentage |
+| `showScore` | `boolean` | `true` | Whether to show the numeric score |
+| `size` | `"sm" \| "md"` | `"sm"` | Badge size |
+
+## Usage
+
+```tsx
+import { ConfidenceBadge } from "@hareru/ui"
+
+// Auto-generated with score
+<ConfidenceBadge level="auto" score={0.85} />
+// Renders: "Auto 85%"
+
+// Validated without score
+<ConfidenceBadge level="validated" showScore={false} />
+// Renders: "Validated"
+
+// Human-reviewed
+<ConfidenceBadge level="reviewed" score={0.98} size="md" />
+// Renders: "Reviewed 98%"
+
+// Human-authored (highest confidence)
+<ConfidenceBadge level="authored" />
+// Renders: "Authored"
+```
+
+## Notes
+
+- Level labels: `auto` → "Auto", `validated` → "Validated", `reviewed` → "Reviewed", `authored` → "Authored".
+- Each level gets a distinct BEM modifier class (`hui-confidence-badge--auto`, etc.) for color coding.
+- The `title` attribute shows the full confidence description on hover.
+- Use alongside AI-generated content or data matches to surface model confidence to the user.

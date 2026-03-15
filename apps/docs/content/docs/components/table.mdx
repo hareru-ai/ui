@@ -1,0 +1,82 @@
+---
+title: Table
+description: Semantic HTML table with styled header, body, and rows for displaying structured data.
+---
+
+**Category:** Data Display / Composite
+
+## Import
+
+```tsx
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | HTML Element | BEM Class | Description |
+|------|-------------|-----------|-------------|
+| `Table` | `<table>` | `hui-table` | Root table (wrapped in `hui-table__wrapper` for horizontal scroll) |
+| `TableHeader` | `<thead>` | `hui-table__header` | Table header section |
+| `TableBody` | `<tbody>` | `hui-table__body` | Table body section |
+| `TableRow` | `<tr>` | `hui-table__row` | Table row |
+| `TableHead` | `<th>` | `hui-table__head` | Header cell |
+| `TableCell` | `<td>` | `hui-table__cell` | Body cell |
+| `TableHeadProps` | Type | — | Props for TableHead |
+| `TableCellProps` | Type | — | Props for TableCell |
+
+## Key Props
+
+### TableHead / TableCell
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `align` | `"left" \| "center" \| "right"` | — | Text alignment (adds BEM modifier class) |
+
+## Usage
+
+```tsx
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  Badge,
+} from "@hareru/ui"
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead align="right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Invoice #001</TableCell>
+      <TableCell><Badge variant="secondary">Pending</Badge></TableCell>
+      <TableCell align="right">$1,200.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Invoice #002</TableCell>
+      <TableCell><Badge>Paid</Badge></TableCell>
+      <TableCell align="right">$800.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Notes
+
+- `Table` is wrapped in a `hui-table__wrapper` div for horizontal scrolling on narrow viewports.
+- Uses semantic HTML table elements — no custom accessibility roles needed.
+- Compose `Badge` inside cells for status columns and `Button` for row-level actions.

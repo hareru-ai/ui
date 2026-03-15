@@ -1,0 +1,68 @@
+---
+title: QueryFeedback
+description: Collects binary helpful/unhelpful feedback on a query result or AI-generated answer.
+---
+
+**Category:** DI Domain / Standalone
+
+## Import
+
+```tsx
+import {
+  QueryFeedback,
+  type QueryFeedbackProps,
+  type FeedbackValue,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `QueryFeedback` | Component | Feedback toggle (`<fieldset>`) |
+| `QueryFeedbackProps` | Type | Props interface |
+| `FeedbackValue` | Type | `"helpful" \| "unhelpful"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onFeedback` | `(value: FeedbackValue \| null) => void` | — | Callback when feedback changes |
+| `value` | `FeedbackValue \| null` | — | Controlled value |
+| `defaultValue` | `FeedbackValue \| null` | `null` | Initial value (uncontrolled mode) |
+| `disabled` | `boolean` | `false` | Disables both buttons |
+| `helpfulLabel` | `string` | `"Helpful"` | Helpful button label |
+| `unhelpfulLabel` | `string` | `"Not helpful"` | Unhelpful button label |
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import { QueryFeedback, type FeedbackValue } from "@hareru/ui"
+
+// Uncontrolled
+<QueryFeedback
+  onFeedback={(value) => console.log("Feedback:", value)}
+/>
+
+// Controlled
+function ControlledExample() {
+  const [feedback, setFeedback] = useState<FeedbackValue | null>(null)
+  return <QueryFeedback value={feedback} onFeedback={setFeedback} />
+}
+
+// With custom labels
+<QueryFeedback
+  helpfulLabel="Good answer"
+  unhelpfulLabel="Bad answer"
+  onFeedback={(value) => console.log("Feedback:", value)}
+/>
+```
+
+## Notes
+
+- Supports both controlled (`value` prop) and uncontrolled (`defaultValue` prop) modes.
+- Clicking an already-selected button toggles it off (value becomes `null`).
+- Renders as a `<fieldset>` with `aria-label="Query feedback"`.
+- Each button uses `aria-pressed` for toggle state accessibility.
+- Icons: `↑` for helpful, `↓` for unhelpful.

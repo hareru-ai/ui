@@ -1,0 +1,75 @@
+---
+title: ChatMessage
+description: Single chat bubble that renders user, assistant, or system messages with variant-based styling.
+---
+
+**Category:** AI / Chat / Composite
+
+## Import
+
+```tsx
+import {
+  ChatMessage,
+  ChatMessageContent,
+  ChatMessageTimestamp,
+  ChatMessageActions,
+  type ChatMessageProps,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ChatMessage` | Component | Root message bubble |
+| `ChatMessageContent` | Component | Message body container |
+| `ChatMessageTimestamp` | Component | Timestamp (`<time>`) |
+| `ChatMessageActions` | Component | Action buttons container |
+| `chatMessageVariants` | Function | CVA variant resolver |
+| `ChatMessageProps` | Type | Props for ChatMessage |
+| `ChatMessageContentProps` | Type | Props for ChatMessageContent |
+| `ChatMessageTimestampProps` | Type | Props for ChatMessageTimestamp |
+| `ChatMessageActionsProps` | Type | Props for ChatMessageActions |
+
+## Variants
+
+| Prop | Values | Default |
+|------|--------|---------|
+| `variant` | `user` \| `assistant` \| `system` | `user` |
+
+## Usage
+
+```tsx
+import {
+  ChatMessage,
+  ChatMessageContent,
+  ChatMessageTimestamp,
+  ChatMessageActions,
+  Button,
+} from "@hareru/ui"
+
+// Simple message
+<ChatMessage variant="user">How do I create a new project?</ChatMessage>
+
+// With sub-components
+<ChatMessage variant="assistant">
+  <ChatMessageContent>
+    Here's how to get started...
+  </ChatMessageContent>
+  <ChatMessageTimestamp dateTime="2025-01-15T10:30:00Z">
+    10:30 AM
+  </ChatMessageTimestamp>
+  <ChatMessageActions>
+    <Button variant="ghost" size="icon">Copy</Button>
+  </ChatMessageActions>
+</ChatMessage>
+
+// System message
+<ChatMessage variant="system">Session started</ChatMessage>
+```
+
+## Notes
+
+- Uses CVA for variant-based alignment and styling (user messages right-aligned, assistant left-aligned).
+- `ChatMessageTimestamp` renders as a `<time>` element — pass `dateTime` for machine-readable timestamps.
+- All sub-components are optional. Simple text can be passed directly as children.

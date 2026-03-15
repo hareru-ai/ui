@@ -1,0 +1,58 @@
+---
+title: StreamingText
+description: Wraps streaming LLM output with an optional animated cursor indicator.
+---
+
+**Category:** AI / Chat / Standalone
+
+## Import
+
+```tsx
+import { StreamingText, type StreamingTextProps } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `StreamingText` | Component | Streaming text wrapper (`<output>`) |
+| `StreamingTextProps` | Type | Props interface |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `streaming` | `boolean` | `false` | Whether text is currently streaming |
+| `cursor` | `"blink" \| "pulse" \| "none"` | `"blink"` | Cursor animation style (only visible when streaming) |
+
+## Usage
+
+```tsx
+import { StreamingText } from "@hareru/ui"
+
+// Streaming state with blinking cursor
+<StreamingText streaming>
+  The answer to your question is...
+</StreamingText>
+
+// Streaming complete
+<StreamingText streaming={false}>
+  The answer to your question is 42.
+</StreamingText>
+
+// Pulse cursor style
+<StreamingText streaming cursor="pulse">
+  Generating response...
+</StreamingText>
+
+// No cursor
+<StreamingText streaming cursor="none">
+  {tokens.join("")}
+</StreamingText>
+```
+
+## Notes
+
+- Renders as an `<output>` element with `aria-live="polite"` for screen-reader announcements.
+- Token-by-token rendering is managed by the caller — pass accumulated text as `children`.
+- The cursor is only rendered when `streaming` is `true` and `cursor` is not `"none"`. The cursor element is hidden with `aria-hidden="true"`.

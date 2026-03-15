@@ -1,0 +1,49 @@
+---
+title: ReadonlyField
+description: Displays a labeled field value in a read-only presentation, styled consistently with form fields.
+---
+
+**Category:** Data Display / Standalone
+
+## Import
+
+```tsx
+import { ReadonlyField, type ReadonlyFieldProps } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ReadonlyField` | Component | Read-only field display |
+| `ReadonlyFieldProps` | Type | Props interface |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Field label (required) |
+| `value` | `ReactNode` | — | Field value (required) |
+
+## Usage
+
+```tsx
+import { ReadonlyField, Badge } from "@hareru/ui"
+
+// Simple text value
+<ReadonlyField label="Name" value="Tanaka Yuichi" />
+
+// With ReactNode value
+<ReadonlyField label="Status" value={<Badge>Active</Badge>} />
+
+// In a details view
+<ReadonlyField label="Email" value="user@example.com" />
+<ReadonlyField label="Role" value="Administrator" />
+<ReadonlyField label="Created" value="2025-01-15" />
+```
+
+## Notes
+
+- Renders as a `<div>` containing a label `<span>` and value `<span>`.
+- `value` accepts `ReactNode` — you can pass badges, links, or other components.
+- Used internally by `KeyValueList` to render each item.

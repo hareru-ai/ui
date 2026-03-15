@@ -1,0 +1,60 @@
+---
+title: KeyValueList
+description: Renders a list of key-value pairs in a definition-list style, suitable for metadata or property panels.
+---
+
+**Category:** Data Display / Standalone
+
+## Import
+
+```tsx
+import {
+  KeyValueList,
+  type KeyValueListProps,
+  type KeyValueItem,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `KeyValueList` | Component | Key-value pair list |
+| `KeyValueListProps` | Type | Props interface |
+| `KeyValueItem` | Type | `{ label: string; value: ReactNode }` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `KeyValueItem[]` | — | Array of key-value items (required) |
+
+## Types
+
+```ts
+interface KeyValueItem {
+  label: string
+  value: ReactNode
+}
+```
+
+## Usage
+
+```tsx
+import { KeyValueList, Badge } from "@hareru/ui"
+
+<KeyValueList
+  items={[
+    { label: "Company", value: "MUSUBI Inc." },
+    { label: "Role", value: "CEO" },
+    { label: "Location", value: "Tokyo, Japan" },
+    { label: "Status", value: <Badge>Active</Badge> },
+  ]}
+/>
+```
+
+## Notes
+
+- Renders each item as a `ReadonlyField` component internally.
+- Items are keyed by their `label` value — labels should be unique within a list.
+- `value` accepts `ReactNode` for rich content (badges, links, etc.).

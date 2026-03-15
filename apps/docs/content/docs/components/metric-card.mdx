@@ -1,0 +1,107 @@
+---
+title: MetricCard
+description: Dashboard tile that highlights a key metric value with freshness indicator and confidence score.
+---
+
+**Category:** DI Domain / Standalone
+
+## Import
+
+```tsx
+import {
+  MetricCard,
+  type MetricCardProps,
+  type MetricFreshness,
+  type StalenessStatus,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `MetricCard` | Component | Metric display card (`<article>`) |
+| `MetricCardProps` | Type | Props interface |
+| `MetricFreshness` | Type | Freshness info: `lastUpdatedAt`, `staleness`, `label` |
+| `StalenessStatus` | Type | `"fresh" \| "stale" \| "unknown"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `metricName` | `string` | — | Internal metric identifier (required) |
+| `displayName` | `string` | — | Display label shown to the user (required) |
+| `value` | `number \| null` | — | Metric value (`null` = no data) (required) |
+| `unit` | `string` | — | Unit of measurement (e.g. `"USD"`, `"%"`) |
+| `description` | `string` | — | Metric description |
+| `freshness` | `MetricFreshness` | — | Data freshness information |
+| `confidence` | `number \| null` | — | Confidence score (0.0–1.0) |
+| `semanticModelName` | `string` | — | Semantic model name (shown in footer) |
+| `loading` | `boolean` | `false` | Loading state (shows skeleton) |
+| `error` | `string` | — | Error message |
+| `onDefinitionClick` | `() => void` | — | "View Definition" button handler |
+| `formatValue` | `(value: number, unit?: string) => string` | — | Custom value formatter. Default formats with `toLocaleString('en-US')` and appends `unit` if provided. |
+
+## Types
+
+```ts
+interface MetricFreshness {
+  lastUpdatedAt: Date
+  staleness: "fresh" | "stale" | "unknown"
+  label?: string  // e.g. "Updated 5 minutes ago"
+}
+```
+
+## Usage
+
+```tsx
+import { MetricCard } from "@hareru/ui"
+
+// Basic metric
+<MetricCard
+  metricName="total_amount"
+  displayName="Total Sales"
+  value={1234567}
+  unit="USD"
+  description="Sum of all order amounts"
+/>
+
+// With freshness and confidence
+<MetricCard
+  metricName="total_amount"
+  displayName="Total Sales"
+  value={1234567}
+  unit="USD"
+  freshness={{
+    lastUpdatedAt: new Date(),
+    staleness: "fresh",
+    label: "Updated 5 minutes ago",
+  }}
+  confidence={0.98}
+  semanticModelName="smb_sales"
+  onDefinitionClick={() => console.log("open definition: total_amount")}
+/>
+
+// Loading state
+<MetricCard
+  metricName="total_amount"
+  displayName="Total Sales"
+  value={null}
+  loading
+/>
+
+// Error state
+<MetricCard
+  metricName="total_amount"
+  displayName="Total Sales"
+  value={null}
+  error="Failed to fetch metric data"
+/>
+```
+
+## Notes
+
+- Renders as an `<article>` element with `<header>` and `<footer>` semantic structure.
+- Confidence score is displayed as a percentage with color coding: high (≥95%), medium (≥80%), low (below 80%).
+- Freshness indicator shows staleness status with a tooltip showing the last update timestamp.
+- Designed for use with DI MCP `get_metric_definition` tool output.

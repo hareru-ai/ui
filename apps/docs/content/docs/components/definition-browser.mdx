@@ -1,0 +1,115 @@
+---
+title: DefinitionBrowser
+description: Tabbed browser for exploring semantic models, metrics, and dimensions with search.
+---
+
+**Category:** DI Domain / Composite
+
+## Import
+
+```tsx
+import {
+  DefinitionBrowser,
+  type DefinitionBrowserProps,
+  type DiSemanticModel,
+  type DiMetric,
+  type DiDimension,
+  type BrowserTab,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `DefinitionBrowser` | Component | Definition browser panel |
+| `DefinitionBrowserProps` | Type | Props interface |
+| `DiSemanticModel` | Type | Semantic model definition |
+| `DiMetric` | Type | Metric definition |
+| `DiDimension` | Type | Dimension definition |
+| `BrowserTab` | Type | `"models" \| "metrics" \| "dimensions"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `models` | `DiSemanticModel[]` | `[]` | Semantic model list |
+| `metrics` | `DiMetric[]` | `[]` | Metric list |
+| `dimensions` | `DiDimension[]` | `[]` | Dimension list |
+| `loading` | `boolean` | `false` | Loading state (shows skeleton) |
+| `error` | `string` | — | Error message |
+| `defaultTab` | `BrowserTab` | `"models"` | Initial active tab |
+| `onSelectModel` | `(model: DiSemanticModel) => void` | — | Model selection handler |
+| `onSelectMetric` | `(metric: DiMetric) => void` | — | Metric selection handler |
+| `onSelectDimension` | `(dimension: DiDimension) => void` | — | Dimension selection handler |
+
+## Types
+
+```ts
+interface DiSemanticModel {
+  name: string
+  description?: string
+  metricCount?: number
+  dimensionCount?: number
+  validationStatus?: "valid" | "invalid" | "pending"
+}
+
+interface DiMetric {
+  name: string
+  description?: string
+  semanticModelName: string
+  aiContext?: string
+}
+
+interface DiDimension {
+  name: string
+  description?: string
+  semanticModelName: string
+  datasetName?: string
+  isTime?: boolean
+}
+```
+
+## Usage
+
+```tsx
+import { DefinitionBrowser } from "@hareru/ui"
+
+<DefinitionBrowser
+  models={[
+    {
+      name: "smb_sales",
+      description: "SMB sales model",
+      metricCount: 5,
+      dimensionCount: 12,
+      validationStatus: "valid",
+    },
+  ]}
+  metrics={[
+    {
+      name: "total_amount",
+      description: "Total sales amount",
+      semanticModelName: "smb_sales",
+    },
+  ]}
+  dimensions={[
+    {
+      name: "order_date",
+      description: "Order date",
+      semanticModelName: "smb_sales",
+      isTime: true,
+    },
+  ]}
+  defaultTab="metrics"
+  onSelectMetric={(metric) => console.log("Selected:", metric)}
+/>
+```
+
+## Notes
+
+- Three tabs: Models, Metrics, Dimensions — each with a count badge.
+- Built-in text search filters items by name and description.
+- Model items show a validation badge (`Validated`, `Error`, `Validating`).
+- Dimension items show a "Time" tag when `isTime` is true.
+- Tab navigation uses `role="tablist"` / `role="tab"` / `role="tabpanel"` for accessibility.
+- Designed for use with DI MCP `list_semantic_models`, `list_metrics`, and `list_dimensions` tool outputs.

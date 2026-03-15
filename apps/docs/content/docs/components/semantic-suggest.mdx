@@ -1,0 +1,96 @@
+---
+title: SemanticSuggest
+description: Suggestion card with type-based styling, evidence display, and accept/dismiss actions.
+---
+
+**Category:** DI Domain / Standalone
+
+## Import
+
+```tsx
+import {
+  SemanticSuggest,
+  type SemanticSuggestProps,
+  type SuggestionType,
+  type SuggestionStatus,
+  type SuggestionEvidence,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `SemanticSuggest` | Component | Suggestion card (`<article>`) |
+| `SemanticSuggestProps` | Type | Props interface |
+| `SuggestionType` | Type | `"add_synonym" \| "add_gotcha" \| "split_metric" \| "update_instruction"` |
+| `SuggestionStatus` | Type | `"pending" \| "accepted" \| "rejected"` |
+| `SuggestionEvidence` | Type | Evidence data: `queryCount`, `successRate`, `pattern` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `SuggestionType` | — | Suggestion type (required) |
+| `title` | `string` | — | Suggestion title (required) |
+| `description` | `string` | — | Detailed description |
+| `evidence` | `SuggestionEvidence` | — | Evidence/rationale for the suggestion |
+| `preview` | `string` | — | Preview of the suggested change (rendered as `<pre>`) |
+| `status` | `SuggestionStatus` | `"pending"` | Current status |
+| `confidence` | `number` | — | Confidence score (0.0–1.0), shown as percentage |
+| `onAccept` | `() => void` | — | Accept handler |
+| `onReject` | `() => void` | — | Reject/dismiss handler |
+| `acceptLabel` | `string` | `"Accept"` | Accept button label |
+| `rejectLabel` | `string` | `"Dismiss"` | Reject button label |
+
+## Types
+
+```ts
+interface SuggestionEvidence {
+  queryCount?: number     // Number of queries that triggered this
+  successRate?: number    // 0.0–1.0
+  pattern?: string        // Detected pattern description
+}
+```
+
+## Usage
+
+```tsx
+import { SemanticSuggest } from "@hareru/ui"
+
+// Pending suggestion with evidence
+<SemanticSuggest
+  type="add_synonym"
+  title='Add "revenue" as synonym for "total_amount"'
+  description="Users frequently search for 'revenue' when looking for the total_amount metric."
+  evidence={{ queryCount: 42, successRate: 0.23, pattern: "revenue → total_amount" }}
+  confidence={0.89}
+  onAccept={() => console.log("accepted")}
+  onReject={() => console.log("dismissed")}
+/>
+
+// Accepted suggestion (no action buttons)
+<SemanticSuggest
+  type="add_gotcha"
+  title="Add gotcha: total_amount excludes refunds"
+  status="accepted"
+  confidence={0.95}
+/>
+
+// With preview
+<SemanticSuggest
+  type="update_instruction"
+  title="Update metric instruction"
+  preview="When users ask about 'sales', use total_amount metric filtered by order_status = 'completed'."
+  status="pending"
+  onAccept={() => console.log("accepted")}
+  onReject={() => console.log("dismissed")}
+/>
+```
+
+## Notes
+
+- Type icons: `+` add_synonym, `!` add_gotcha, `/` split_metric, `~` update_instruction.
+- Action buttons are only rendered when `status` is `"pending"`. Accepted/rejected states show a status label instead.
+- Evidence parts are displayed as inline badges (e.g. "42 queries", "23%", pattern text).
+- Renders as an `<article>` with `aria-label` set to the title.

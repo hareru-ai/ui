@@ -1,0 +1,90 @@
+---
+title: ChatComposer
+description: Compound component for composing and submitting chat messages with auto-resizing input.
+---
+
+**Category:** AI / Chat / Composite
+
+## Import
+
+```tsx
+import {
+  ChatComposer,
+  ChatComposerInput,
+  ChatComposerActions,
+  ChatComposerSend,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ChatComposer` | Component | Root `<form>` element |
+| `ChatComposerInput` | Component | Auto-resizing `<textarea>` |
+| `ChatComposerActions` | Component | Extra action buttons container |
+| `ChatComposerSend` | Component | Submit button with default send icon |
+| `ChatComposerProps` | Type | Props for ChatComposer |
+| `ChatComposerInputProps` | Type | Props for ChatComposerInput |
+| `ChatComposerActionsProps` | Type | Props for ChatComposerActions |
+| `ChatComposerSendProps` | Type | Props for ChatComposerSend |
+
+## Key Props
+
+### ChatComposer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | Disables the composer |
+| `onSubmit` | `FormEventHandler` | — | Form submit handler (default behavior is prevented) |
+
+### ChatComposerInput
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `submitOnEnter` | `boolean` | `true` | Submit on Enter key (Shift+Enter inserts a newline) |
+| `onValueChange` | `(value: string) => void` | — | Callback invoked when the value changes |
+
+## Usage
+
+```tsx
+import { useState, type FormEvent } from "react"
+import {
+  ChatComposer,
+  ChatComposerInput,
+  ChatComposerActions,
+  ChatComposerSend,
+  Button,
+} from "@hareru/ui"
+
+function MyChatInput() {
+  const [message, setMessage] = useState("")
+
+  const handleSubmit = (e: FormEvent) => {
+    if (!message.trim()) return
+    console.log("send:", message)
+    setMessage("")
+  }
+
+  return (
+    <ChatComposer onSubmit={handleSubmit}>
+      <ChatComposerInput
+        value={message}
+        onValueChange={setMessage}
+        placeholder="Type a message..."
+      />
+      <ChatComposerActions>
+        <Button variant="ghost" size="icon">Attach</Button>
+      </ChatComposerActions>
+      <ChatComposerSend />
+    </ChatComposer>
+  )
+}
+```
+
+## Notes
+
+- `ChatComposerInput` auto-resizes its height as the user types.
+- When `submitOnEnter` is true, pressing Enter submits the form. Shift+Enter inserts a newline. IME composition is handled correctly.
+- `ChatComposerSend` renders a default send icon SVG if no children are provided.
+- The composer renders as a `<form>` element — `preventDefault` is called automatically on submit.

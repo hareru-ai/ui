@@ -1,0 +1,86 @@
+---
+title: DataQualityIndicator
+description: Visual indicator of data quality score with dimension-level breakdown and alert display.
+---
+
+**Category:** DI Domain / Standalone
+
+## Import
+
+```tsx
+import {
+  DataQualityIndicator,
+  type DataQualityIndicatorProps,
+  type QualityDimension,
+  type QualityAlert,
+  type AlertLevel,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `DataQualityIndicator` | Component | Data quality display (`<article>`) |
+| `DataQualityIndicatorProps` | Type | Props interface |
+| `QualityDimension` | Type | Per-dimension score and alert level |
+| `QualityAlert` | Type | Quality alert with level and message |
+| `AlertLevel` | Type | `"none" \| "info" \| "warning" \| "error"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `datasetName` | `string` | — | Dataset name (required) |
+| `overallScore` | `number \| null` | — | Overall quality score 0.0–1.0 (required) |
+| `dimensions` | `QualityDimension[]` | `[]` | Per-dimension quality scores |
+| `alerts` | `QualityAlert[]` | `[]` | Alert list |
+| `loading` | `boolean` | `false` | Loading state |
+| `error` | `string` | — | Error message |
+| `onDetailClick` | `() => void` | — | "Show Details" button handler |
+
+## Types
+
+```ts
+interface QualityDimension {
+  name: string
+  label: string      // e.g. "Completeness", "Freshness"
+  score: number      // 0.0–1.0
+  alertLevel: AlertLevel
+  detail?: string    // e.g. "Null rate 5.2%"
+}
+
+interface QualityAlert {
+  level: "info" | "warning" | "error"
+  message: string
+  dimension?: string  // Related quality dimension name
+}
+```
+
+## Usage
+
+```tsx
+import { DataQualityIndicator } from "@hareru/ui"
+
+<DataQualityIndicator
+  datasetName="orders"
+  overallScore={0.87}
+  dimensions={[
+    { name: "completeness", label: "Completeness", score: 0.95, alertLevel: "none" },
+    { name: "freshness", label: "Freshness", score: 0.72, alertLevel: "warning" },
+    { name: "validity", label: "Validity", score: 0.88, alertLevel: "none" },
+  ]}
+  alerts={[
+    { level: "warning", message: "No updates for over 24 hours", dimension: "freshness" },
+  ]}
+  onDetailClick={() => console.log("show details: orders")}
+/>
+```
+
+## Notes
+
+- Overall score gauge with color-coded labels: Excellent (≥90%), Good (≥70%), Fair (≥50%), Needs Improvement (below 50%).
+- Each dimension renders as a progress bar with its own score and optional alert icon.
+- Alert icons: `ℹ` info, `⚠` warning, `✕` error.
+- Renders as an `<article>` with semantic `<header>` and `<footer>`.
+- Alert summary badges (error/warning counts) are shown in the header when alerts exist.

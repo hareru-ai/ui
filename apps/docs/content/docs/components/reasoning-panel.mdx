@@ -1,0 +1,66 @@
+---
+title: ReasoningPanel
+description: Native details/summary disclosure widget that shows or hides an AI agent's reasoning trace.
+---
+
+**Category:** AI / Chat / Standalone
+
+## Import
+
+```tsx
+import {
+  ReasoningPanel,
+  type ReasoningPanelProps,
+  type ReasoningStatus,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ReasoningPanel` | Component | Reasoning disclosure panel (`<details>`) |
+| `ReasoningPanelProps` | Type | Props interface |
+| `ReasoningStatus` | Type | `"thinking" \| "done"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `status` | `ReasoningStatus` | `"done"` | Reasoning status |
+| `summaryLabel` | `string` | — | Custom summary label (defaults to `"Thinking..."` or `"Reasoning"` based on status) |
+
+## Usage
+
+```tsx
+import { ReasoningPanel } from "@hareru/ui"
+
+// Active thinking state (spinner icon)
+<ReasoningPanel status="thinking">
+  Analyzing the user's query to determine the best approach...
+</ReasoningPanel>
+
+// Completed reasoning (expandable)
+<ReasoningPanel status="done">
+  I considered three approaches: direct SQL query, semantic search,
+  and cached result lookup. The semantic search approach is most
+  appropriate because...
+</ReasoningPanel>
+
+// Custom label
+<ReasoningPanel status="done" summaryLabel="Chain of thought">
+  Step 1: Parse the input...
+</ReasoningPanel>
+
+// Open by default (native details attribute)
+<ReasoningPanel status="done" open>
+  Full reasoning trace visible by default.
+</ReasoningPanel>
+```
+
+## Notes
+
+- Built on the native `<details>` / `<summary>` elements — no JavaScript needed for toggle behavior.
+- Status icons: `↻` (spinning) for `thinking`, `✦` for `done`.
+- The `thinking` status adds a CSS spin animation to the icon.
+- Extends `DetailsHTMLAttributes` — supports the native `open` attribute to control initial state.

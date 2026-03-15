@@ -1,0 +1,76 @@
+---
+title: ApprovalCard
+description: Human-in-the-loop approval card with approve/reject controls and risk-level styling.
+---
+
+**Category:** AI / Chat / Standalone
+
+## Import
+
+```tsx
+import {
+  ApprovalCard,
+  type ApprovalCardProps,
+  type ApprovalStatus,
+  type ApprovalRisk,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ApprovalCard` | Component | Approval card |
+| `ApprovalCardProps` | Type | Props interface |
+| `ApprovalStatus` | Type | `"pending" \| "approved" \| "rejected" \| "expired"` |
+| `ApprovalRisk` | Type | `"low" \| "medium" \| "high"` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | — | Card title (required) |
+| `description` | `string` | — | Description text |
+| `status` | `ApprovalStatus` | `"pending"` | Current status |
+| `risk` | `ApprovalRisk` | `"low"` | Risk level (affects visual styling) |
+| `onApprove` | `() => void` | — | Approve handler (button shown only when provided and status is `"pending"`) |
+| `onReject` | `() => void` | — | Reject handler (button shown only when provided and status is `"pending"`) |
+| `approveLabel` | `string` | `"Approve"` | Approve button label |
+| `rejectLabel` | `string` | `"Reject"` | Reject button label |
+
+## Usage
+
+```tsx
+import { ApprovalCard } from "@hareru/ui"
+
+// Pending with actions
+<ApprovalCard
+  title="Delete 3 records from orders table"
+  description="This action will permanently remove the selected records."
+  status="pending"
+  risk="high"
+  onApprove={() => console.log("approved")}
+  onReject={() => console.log("rejected")}
+/>
+
+// Approved (no action buttons)
+<ApprovalCard
+  title="Update user email"
+  status="approved"
+  risk="low"
+/>
+
+// Rejected
+<ApprovalCard
+  title="Drop staging database"
+  status="rejected"
+  risk="high"
+/>
+```
+
+## Notes
+
+- Action buttons are only rendered when `status` is `"pending"`.
+- When `status` is `"pending"`, the card uses `role="alert"` to announce to screen readers. Otherwise, it uses `role="region"`.
+- Risk level affects BEM modifier classes: `hui-approval-card--risk-low`, `hui-approval-card--risk-medium`, `hui-approval-card--risk-high`.
+- In DOM order, the reject button is rendered before the approve button.

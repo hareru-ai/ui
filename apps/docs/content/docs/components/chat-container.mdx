@@ -1,0 +1,80 @@
+---
+title: ChatContainer
+description: Structural layout container with header, message list, and composer slots for a chat thread.
+---
+
+**Category:** AI / Chat / Composite
+
+## Import
+
+```tsx
+import {
+  ChatContainer,
+  ChatContainerHeader,
+  ChatContainerMessages,
+  ChatContainerFooter,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ChatContainer` | Component | Root chat layout container |
+| `ChatContainerHeader` | Component | Top section (`<header>`) |
+| `ChatContainerMessages` | Component | Scrollable message area (`role="log"`) |
+| `ChatContainerFooter` | Component | Bottom section for composer (`<footer>`) |
+| `ChatContainerProps` | Type | Props for ChatContainer |
+| `ChatContainerHeaderProps` | Type | Props for ChatContainerHeader |
+| `ChatContainerMessagesProps` | Type | Props for ChatContainerMessages |
+| `ChatContainerFooterProps` | Type | Props for ChatContainerFooter |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default" \| "embedded"` | `"default"` | Layout variant. `embedded` removes outer chrome for embedding inside other containers. |
+
+## Usage
+
+```tsx
+import {
+  ChatContainer,
+  ChatContainerHeader,
+  ChatContainerMessages,
+  ChatContainerFooter,
+  ChatMessage,
+  ChatComposer,
+  ChatComposerInput,
+  ChatComposerSend,
+} from "@hareru/ui"
+
+<ChatContainer>
+  <ChatContainerHeader>
+    <h2>AI Assistant</h2>
+  </ChatContainerHeader>
+  <ChatContainerMessages>
+    <ChatMessage variant="user">Hello!</ChatMessage>
+    <ChatMessage variant="assistant">How can I help?</ChatMessage>
+  </ChatContainerMessages>
+  <ChatContainerFooter>
+    <ChatComposer>
+      <ChatComposerInput placeholder="Type a message..." />
+      <ChatComposerSend />
+    </ChatComposer>
+  </ChatContainerFooter>
+</ChatContainer>
+
+// Embedded variant (e.g. inside a Card or sidebar)
+<ChatContainer variant="embedded">
+  <ChatContainerMessages>
+    <ChatMessage variant="assistant">Embedded chat</ChatMessage>
+  </ChatContainerMessages>
+</ChatContainer>
+```
+
+## Notes
+
+- `ChatContainerMessages` renders with `role="log"` for screen-reader accessibility.
+- All sub-components are optional — compose only the ones you need.
+- Pair with `ChatMessage` for message bubbles and `ChatComposer` for the input area.
