@@ -25,12 +25,21 @@ hareru-ui/
 │   │   │   ├── lib/         # Utilities: cn(), etc.
 │   │   │   └── index.ts     # Re-exports all components
 │   │   └── dist/            # Generated: JS bundle, styles.css, types
-│   └── mcp/                 # @hareru/mcp
-│       ├── src/
-│       │   ├── server.ts    # MCP server factory (createServer)
-│       │   ├── resources/   # hareru-ui://tokens, hareru-ui://components
-│       │   └── tools/       # get-component-usage, validate-token-value
-│       └── dist/            # Generated: bin/hareru-mcp.mjs
+│   ├── registry/            # @hareru/registry — shared types, loaders, CSS mode logic
+│   │   └── src/
+│   │       ├── types.ts     # Shared types (ComponentEntry, StateDef, A11yDef, etc.)
+│   │       ├── loader.ts    # Artifact loaders (loadRegistry, loadTokens, etc.)
+│   │       └── css-mode.ts  # CSS mode recommendation logic
+│   ├── mcp/                 # @hareru/mcp
+│   │   └── src/
+│   │       ├── server.ts    # MCP server factory (createServer)
+│   │       ├── resources.ts # 6 resources (tokens, schema, components, bundles, rules)
+│   │       ├── tools.ts     # 5 tools
+│   │       └── prompts.ts   # 3 prompts
+│   └── cli/                 # @hareru/cli
+│       └── src/
+│           ├── index.ts     # CLI entry (commander)
+│           └── utils/       # format, css-detector, css-writer, pkg-detector
 ├── apps/
 │   ├── docs/                # Fumadocs documentation site (Next.js)
 │   └── playground/          # Vite + React dev preview
@@ -49,6 +58,8 @@ hareru-ui/
 - Vitest + @testing-library/react
 - Changesets (versioning)
 - class-variance-authority (CVA), clsx
+- Base UI (headless primitives)
+- Commander (CLI)
 
 ## Executable Commands
 
@@ -105,7 +116,7 @@ Rules:
 - `forwardRef` on every exported component — no exceptions
 - `displayName` must be set explicitly
 - Props type exported as `ComponentNameProps`
-- Use `cn()` from `../../lib/utils` for class merging
+- Use `cn()` from `../../lib/cn` for class merging
 - No default exports — named exports only
 
 ### CSS
@@ -174,19 +185,18 @@ export type ButtonProps = React.ComponentPropsWithoutRef<"button"> &
 
 When adding a new component (e.g., `Accordion`):
 
-1. Create `packages/ui/src/components/Accordion/index.tsx`
-2. Create `packages/ui/src/components/Accordion/accordion.css`
-3. Add `@import "./components/Accordion/accordion.css";` to `packages/ui/src/styles.css`
-4. Export from `packages/ui/src/index.ts`
-5. Create `packages/ui/src/components/Accordion/accordion.test.tsx`
+1. Create `packages/ui/src/components/Accordion/Accordion.tsx`
+2. Create `packages/ui/src/components/Accordion/Accordion.css`
+3. Export from `packages/ui/src/index.ts`
+4. Create `packages/ui/src/components/Accordion/Accordion.test.tsx`
 
 ### Component file structure
 
 ```typescript
-// index.tsx
+// Accordion.tsx
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import "./accordion.css";
+import { cn } from "../../lib/cn";
+import "./Accordion.css";
 
 export type AccordionProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -273,6 +283,37 @@ Composite tokens combine multiple font properties into named variants:
 | caption | `.hui-typography-caption` |
 
 Individual properties also available: `--hui-typography-h1-font-size`, `--hui-typography-h1-font-weight`, etc.
+
+## CSS Import Patterns
+
+Four modes are supported for consuming `@hareru/ui` styles:
+
+| Mode | When to use |
+|------|-------------|
+| **Standalone** | Single CSS import — simplest, all styles bundled |
+| **Portable** | Tokens + components split — useful when tokens are already loaded globally |
+| **Tailwind v4** | Tailwind coexistence — cascade layer ordering avoids specificity conflicts |
+| **Per-component** | Tokens + individual component CSS — minimal footprint, tree-shakeable |
+
+```css
+/* Standalone */
+@import "@hareru/ui/styles.css";
+
+/* Portable */
+@import "@hareru/tokens/css";
+@import "@hareru/ui/components.css";
+
+/* Tailwind v4 */
+@layer hareru, tailwind;
+@import "@hareru/tokens/css";
+@import "@hareru/ui/components.layer.css";
+
+/* Per-component */
+@import "@hareru/tokens/css";
+@import "@hareru/ui/components/Button/Button.css";
+```
+
+The CLI (`npx hareru add <component>`) automates this and writes the correct imports based on the detected project setup.
 
 ## Testing
 
@@ -361,23 +402,29 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 | URI | Content |
 |-----|---------|
 | `hareru-ui://tokens` | DTCG design tokens (light/dark themes, 150+ CSS custom properties) |
-| `hareru-ui://tokens/schema` | JSON Schema with CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry (41 components with CVA variants and Props) |
-| `hareru-ui://rules/consumer` | Consumer rules for AI agents — import patterns, styling rules, token reference |
+| `hareru-ui://tokens/schema` | JSON Schema — CSS variable enums and type constraints |
+| `hareru-ui://components` | Component registry — 49 components with variants, props, states, a11y, and examples |
+| `hareru-ui://components/schema` | JSON Schema for component registry |
+| `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
+| `hareru-ui://rules/consumer` | Consumer rules — import patterns, styling rules, token reference |
 
 **Tools:**
 
 | Tool | Description |
 |------|-------------|
-| `get-component-usage` | Returns import, variants table, props, and JSX example for a component |
-| `validate-token-value` | Checks whether a value is valid for a given token type |
+| `get-component-usage` | Component usage docs — import, variants, props, states, accessibility, examples |
+| `get-bundle-usage` | Task bundle usage docs — components, CSS imports, token categories |
+| `validate-token-value` | Check if a value is valid for a given token type |
+| `recommend-css-mode` | Recommend CSS import mode based on project context |
+| `list-components-by-group` | List components filtered by group |
 
 **Prompts:**
 
 | Prompt | Description |
 |--------|-------------|
-| `create-ui` | Generates a UI component using Hareru UI conventions |
-| `consumer-rules` | Returns the rules for using Hareru UI in consumer projects |
+| `create-ui` | Generate UI using Hareru UI conventions |
+| `create-ui-tailwind` | Generate UI with Tailwind + Hareru CSS coexistence |
+| `consumer-rules` | Consumer project rules for Hareru UI |
 
 **Claude Desktop configuration:**
 
@@ -391,6 +438,31 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
   }
 }
 ```
+
+## Registry (@hareru/registry)
+
+Shared types and runtime utilities used by both `@hareru/mcp` and `@hareru/cli`. Has no React dependency.
+
+**Types:** `ComponentEntry`, `StateDef`, `A11yDef`, `ExampleDef`, `TaskBundle`, `ConsumerRulesJSON`, and more.
+
+**Loaders:** `loadTokens`, `loadSchema`, `loadRegistry`, `loadComponentSchema`, `loadConsumerRules` — read artifact JSON from the package's `dist/` at runtime.
+
+**CSS mode:** `recommendCssMode()`, `CSS_MODES`, `CSS_MODE_DESCRIPTIONS` — shared logic for recommending an import mode from project context.
+
+## CLI (@hareru/cli)
+
+```bash
+npx hareru list                  # List all available components
+npx hareru info <name>           # Show component details
+npx hareru add <name>            # Print CSS/JS snippets for a component
+npx hareru add <name> --write    # Write files and inject CSS imports automatically
+```
+
+`add` supports four CSS modes via `--baseline` / `--layer` flags: `standalone`, `portable`, `tailwind`, `per-component`.
+
+Key options: `--write`, `--json`, `--force`, `--css-file <path>`, `--scope <selector>`, `--baseline`, `--layer`.
+
+`--write` safety: fails fast on missing `package.json`, broken JSON, or missing peer dependencies. Override with `--force`.
 
 ## Resources
 
