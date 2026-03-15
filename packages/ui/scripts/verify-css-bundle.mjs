@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, basename as pathBasename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,6 +34,10 @@ function countOccurrences(str, substr) {
   }
   return count;
 }
+
+// --- Component manifest (loaded once, used in multiple sections) ---
+const manifestPath = join(PKG_ROOT, 'scripts', 'component-manifest.json');
+const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
 console.log('Verifying CSS bundle...');
 
@@ -171,14 +175,12 @@ assert(existsSync(componentsDir), 'dist/styles/components/ directory exists');
 if (existsSync(componentsDir)) {
   const perComponentFiles = readdirSync(componentsDir).filter((f) => f.endsWith('.css'));
 
-  // Use component-manifest.json as the single source of truth for expected count
-  const manifestForCount = JSON.parse(
-    readFileSync(join(PKG_ROOT, 'scripts', 'component-manifest.json'), 'utf-8'),
-  );
+  // Use component-manifest.json (loaded below) as the single source of truth for expected count
+  const manifestKeyCount = Object.keys(manifest).length;
 
   assert(
-    perComponentFiles.length === manifestForCount.length,
-    `per-component file count (${perComponentFiles.length}) === manifest count (${manifestForCount.length})`,
+    perComponentFiles.length === manifestKeyCount,
+    `per-component file count (${perComponentFiles.length}) === manifest count (${manifestKeyCount})`,
   );
 
   // Spot-check individual files
@@ -242,12 +244,65 @@ for (const [exportPath, label] of exportPaths) {
 // --- Artifact consistency (component-manifest.json ↔ dist ↔ registry) ---
 console.log('\nArtifact consistency check...');
 
-const manifestPath = join(PKG_ROOT, 'scripts', 'component-manifest.json');
-const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
-const manifestNames = manifest.map((f) => {
-  const parts = f.split('/');
-  return parts[parts.length - 1].replace('.css', '');
-});
+const manifestNames = Object.keys(manifest);
+
+// --- Manifest metadata validation ---
+console.log('\nManifest metadata validation...');
+
+for (const [name, meta] of Object.entries(manifest)) {
+  // Source file existence
+  const tsxPath = join(PKG_ROOT, meta.componentSource);
+  assert(existsSync(tsxPath), `manifest: ${name} componentSource exists (${meta.componentSource})`);
+  const cssPath = join(PKG_ROOT, meta.cssSource);
+  assert(existsSync(cssPath), `manifest: ${name} cssSource exists (${meta.cssSource})`);
+
+  // Name consistency: key === basename(componentSource) === basename(cssSource)
+  const tsxName = pathBasename(meta.componentSource, '.tsx');
+  const cssName = pathBasename(meta.cssSource, '.css');
+  assert(name === tsxName, `manifest: key "${name}" === componentSource basename "${tsxName}"`);
+  assert(name === cssName, `manifest: key "${name}" === cssSource basename "${cssName}"`);
+
+  // Canonical path enforcement
+  const expectedTsx = `src/components/${name}/${name}.tsx`;
+  const expectedCss = `src/components/${name}/${name}.css`;
+  assert(
+    meta.componentSource === expectedTsx,
+    `manifest: ${name} componentSource is canonical (${expectedTsx})`,
+  );
+  assert(
+    meta.cssSource === expectedCss,
+    `manifest: ${name} cssSource is canonical (${expectedCss})`,
+  );
+
+  // description is required and non-empty
+  assert(
+    typeof meta.description === 'string' && meta.description.length > 0,
+    `manifest: ${name} has non-empty description`,
+  );
+
+  // peerComponents validation
+  if (meta.peerComponents) {
+    assert(Array.isArray(meta.peerComponents), `manifest: ${name} peerComponents is array`);
+    // No self-reference
+    assert(
+      !meta.peerComponents.includes(name),
+      `manifest: ${name} peerComponents has no self-reference`,
+    );
+    // No duplicates
+    const uniquePeers = new Set(meta.peerComponents);
+    assert(
+      uniquePeers.size === meta.peerComponents.length,
+      `manifest: ${name} peerComponents has no duplicates`,
+    );
+    // All references exist in manifest
+    for (const peer of meta.peerComponents) {
+      assert(
+        manifest[peer] !== undefined,
+        `manifest: ${name} peerComponent "${peer}" exists in manifest`,
+      );
+    }
+  }
+}
 
 // 1. Every manifest entry has a corresponding dist/styles/components/{Name}.css
 for (const name of manifestNames) {

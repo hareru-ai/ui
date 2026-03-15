@@ -16,7 +16,9 @@ const scopeCss = join(PKG_ROOT, 'src/styles/scope.css');
 const componentManifest = JSON.parse(
   readFileSync(join(__dirname, 'component-manifest.json'), 'utf-8'),
 );
-const componentCssFiles = componentManifest.map((f) => join(PKG_ROOT, f));
+const componentCssFiles = Object.keys(componentManifest)
+  .sort()
+  .map((name) => join(PKG_ROOT, componentManifest[name].cssSource));
 
 // --- Helpers ---
 

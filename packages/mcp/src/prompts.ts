@@ -23,11 +23,20 @@ export function registerPrompts(server: McpServer): void {
           const variants = c.variants ?? [];
           const variantInfo =
             variants.length > 0
-              ? ` — variants: ${variants.flatMap((v) => Object.entries(v.variants).map(([k, opts]) => `${k}(${opts.join('|')})`)).join(', ')}`
+              ? ` [${variants.flatMap((v) => Object.entries(v.variants).map(([k, opts]) => `${k}(${opts.join('|')})`)).join(', ')}]`
               : '';
-          return `- ${c.name}${variantInfo}`;
+          const desc = c.description ? ` — ${c.description}` : '';
+          return `- ${c.name}${variantInfo}${desc}`;
         })
         .join('\n');
+
+      const bundles = registry.taskBundles ?? [];
+      const bundleList =
+        bundles.length > 0
+          ? bundles
+              .map((b) => `- ${b.name}: ${b.description} (${b.components.length} components)`)
+              .join('\n')
+          : '';
 
       const cssVars = schema.properties.cssVariables.items.enum.slice(0, 20).join(', ');
       const fw = framework ?? 'react';
@@ -60,7 +69,7 @@ ${cssVars}, ...
 ## Task
 
 ${description}
-
+${bundleList ? `\n## Available Bundles\n\n${bundleList}\n` : ''}
 Generate a complete ${fw} component that fulfills this requirement.`,
             },
           },

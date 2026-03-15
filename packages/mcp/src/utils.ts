@@ -71,6 +71,15 @@ export interface ComponentRegistryJSON {
   version: string;
   componentCount: number;
   components: ComponentEntry[];
+  taskBundles?: TaskBundle[];
+}
+
+export interface TaskBundle {
+  name: string;
+  description: string;
+  components: string[];
+  cssArtifacts: string[];
+  tokenCategories: TokenCategory[];
 }
 
 export type ComponentGroup =
@@ -105,6 +114,10 @@ export interface ComponentEntry {
   subcomponents?: string[];
   variants?: VariantDef[];
   props?: PropDef[];
+  componentSource: string;
+  description: string;
+  aiHint?: string;
+  peerComponents?: string[];
 }
 
 interface VariantDef {

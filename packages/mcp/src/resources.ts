@@ -43,6 +43,18 @@ export function registerResources(server: McpServer): void {
   );
 
   server.resource(
+    'bundles',
+    'hareru-ui://bundles',
+    {
+      description: `Task bundles — ${registry.taskBundles?.length ?? 0} curated component sets for common UI patterns`,
+      mimeType: 'application/json',
+    },
+    async (uri) => ({
+      contents: [{ uri: uri.href, text: JSON.stringify(registry.taskBundles ?? [], null, 2) }],
+    }),
+  );
+
+  server.resource(
     'consumer-rules',
     'hareru-ui://rules/consumer',
     {

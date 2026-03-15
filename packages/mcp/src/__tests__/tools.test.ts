@@ -29,6 +29,50 @@ describe('get-component-usage', () => {
     expect(text).toContain('## Variants');
   });
 
+  it('includes description in output', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Button' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    // Description appears right after # Button heading
+    const lines = text.split('\n');
+    const headingIndex = lines.findIndex((l) => l.startsWith('# Button'));
+    expect(headingIndex).toBeGreaterThanOrEqual(0);
+    // Non-empty content after heading
+    const descLine = lines[headingIndex + 2]; // skip blank line
+    expect(descLine.length).toBeGreaterThan(0);
+  });
+
+  it('includes peerComponents as Also Consider section', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Button' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('## Also Consider');
+    expect(text).toContain('- Input');
+    expect(text).toContain('- Label');
+  });
+
+  it('omits AI Guidance section when component has no aiHint', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Separator' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).not.toContain('## AI Guidance');
+  });
+
+  it('omits Also Consider section when component has no peerComponents', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Separator' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).not.toContain('## Also Consider');
+  });
+
   it('is case-insensitive', async () => {
     const result = await client.callTool({
       name: 'get-component-usage',
@@ -89,6 +133,58 @@ describe('get-component-usage', () => {
     });
     const text = (result.content as Array<{ type: string; text: string }>)[0].text;
     expect(text).toContain("@import '@hareru/ui/styles/animations.css'");
+  });
+});
+
+describe('get-bundle-usage', () => {
+  let client: Client;
+
+  beforeAll(async () => {
+    const server = createServer();
+    client = new Client({ name: 'test-client', version: '1.0.0' });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([client.connect(clientTransport), server.connect(serverTransport)]);
+  });
+
+  afterAll(async () => {
+    await client?.close();
+  });
+
+  it('returns usage markdown for agent-chat-shell', async () => {
+    const result = await client.callTool({
+      name: 'get-bundle-usage',
+      arguments: { bundleName: 'agent-chat-shell' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('# Bundle: agent-chat-shell');
+    expect(text).toContain('ChatContainer');
+    expect(text).toContain('ChatMessage');
+    expect(text).toContain('## Import');
+    expect(text).toContain('## CSS');
+    expect(text).toContain('## Token Categories');
+    expect(text).toContain('## Components');
+  });
+
+  it('returns error for unknown bundle', async () => {
+    const result = await client.callTool({
+      name: 'get-bundle-usage',
+      arguments: { bundleName: 'nonexistent' },
+    });
+    expect(result.isError).toBe(true);
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('not found');
+    expect(text).toContain('Available bundles');
+  });
+
+  it('includes component descriptions in output', async () => {
+    const result = await client.callTool({
+      name: 'get-bundle-usage',
+      arguments: { bundleName: 'form-basics' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    // Each component listed should have a description after —
+    expect(text).toContain('**Button** —');
+    expect(text).toContain('**Input** —');
   });
 });
 

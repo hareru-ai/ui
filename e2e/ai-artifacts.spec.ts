@@ -158,6 +158,10 @@ test.describe('AI artifacts — component-registry.json', () => {
       cssArtifact: string;
       requiredCssArtifacts: string[];
       tokenCategories: string[];
+      componentSource: string;
+      description: string;
+      aiHint?: string;
+      peerComponents?: string[];
       subcomponents?: string[];
       variants?: Array<{
         name: string;
@@ -169,6 +173,13 @@ test.describe('AI artifacts — component-registry.json', () => {
         extends: string | null;
         customProps?: Array<{ name: string; type: string; required: boolean }>;
       }>;
+    }>;
+    taskBundles?: Array<{
+      name: string;
+      description: string;
+      components: string[];
+      cssArtifacts: string[];
+      tokenCategories: string[];
     }>;
   };
 
@@ -293,9 +304,78 @@ test.describe('AI artifacts — component-registry.json', () => {
     }
   });
 
+  test('every component has componentSource matching src/components/{Name}/{Name}.tsx format', () => {
+    const sourcePattern = /^src\/components\/[^/]+\/[^/]+\.tsx$/;
+    for (const comp of registry.components) {
+      expect(comp.componentSource, `${comp.name} should have componentSource`).toBeTruthy();
+      expect(comp.componentSource, `${comp.name} componentSource "${comp.componentSource}" should match pattern`).toMatch(sourcePattern);
+    }
+  });
+
+  test('every component has non-empty description', () => {
+    for (const comp of registry.components) {
+      expect(typeof comp.description === 'string' && comp.description.length > 0, `${comp.name} should have non-empty description`).toBe(true);
+    }
+  });
+
   test('registry is importable via package exports path', () => {
     const pkg = JSON.parse(readFileSync(resolve('packages/ui/package.json'), 'utf-8'));
     expect(pkg.exports['./component-registry.json']).toBe('./dist/component-registry.json');
+  });
+});
+
+test.describe('AI artifacts — taskBundles', () => {
+  const registryPath = resolve('packages/ui/dist/component-registry.json');
+  let registry: {
+    components: Array<{ name: string }>;
+    taskBundles?: Array<{
+      name: string;
+      description: string;
+      components: string[];
+      cssArtifacts: string[];
+      tokenCategories: string[];
+    }>;
+  };
+
+  test.beforeAll(() => {
+    registry = JSON.parse(readFileSync(registryPath, 'utf-8'));
+  });
+
+  test('has 5 task bundles', () => {
+    expect(registry.taskBundles).toBeDefined();
+    expect(registry.taskBundles).toHaveLength(5);
+  });
+
+  test('all bundle components reference valid registry components', () => {
+    const validNames = new Set(registry.components.map((c) => c.name));
+    for (const bundle of registry.taskBundles!) {
+      for (const comp of bundle.components) {
+        expect(validNames.has(comp), `bundle "${bundle.name}" component "${comp}" should be in registry`).toBe(true);
+      }
+    }
+  });
+
+  test('each bundle has non-empty cssArtifacts without duplicates starting with styles/', () => {
+    for (const bundle of registry.taskBundles!) {
+      expect(bundle.cssArtifacts.length, `${bundle.name} should have cssArtifacts`).toBeGreaterThan(0);
+      const uniqueArtifacts = new Set(bundle.cssArtifacts);
+      expect(uniqueArtifacts.size, `${bundle.name} should have no duplicate cssArtifacts`).toBe(bundle.cssArtifacts.length);
+      for (const artifact of bundle.cssArtifacts) {
+        expect(artifact, `${bundle.name} artifact "${artifact}" should start with styles/`).toMatch(/^styles\//);
+      }
+    }
+  });
+
+  test('each bundle has non-empty tokenCategories without duplicates from valid enum', () => {
+    const validCategories = ['color', 'spacing', 'radius', 'font', 'typography', 'shadow', 'duration', 'easing', 'zIndex'];
+    for (const bundle of registry.taskBundles!) {
+      expect(bundle.tokenCategories.length, `${bundle.name} should have tokenCategories`).toBeGreaterThan(0);
+      const uniqueCats = new Set(bundle.tokenCategories);
+      expect(uniqueCats.size, `${bundle.name} should have no duplicate tokenCategories`).toBe(bundle.tokenCategories.length);
+      for (const cat of bundle.tokenCategories) {
+        expect(validCategories, `${bundle.name} category "${cat}" should be valid`).toContain(cat);
+      }
+    }
   });
 });
 

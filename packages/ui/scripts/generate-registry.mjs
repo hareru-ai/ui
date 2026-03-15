@@ -76,9 +76,7 @@ const TOKEN_CATEGORIES = [
 ];
 
 // --- Component manifest (single source of truth) ---
-const componentManifest = JSON.parse(
-  readFileSync(join(__dirname, 'component-manifest.json'), 'utf-8'),
-);
+const manifest = JSON.parse(readFileSync(join(__dirname, 'component-manifest.json'), 'utf-8'));
 
 // --- Shared keyframes extraction from animations.css ---
 const animationsCssPath = join(PKG_ROOT, 'src/styles/animations.css');
@@ -287,24 +285,20 @@ for (const dir of componentDirs) {
     console.warn(`  WARN: No taxonomy group for "${dir}" — skipping Phase 2C fields`);
   }
 
-  // cssArtifact: derive from component-manifest.json
-  // manifest: "src/components/Button/Button.css" → artifact: "styles/components/Button.css"
-  const manifestEntry = componentManifest.find((f) => basename(f, '.css') === dir);
-  if (!manifestEntry) {
-    console.warn(`  WARN: No manifest entry for "${dir}" — cssArtifact will use convention-based fallback`);
+  // Phase 3A: direct object lookup from manifest
+  const meta = manifest[dir];
+  if (!meta) {
+    throw new Error(`Missing manifest entry for "${dir}". Add it to component-manifest.json.`);
   }
-  const cssArtifact = manifestEntry
-    ? `styles/components/${basename(manifestEntry)}`
-    : `styles/components/${dir}.css`;
+
+  const cssArtifact = `styles/components/${basename(meta.cssSource)}`;
 
   // Read component CSS once for requiredCssArtifacts and tokenCategories detection
   let cssContent = '';
-  if (manifestEntry) {
-    try {
-      cssContent = readFileSync(join(PKG_ROOT, manifestEntry), 'utf-8');
-    } catch {
-      // CSS file may not exist for some components
-    }
+  try {
+    cssContent = readFileSync(join(PKG_ROOT, meta.cssSource), 'utf-8');
+  } catch {
+    // CSS file may not exist for some components
   }
 
   // requiredCssArtifacts: check if component CSS references shared keyframes
@@ -320,9 +314,13 @@ for (const dir of componentDirs) {
     name: dir,
     displayName: displayNames[0] || dir,
     group,
+    componentSource: meta.componentSource,
     cssArtifact,
     requiredCssArtifacts,
     tokenCategories,
+    description: meta.description,
+    aiHint: meta.aiHint || undefined,
+    peerComponents: meta.peerComponents?.length > 0 ? meta.peerComponents : undefined,
     subcomponents: subcomponents.length > 0 ? subcomponents : undefined,
     variants:
       cvaVariants.length > 0
@@ -345,12 +343,73 @@ for (const dir of componentDirs) {
   components.push(entry);
 }
 
+// --- Phase 3B: Task bundles ---
+const bundlesPath = join(PKG_ROOT, 'data', 'task-bundles.json');
+let taskBundles = undefined;
+if (existsSync(bundlesPath)) {
+  const rawBundles = JSON.parse(readFileSync(bundlesPath, 'utf-8'));
+  const componentMap = new Map(components.map((c) => [c.name, c]));
+  const bundleNames = new Set();
+
+  taskBundles = rawBundles.map((bundle) => {
+    if (bundleNames.has(bundle.name)) {
+      throw new Error(`Duplicate bundle name: "${bundle.name}"`);
+    }
+    bundleNames.add(bundle.name);
+
+    if (typeof bundle.description !== 'string' || bundle.description.length === 0) {
+      throw new Error(`Bundle "${bundle.name}" has missing or empty description`);
+    }
+
+    if (!bundle.components || bundle.components.length === 0) {
+      throw new Error(`Bundle "${bundle.name}" has empty components array`);
+    }
+
+    const seen = new Set();
+    const allCssArtifacts = new Set();
+    const allTokenCategories = new Set();
+
+    for (const compName of bundle.components) {
+      if (seen.has(compName)) {
+        throw new Error(`Duplicate component "${compName}" in bundle "${bundle.name}"`);
+      }
+      seen.add(compName);
+
+      const comp = componentMap.get(compName);
+      if (!comp) {
+        throw new Error(
+          `Unknown component "${compName}" in bundle "${bundle.name}". Available: ${[...componentMap.keys()].join(', ')}`,
+        );
+      }
+
+      allCssArtifacts.add(comp.cssArtifact);
+      for (const dep of comp.requiredCssArtifacts) {
+        allCssArtifacts.add(dep);
+      }
+      for (const cat of comp.tokenCategories) {
+        allTokenCategories.add(cat);
+      }
+    }
+
+    return {
+      name: bundle.name,
+      description: bundle.description,
+      components: bundle.components,
+      cssArtifacts: [...allCssArtifacts].sort(),
+      tokenCategories: [...allTokenCategories].sort(),
+    };
+  });
+
+  console.log(`Resolved ${taskBundles.length} task bundles`);
+}
+
 const registry = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   name: '@hareru/ui',
   version: JSON.parse(readFileSync(join(PKG_ROOT, 'package.json'), 'utf-8')).version,
   componentCount: components.length,
   components,
+  taskBundles,
 };
 
 mkdirSync(dirname(OUT_FILE), { recursive: true });

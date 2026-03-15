@@ -29,6 +29,18 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
   parts.push(`# ${entry.displayName}`);
   parts.push('');
 
+  // Description (Phase 3A)
+  parts.push(entry.description);
+  parts.push('');
+
+  // AI Guidance (Phase 3A)
+  if (entry.aiHint) {
+    parts.push('## AI Guidance');
+    parts.push('');
+    parts.push(entry.aiHint);
+    parts.push('');
+  }
+
   // Import section
   parts.push('## Import');
   parts.push('');
@@ -76,6 +88,16 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
       } else {
         parts.push(`- **${prop.name}**`);
       }
+    }
+    parts.push('');
+  }
+
+  // Also Consider (Phase 3A)
+  if (entry.peerComponents) {
+    parts.push('## Also Consider');
+    parts.push('');
+    for (const peer of entry.peerComponents) {
+      parts.push(`- ${peer}`);
     }
     parts.push('');
   }
@@ -129,6 +151,94 @@ export function registerTools(server: McpServer): void {
 
       return {
         content: [{ type: 'text' as const, text: formatUsageMarkdown(entry) }],
+      };
+    },
+  );
+
+  server.tool(
+    'get-bundle-usage',
+    'Get usage documentation for a Hareru UI task bundle — components, CSS imports, and token categories',
+    { bundleName: z.string().describe('Bundle name (e.g. "agent-chat-shell", "form-basics")') },
+    async ({ bundleName }) => {
+      const registry = loadRegistry();
+      const bundles = registry.taskBundles ?? [];
+      const bundle = bundles.find((b) => b.name.toLowerCase() === bundleName.toLowerCase());
+
+      if (!bundle) {
+        const available = bundles.map((b) => b.name).join(', ');
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: `Bundle "${bundleName}" not found. Available bundles: ${available}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+
+      const componentMap = new Map(registry.components.map((c) => [c.name, c]));
+
+      const parts: string[] = [];
+      parts.push(`# Bundle: ${bundle.name}`);
+      parts.push('');
+      parts.push(bundle.description);
+      parts.push('');
+
+      // Import section — expand subcomponents so the import is copy-pasteable
+      const allImports: string[] = [];
+      for (const compName of bundle.components) {
+        const comp = componentMap.get(compName);
+        allImports.push(compName);
+        if (comp?.subcomponents) {
+          allImports.push(...comp.subcomponents);
+        }
+      }
+      parts.push('## Import');
+      parts.push('');
+      parts.push('```tsx');
+      parts.push(`import { ${allImports.join(', ')} } from '@hareru/ui';`);
+      parts.push('```');
+      parts.push('');
+
+      // CSS section
+      parts.push('## CSS');
+      parts.push('');
+      parts.push('**Standalone:**');
+      parts.push('```css');
+      parts.push(`@import '@hareru/ui/styles.css';`);
+      parts.push('```');
+      parts.push('');
+      parts.push('**Per-component:**');
+      parts.push('```css');
+      parts.push(`@import '@hareru/tokens/css';`);
+      for (const artifact of bundle.cssArtifacts) {
+        parts.push(`@import '@hareru/ui/${artifact}';`);
+      }
+      parts.push('```');
+      parts.push('');
+
+      // Token categories
+      parts.push('## Token Categories');
+      parts.push('');
+      parts.push(bundle.tokenCategories.join(', '));
+      parts.push('');
+
+      // Components detail
+      parts.push('## Components');
+      parts.push('');
+      for (const compName of bundle.components) {
+        const comp = componentMap.get(compName);
+        if (comp) {
+          parts.push(`- **${comp.name}** — ${comp.description}`);
+        } else {
+          parts.push(`- **${compName}**`);
+        }
+      }
+      parts.push('');
+
+      return {
+        content: [{ type: 'text' as const, text: parts.join('\n') }],
       };
     },
   );

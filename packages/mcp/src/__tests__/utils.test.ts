@@ -62,4 +62,18 @@ describe('loadRegistry', () => {
     const button = registry.components.find((c) => c.name === 'Button');
     expect(button?.variants?.length).toBeGreaterThan(0);
   });
+
+  it('every component has componentSource and description', () => {
+    const registry = loadRegistry();
+    for (const comp of registry.components) {
+      expect(comp.componentSource, `${comp.name} componentSource`).toBeTruthy();
+      expect(comp.description, `${comp.name} description`).toBeTruthy();
+    }
+  });
+
+  it('has taskBundles with at least 1 entry', () => {
+    const registry = loadRegistry();
+    expect(registry.taskBundles).toBeDefined();
+    expect(registry.taskBundles?.length).toBeGreaterThanOrEqual(1);
+  });
 });

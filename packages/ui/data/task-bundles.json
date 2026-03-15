@@ -1,0 +1,46 @@
+[
+  {
+    "name": "agent-chat-shell",
+    "description": "Complete AI chat interface with streaming, tool calls, and reasoning",
+    "components": [
+      "ChatContainer",
+      "ChatMessage",
+      "ChatComposer",
+      "StreamingText",
+      "ToolCallCard",
+      "ApprovalCard",
+      "ReasoningPanel",
+      "Button",
+      "ScrollArea"
+    ]
+  },
+  {
+    "name": "tool-approval-flow",
+    "description": "Tool execution approval UI with status badges",
+    "components": ["ToolCallCard", "ApprovalCard", "Button", "Badge", "Alert"]
+  },
+  {
+    "name": "di-metric-review",
+    "description": "Data quality and metric review surface",
+    "components": [
+      "Card",
+      "Table",
+      "Badge",
+      "MetricCard",
+      "QueryFeedback",
+      "SemanticSuggest",
+      "ConfidenceBadge",
+      "DataQualityIndicator"
+    ]
+  },
+  {
+    "name": "form-basics",
+    "description": "Standard form construction kit",
+    "components": ["Input", "Label", "Textarea", "Select", "Switch", "FormField", "Button"]
+  },
+  {
+    "name": "overlay-basics",
+    "description": "Layered UI surfaces with triggers",
+    "components": ["Dialog", "AlertDialog", "Popover", "Tooltip", "Sheet", "Button"]
+  }
+]
