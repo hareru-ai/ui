@@ -45,7 +45,7 @@ Or if installed locally:
 |-----|-------------|
 | `hareru-ui://tokens` | DTCG design tokens — CSS custom properties for light/dark themes |
 | `hareru-ui://tokens/schema` | JSON Schema — CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry with CVA variants and Props |
+| `hareru-ui://components` | Component registry with CVA variants, props, and slot contracts |
 | `hareru-ui://components/schema` | JSON Schema for the component registry |
 | `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
 | `hareru-ui://rules/consumer` | Consumer rules — import patterns, styling rules, and token reference |
@@ -54,7 +54,7 @@ Or if installed locally:
 
 | Tool | Input | Output |
 |------|-------|--------|
-| `get-component-usage` | `componentName: string` | Markdown: import, variants table, props, JSX example, states, accessibility, and examples when available |
+| `get-component-usage` | `componentName: string` | Markdown: import, variants table, props, JSX example, slot tree (compound components), states, accessibility, and examples when available |
 | `get-bundle-usage` | `bundleName: string` | Markdown: components, CSS imports, token categories |
 | `validate-token-value` | `tokenType: string, value: string` | Valid/Invalid with pattern description |
 | `recommend-css-mode` | `hasTailwind: boolean, componentCount: number, hasExistingReset?: boolean` | Recommended CSS import mode with reasoning |

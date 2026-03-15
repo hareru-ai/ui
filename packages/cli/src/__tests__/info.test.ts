@@ -98,4 +98,23 @@ describe('hareru info', () => {
     const { stdout } = runCommand('info', 'Button');
     expect(stdout).toContain('Example:');
   });
+
+  it('shows Structure for Dialog', () => {
+    const { stdout } = runCommand('info', 'Dialog');
+    expect(stdout).toContain('Structure:');
+    expect(stdout).toContain('DialogTrigger [trigger] (expected)');
+    expect(stdout).toContain(
+      '(expected) = recommended in canonical composition, not runtime-required.',
+    );
+  });
+
+  it('omits Structure for Button', () => {
+    const { stdout } = runCommand('info', 'Button');
+    expect(stdout).not.toContain('Structure:');
+  });
+
+  it('omits Structure for Toast (has subcomponents but no slots)', () => {
+    const { stdout } = runCommand('info', 'Toast');
+    expect(stdout).not.toContain('Structure:');
+  });
 });

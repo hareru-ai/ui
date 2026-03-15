@@ -538,6 +538,71 @@ if (existsSync(registryPath)) {
     }
   }
 
+  // --- Phase 3D: slots representative checks ---
+  console.log('\nPhase 3D slots checks...');
+
+  const dialog3d = registry.components.find((c) => c.name === 'Dialog');
+  if (dialog3d) {
+    assert(Array.isArray(dialog3d.slots), 'Phase 3D: Dialog has slots array');
+    assert(
+      dialog3d.slots.length >= 7,
+      `Phase 3D: Dialog has >= 7 slots (got ${dialog3d.slots?.length})`,
+    );
+    const trigger = dialog3d.slots.find((s) => s.name === 'DialogTrigger');
+    assert(trigger?.role === 'trigger', 'Phase 3D: DialogTrigger role is trigger');
+    assert(trigger?.parent === 'Dialog', 'Phase 3D: DialogTrigger parent is Dialog');
+    const title = dialog3d.slots.find((s) => s.name === 'DialogTitle');
+    assert(title?.parent === 'DialogContent', 'Phase 3D: DialogTitle parent is DialogContent');
+    assert(title?.role === 'label', 'Phase 3D: DialogTitle role is label');
+  }
+
+  const tabs3d = registry.components.find((c) => c.name === 'Tabs');
+  if (tabs3d) {
+    const tabsTrigger = tabs3d.slots?.find((s) => s.name === 'TabsTrigger');
+    assert(tabsTrigger?.parent === 'TabsList', 'Phase 3D: TabsTrigger parent is TabsList');
+  }
+
+  const toast3d = registry.components.find((c) => c.name === 'Toast');
+  assert(!toast3d?.slots, 'Phase 3D: Toast has no slots');
+
+  // DropdownMenu Sub chain check
+  const dm3d = registry.components.find((c) => c.name === 'DropdownMenu');
+  if (dm3d) {
+    const sub = dm3d.slots?.find((s) => s.name === 'DropdownMenuSub');
+    assert(sub?.role === 'submenu', 'Phase 3D: DropdownMenuSub role is submenu');
+    assert(
+      sub?.parent === 'DropdownMenuContent',
+      'Phase 3D: DropdownMenuSub parent is DropdownMenuContent',
+    );
+    const subTrigger = dm3d.slots?.find((s) => s.name === 'DropdownMenuSubTrigger');
+    assert(
+      subTrigger?.parent === 'DropdownMenuSub',
+      'Phase 3D: DropdownMenuSubTrigger parent is DropdownMenuSub',
+    );
+  }
+
+  // Verify all slots in components with slots are reachable from root
+  for (const comp of registry.components) {
+    if (!comp.slots || comp.slots.length === 0) continue;
+    const reachable = new Set([comp.name]);
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const s of comp.slots) {
+        if (reachable.has(s.parent) && !reachable.has(s.name)) {
+          reachable.add(s.name);
+          changed = true;
+        }
+      }
+    }
+    for (const s of comp.slots) {
+      assert(
+        reachable.has(s.name),
+        `Phase 3D: ${comp.name} slot "${s.name}" is reachable from root`,
+      );
+    }
+  }
+
   // --- Registry snapshot checks ---
   console.log('\nRegistry snapshot checks...');
   const ad = registry.components.find((c) => c.name === 'AlertDialog');

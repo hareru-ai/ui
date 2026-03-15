@@ -301,7 +301,7 @@ Four modes are supported for consuming `@hareru/ui` styles:
 
 /* Portable */
 @import "@hareru/tokens/css";
-@import "@hareru/ui/components.css";
+@import "@hareru/ui/styles/components.css";
 
 /* Tailwind v4 */
 @layer hareru, tailwind;
@@ -415,7 +415,7 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 |-----|---------|
 | `hareru-ui://tokens` | DTCG design tokens (light/dark themes, 150+ CSS custom properties) |
 | `hareru-ui://tokens/schema` | JSON Schema — CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry — 49 components with variants, props, states, a11y, and examples |
+| `hareru-ui://components` | Component registry — 49 components with variants, props, states, a11y, examples, and slot contracts |
 | `hareru-ui://components/schema` | JSON Schema for component registry |
 | `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
 | `hareru-ui://rules/consumer` | Consumer rules — import patterns, styling rules, token reference |
@@ -424,7 +424,7 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 
 | Tool | Description |
 |------|-------------|
-| `get-component-usage` | Component usage docs — import, variants, props, states, accessibility, examples |
+| `get-component-usage` | Component usage docs — import, variants, props, states, accessibility, examples, slot tree |
 | `get-bundle-usage` | Task bundle usage docs — components, CSS imports, token categories |
 | `validate-token-value` | Check if a value is valid for a given token type |
 | `recommend-css-mode` | Recommend CSS import mode based on project context |
@@ -455,11 +455,15 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 
 Shared types and runtime utilities used by both `@hareru/mcp` and `@hareru/cli`. Has no React dependency.
 
-**Types:** `ComponentEntry`, `StateDef`, `A11yDef`, `ExampleDef`, `TaskBundle`, `ConsumerRulesJSON`, and more.
+**Types:** `ComponentEntry`, `StateDef`, `A11yDef`, `ExampleDef`, `SlotDef`, `TaskBundle`, `ConsumerRulesJSON`, and more.
+
+`SlotDef` describes a single slot in a component's composition contract: `{ name, role, parent, expected, multiple }`. `role` is one of `trigger | content | container | item | label | description | action | separator | indicator | viewport | close | icon | input | submenu | anchor | control`.
 
 **Loaders:** `loadTokens`, `loadSchema`, `loadRegistry`, `loadComponentSchema`, `loadConsumerRules` — read artifact JSON from the package's `dist/` at runtime.
 
 **CSS mode:** `recommendCssMode()`, `CSS_MODES`, `CSS_MODE_DESCRIPTIONS` — shared logic for recommending an import mode from project context.
+
+**Slot utilities:** `buildSlotTree(rootName, slots, notes?)` — renders a `SlotDef[]` as a formatted ASCII tree string (used by `get-component-usage` in the MCP server).
 
 ## CLI (@hareru/cli)
 

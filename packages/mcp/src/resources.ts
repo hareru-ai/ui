@@ -40,7 +40,7 @@ export function registerResources(server: McpServer): void {
     'components',
     'hareru-ui://components',
     {
-      description: `Component registry — ${registry.componentCount} components with CVA variants and Props interfaces`,
+      description: `Component registry — ${registry.componentCount} components with CVA variants, Props interfaces, and slot contracts`,
       mimeType: 'application/json',
     },
     async (uri) => ({

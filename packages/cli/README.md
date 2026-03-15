@@ -42,7 +42,7 @@ hareru list --json          # JSON output
 
 ### `hareru info <name>`
 
-Show details for a component or task bundle. Output includes variants, props, states, accessibility notes, and usage examples when available.
+Show details for a component or task bundle. Output includes variants, props, states, accessibility notes, usage examples, and Structure (slot tree for compound components) when available.
 
 ```bash
 hareru info Button          # Component details

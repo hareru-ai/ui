@@ -14,6 +14,22 @@
         "title": "Basic usage",
         "code": "<Alert variant=\"default\">\n  <AlertTitle>Heads up!</AlertTitle>\n  <AlertDescription>This is an informational alert.</AlertDescription>\n</Alert>"
       }
+    ],
+    "slots": [
+      {
+        "name": "AlertTitle",
+        "role": "label",
+        "parent": "Alert",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "AlertDescription",
+        "role": "description",
+        "parent": "Alert",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "AlertDialog": {
@@ -31,6 +47,64 @@
       {
         "title": "Destructive confirmation",
         "code": "<AlertDialog>\n  <AlertDialogTrigger asChild>\n    <Button variant=\"destructive\">Delete</Button>\n  </AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogTitle>Are you sure?</AlertDialogTitle>\n    <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "AlertDialogTrigger",
+        "role": "trigger",
+        "parent": "AlertDialog",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogContent",
+        "role": "content",
+        "parent": "AlertDialog",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogHeader",
+        "role": "container",
+        "parent": "AlertDialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogFooter",
+        "role": "container",
+        "parent": "AlertDialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogTitle",
+        "role": "label",
+        "parent": "AlertDialogContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogDescription",
+        "role": "description",
+        "parent": "AlertDialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogAction",
+        "role": "action",
+        "parent": "AlertDialogContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AlertDialogCancel",
+        "role": "action",
+        "parent": "AlertDialogContent",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -110,6 +184,22 @@
         "title": "With image and fallback",
         "code": "<Avatar>\n  <AvatarImage src=\"/avatar.jpg\" alt=\"User\" />\n  <AvatarFallback>JD</AvatarFallback>\n</Avatar>"
       }
+    ],
+    "slots": [
+      {
+        "name": "AvatarImage",
+        "role": "content",
+        "parent": "Avatar",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "AvatarFallback",
+        "role": "content",
+        "parent": "Avatar",
+        "expected": true,
+        "multiple": false
+      }
     ]
   },
   "Badge": {
@@ -131,6 +221,15 @@
       {
         "title": "Basic grid",
         "code": "<BentoGrid>\n  <BentoGridItem>\n    <Card><CardContent>Item 1</CardContent></Card>\n  </BentoGridItem>\n  <BentoGridItem>\n    <Card><CardContent>Item 2</CardContent></Card>\n  </BentoGridItem>\n</BentoGrid>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "BentoGridItem",
+        "role": "item",
+        "parent": "BentoGrid",
+        "expected": true,
+        "multiple": true
       }
     ]
   },
@@ -166,6 +265,43 @@
         "title": "Basic card",
         "code": "<Card>\n  <CardHeader>\n    <CardTitle>Card Title</CardTitle>\n    <CardDescription>Card description text.</CardDescription>\n  </CardHeader>\n  <CardContent>Main content here.</CardContent>\n  <CardFooter>\n    <Button>Action</Button>\n  </CardFooter>\n</Card>"
       }
+    ],
+    "slots": [
+      {
+        "name": "CardHeader",
+        "role": "container",
+        "parent": "Card",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CardTitle",
+        "role": "label",
+        "parent": "CardHeader",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CardDescription",
+        "role": "description",
+        "parent": "CardHeader",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CardContent",
+        "role": "content",
+        "parent": "Card",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CardFooter",
+        "role": "container",
+        "parent": "Card",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "ChatComposer": {
@@ -182,6 +318,29 @@
       {
         "title": "Basic composer",
         "code": "<ChatComposer onSubmit={handleSubmit}>\n  <ChatComposerInput placeholder=\"Type a message...\" />\n  <ChatComposerActions>\n    <ChatComposerSend />\n  </ChatComposerActions>\n</ChatComposer>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "ChatComposerInput",
+        "role": "input",
+        "parent": "ChatComposer",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ChatComposerActions",
+        "role": "container",
+        "parent": "ChatComposer",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ChatComposerSend",
+        "role": "action",
+        "parent": "ChatComposerActions",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -202,6 +361,29 @@
         "title": "Chat layout",
         "code": "<ChatContainer>\n  <ChatMessage variant=\"user\">Hello!</ChatMessage>\n  <ChatMessage variant=\"assistant\">Hi! How can I help?</ChatMessage>\n  <ChatComposer onSubmit={handleSubmit}>\n    <ChatComposerInput />\n    <ChatComposerActions>\n      <ChatComposerSend />\n    </ChatComposerActions>\n  </ChatComposer>\n</ChatContainer>"
       }
+    ],
+    "slots": [
+      {
+        "name": "ChatContainerHeader",
+        "role": "container",
+        "parent": "ChatContainer",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ChatContainerMessages",
+        "role": "content",
+        "parent": "ChatContainer",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ChatContainerFooter",
+        "role": "container",
+        "parent": "ChatContainer",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "ChatMessage": {
@@ -218,6 +400,29 @@
         "title": "Message variants",
         "code": "<ChatMessage variant=\"user\">How do I reset my password?</ChatMessage>\n<ChatMessage variant=\"assistant\">\n  <StreamingText streaming={false}>Go to Settings and click Reset Password.</StreamingText>\n</ChatMessage>"
       }
+    ],
+    "slots": [
+      {
+        "name": "ChatMessageContent",
+        "role": "content",
+        "parent": "ChatMessage",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ChatMessageTimestamp",
+        "role": "description",
+        "parent": "ChatMessage",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ChatMessageActions",
+        "role": "container",
+        "parent": "ChatMessage",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "Collapsible": {
@@ -232,6 +437,22 @@
       {
         "title": "Basic collapsible",
         "code": "<Collapsible>\n  <CollapsibleTrigger>Toggle content</CollapsibleTrigger>\n  <CollapsibleContent>\n    <p>Hidden content revealed on toggle.</p>\n  </CollapsibleContent>\n</Collapsible>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "CollapsibleTrigger",
+        "role": "trigger",
+        "parent": "Collapsible",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "CollapsibleContent",
+        "role": "content",
+        "parent": "Collapsible",
+        "expected": true,
+        "multiple": false
       }
     ]
   },
@@ -255,6 +476,57 @@
         "title": "Basic combobox",
         "code": "<Combobox\n  options={[\n    { value: 'react', label: 'React' },\n    { value: 'vue', label: 'Vue' },\n    { value: 'svelte', label: 'Svelte' },\n  ]}\n  onSelect={(value) => setFramework(value)}\n  placeholder=\"Select framework...\"\n/>"
       }
+    ],
+    "slots": [
+      {
+        "name": "ComboboxTrigger",
+        "role": "trigger",
+        "parent": "Combobox",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ComboboxContent",
+        "role": "content",
+        "parent": "Combobox",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ComboboxInput",
+        "role": "input",
+        "parent": "ComboboxContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ComboboxList",
+        "role": "container",
+        "parent": "ComboboxContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ComboboxItem",
+        "role": "item",
+        "parent": "ComboboxList",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "ComboboxEmpty",
+        "role": "content",
+        "parent": "ComboboxContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ComboboxGroup",
+        "role": "container",
+        "parent": "ComboboxList",
+        "expected": false,
+        "multiple": true
+      }
     ]
   },
   "Command": {
@@ -274,6 +546,57 @@
       {
         "title": "Command palette",
         "code": "<Command>\n  <CommandInput placeholder=\"Search...\" />\n  <CommandList>\n    <CommandGroup heading=\"Actions\">\n      <CommandItem>New File</CommandItem>\n      <CommandItem>Open Settings</CommandItem>\n    </CommandGroup>\n  </CommandList>\n</Command>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "CommandInput",
+        "role": "input",
+        "parent": "Command",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CommandList",
+        "role": "container",
+        "parent": "Command",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "CommandEmpty",
+        "role": "content",
+        "parent": "CommandList",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "CommandGroup",
+        "role": "container",
+        "parent": "CommandList",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "CommandSeparator",
+        "role": "separator",
+        "parent": "CommandList",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "CommandItem",
+        "role": "item",
+        "parent": "CommandGroup",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "CommandShortcut",
+        "role": "description",
+        "parent": "CommandItem",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -346,6 +669,57 @@
         "title": "Form dialog",
         "code": "<Dialog>\n  <DialogTrigger asChild>\n    <Button>Edit Profile</Button>\n  </DialogTrigger>\n  <DialogContent>\n    <DialogTitle>Edit Profile</DialogTitle>\n    <DialogDescription>Make changes to your profile.</DialogDescription>\n    <FormField label=\"Name\">\n      <Input placeholder=\"Your name\" />\n    </FormField>\n    <DialogClose asChild>\n      <Button>Save</Button>\n    </DialogClose>\n  </DialogContent>\n</Dialog>"
       }
+    ],
+    "slots": [
+      {
+        "name": "DialogTrigger",
+        "role": "trigger",
+        "parent": "Dialog",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "DialogContent",
+        "role": "content",
+        "parent": "Dialog",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "DialogHeader",
+        "role": "container",
+        "parent": "DialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DialogFooter",
+        "role": "container",
+        "parent": "DialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DialogTitle",
+        "role": "label",
+        "parent": "DialogContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "DialogDescription",
+        "role": "description",
+        "parent": "DialogContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DialogClose",
+        "role": "close",
+        "parent": "DialogContent",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "DropdownMenu": {
@@ -366,6 +740,99 @@
         "title": "Context menu",
         "code": "<DropdownMenu>\n  <DropdownMenuTrigger asChild>\n    <Button variant=\"outline\">Options</Button>\n  </DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuItem>Edit</DropdownMenuItem>\n    <DropdownMenuItem>Duplicate</DropdownMenuItem>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>Delete</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>"
       }
+    ],
+    "slots": [
+      {
+        "name": "DropdownMenuTrigger",
+        "role": "trigger",
+        "parent": "DropdownMenu",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuContent",
+        "role": "content",
+        "parent": "DropdownMenu",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuItem",
+        "role": "item",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuCheckboxItem",
+        "role": "item",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuRadioItem",
+        "role": "item",
+        "parent": "DropdownMenuRadioGroup",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuLabel",
+        "role": "label",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuSeparator",
+        "role": "separator",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuShortcut",
+        "role": "description",
+        "parent": "DropdownMenuItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuGroup",
+        "role": "container",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuSub",
+        "role": "submenu",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "DropdownMenuSubTrigger",
+        "role": "trigger",
+        "parent": "DropdownMenuSub",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuSubContent",
+        "role": "content",
+        "parent": "DropdownMenuSub",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "DropdownMenuRadioGroup",
+        "role": "container",
+        "parent": "DropdownMenuContent",
+        "expected": false,
+        "multiple": true
+      }
     ]
   },
   "EmptyState": {
@@ -382,6 +849,36 @@
       {
         "title": "No results",
         "code": "<EmptyState>\n  <EmptyStateIcon>🔍</EmptyStateIcon>\n  <EmptyStateTitle>No results found</EmptyStateTitle>\n  <EmptyStateDescription>Try adjusting your search or filters.</EmptyStateDescription>\n  <EmptyStateAction>\n    <Button variant=\"outline\">Clear filters</Button>\n  </EmptyStateAction>\n</EmptyState>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "EmptyStateIcon",
+        "role": "icon",
+        "parent": "EmptyState",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "EmptyStateTitle",
+        "role": "label",
+        "parent": "EmptyState",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "EmptyStateDescription",
+        "role": "description",
+        "parent": "EmptyState",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "EmptyStateAction",
+        "role": "action",
+        "parent": "EmptyState",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -419,6 +916,36 @@
       {
         "title": "With validation",
         "code": "<FormField label=\"Email\" error=\"Please enter a valid email.\">\n  <Input type=\"email\" placeholder=\"you@example.com\" />\n</FormField>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "FormFieldLabel",
+        "role": "label",
+        "parent": "FormField",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "FormFieldControl",
+        "role": "control",
+        "parent": "FormField",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "FormFieldDescription",
+        "role": "description",
+        "parent": "FormField",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "FormFieldMessage",
+        "role": "description",
+        "parent": "FormField",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -499,6 +1026,57 @@
         "title": "Site navigation",
         "code": "<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem>\n      <NavigationMenuLink href=\"/docs\">Docs</NavigationMenuLink>\n    </NavigationMenuItem>\n    <NavigationMenuItem>\n      <NavigationMenuLink href=\"/components\">Components</NavigationMenuLink>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>"
       }
+    ],
+    "slots": [
+      {
+        "name": "NavigationMenuList",
+        "role": "container",
+        "parent": "NavigationMenu",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "NavigationMenuItem",
+        "role": "item",
+        "parent": "NavigationMenuList",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "NavigationMenuTrigger",
+        "role": "trigger",
+        "parent": "NavigationMenuItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "NavigationMenuContent",
+        "role": "content",
+        "parent": "NavigationMenuItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "NavigationMenuLink",
+        "role": "item",
+        "parent": "NavigationMenuItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "NavigationMenuIndicator",
+        "role": "indicator",
+        "parent": "NavigationMenuList",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "NavigationMenuViewport",
+        "role": "viewport",
+        "parent": "NavigationMenu",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "Popover": {
@@ -516,6 +1094,29 @@
         "title": "Basic popover",
         "code": "<Popover>\n  <PopoverTrigger asChild>\n    <Button variant=\"outline\">Open</Button>\n  </PopoverTrigger>\n  <PopoverContent>\n    <p>Popover content here.</p>\n  </PopoverContent>\n</Popover>"
       }
+    ],
+    "slots": [
+      {
+        "name": "PopoverTrigger",
+        "role": "trigger",
+        "parent": "Popover",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "PopoverAnchor",
+        "role": "anchor",
+        "parent": "Popover",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "PopoverContent",
+        "role": "content",
+        "parent": "Popover",
+        "expected": true,
+        "multiple": false
+      }
     ]
   },
   "Progress": {
@@ -531,6 +1132,15 @@
       {
         "title": "Determinate progress",
         "code": "<Progress value={60} />"
+      }
+    ],
+    "slots": [
+      {
+        "name": "ProgressIndicator",
+        "role": "indicator",
+        "parent": "Progress",
+        "expected": false,
+        "multiple": false
       }
     ]
   },
@@ -605,6 +1215,15 @@
         "title": "Scrollable container",
         "code": "<ScrollArea className=\"h-72\">\n  <div className=\"p-4\">\n    {items.map((item) => (\n      <div key={item.id}>{item.name}</div>\n    ))}\n  </div>\n</ScrollArea>"
       }
+    ],
+    "slots": [
+      {
+        "name": "ScrollBar",
+        "role": "indicator",
+        "parent": "ScrollArea",
+        "expected": false,
+        "multiple": true
+      }
     ]
   },
   "Select": {
@@ -626,6 +1245,57 @@
       {
         "title": "Basic select",
         "code": "<Select onValueChange={setValue}>\n  <SelectTrigger>\n    <SelectValue placeholder=\"Choose...\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"opt1\">Option 1</SelectItem>\n    <SelectItem value=\"opt2\">Option 2</SelectItem>\n  </SelectContent>\n</Select>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "SelectTrigger",
+        "role": "trigger",
+        "parent": "Select",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SelectValue",
+        "role": "label",
+        "parent": "SelectTrigger",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SelectContent",
+        "role": "content",
+        "parent": "Select",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SelectGroup",
+        "role": "container",
+        "parent": "SelectContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "SelectLabel",
+        "role": "label",
+        "parent": "SelectGroup",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "SelectItem",
+        "role": "item",
+        "parent": "SelectContent",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "SelectSeparator",
+        "role": "separator",
+        "parent": "SelectContent",
+        "expected": false,
+        "multiple": true
       }
     ]
   },
@@ -686,6 +1356,57 @@
         "title": "Side panel",
         "code": "<Sheet>\n  <SheetTrigger asChild>\n    <Button>Open Settings</Button>\n  </SheetTrigger>\n  <SheetContent>\n    <SheetTitle>Settings</SheetTitle>\n    <SheetDescription>Configure your preferences.</SheetDescription>\n  </SheetContent>\n</Sheet>"
       }
+    ],
+    "slots": [
+      {
+        "name": "SheetTrigger",
+        "role": "trigger",
+        "parent": "Sheet",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SheetContent",
+        "role": "content",
+        "parent": "Sheet",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SheetClose",
+        "role": "close",
+        "parent": "SheetContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "SheetHeader",
+        "role": "container",
+        "parent": "SheetContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "SheetFooter",
+        "role": "container",
+        "parent": "SheetContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "SheetTitle",
+        "role": "label",
+        "parent": "SheetContent",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SheetDescription",
+        "role": "description",
+        "parent": "SheetContent",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "Skeleton": {
@@ -736,6 +1457,15 @@
         "title": "Toggle setting",
         "code": "<div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>\n  <Switch id=\"notifications\" checked={enabled} onCheckedChange={setEnabled} />\n  <Label htmlFor=\"notifications\">Enable notifications</Label>\n</div>"
       }
+    ],
+    "slots": [
+      {
+        "name": "SwitchThumb",
+        "role": "indicator",
+        "parent": "Switch",
+        "expected": false,
+        "multiple": false
+      }
     ]
   },
   "Table": {
@@ -752,6 +1482,43 @@
         "title": "Data table",
         "code": "<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Name</TableHead>\n      <TableHead>Status</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>Project Alpha</TableCell>\n      <TableCell><Badge>Active</Badge></TableCell>\n    </TableRow>\n  </TableBody>\n</Table>"
       }
+    ],
+    "slots": [
+      {
+        "name": "TableHeader",
+        "role": "container",
+        "parent": "Table",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "TableBody",
+        "role": "container",
+        "parent": "Table",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "TableRow",
+        "role": "item",
+        "parent": "TableBody",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "TableHead",
+        "role": "label",
+        "parent": "TableRow",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "TableCell",
+        "role": "content",
+        "parent": "TableRow",
+        "expected": false,
+        "multiple": true
+      }
     ]
   },
   "Tabs": {
@@ -767,6 +1534,29 @@
       {
         "title": "Content tabs",
         "code": "<Tabs defaultValue=\"overview\">\n  <TabsList>\n    <TabsTrigger value=\"overview\">Overview</TabsTrigger>\n    <TabsTrigger value=\"settings\">Settings</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"overview\">Overview content</TabsContent>\n  <TabsContent value=\"settings\">Settings content</TabsContent>\n</Tabs>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "TabsList",
+        "role": "container",
+        "parent": "Tabs",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "TabsTrigger",
+        "role": "trigger",
+        "parent": "TabsList",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "TabsContent",
+        "role": "content",
+        "parent": "Tabs",
+        "expected": true,
+        "multiple": true
       }
     ]
   },
@@ -790,7 +1580,7 @@
     "componentSource": "src/components/Toast/Toast.tsx",
     "cssSource": "src/components/Toast/Toast.css",
     "description": "Transient notification that appears at the screen edge to confirm an action or surface a brief status update.",
-    "aiHint": "Use for post-action confirmations (saved, copied, deleted); do not use for persistent errors — use Alert instead.",
+    "aiHint": "Use for post-action confirmations (saved, copied, deleted); do not use for persistent errors — use Alert instead. Note: ToastProvider/ToastViewport/Toaster are app-level wrappers, not static JSX children of Toast.",
     "peerComponents": ["Button"],
     "a11y": {
       "roles": ["status"],
@@ -858,6 +1648,22 @@
       {
         "title": "Basic tooltip",
         "code": "<Tooltip>\n  <TooltipTrigger asChild>\n    <Button variant=\"outline\">Hover me</Button>\n  </TooltipTrigger>\n  <TooltipContent>Helpful information</TooltipContent>\n</Tooltip>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "TooltipTrigger",
+        "role": "trigger",
+        "parent": "Tooltip",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "TooltipContent",
+        "role": "content",
+        "parent": "Tooltip",
+        "expected": true,
+        "multiple": false
       }
     ]
   }

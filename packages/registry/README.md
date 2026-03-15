@@ -9,8 +9,9 @@ Shared registry types, loaders, and CSS mode recommendation for [Hareru UI](http
 
 `@hareru/registry` is the shared contract layer used by `@hareru/mcp` and `@hareru/cli`. It provides:
 
-- **Type definitions** — `ComponentEntry`, `TaskBundle`, `CssMode`, `ConsumerRulesJSON`, `StateDef`, `A11yDef`, `ExampleDef`, and 10+ other types
+- **Type definitions** — `ComponentEntry`, `TaskBundle`, `CssMode`, `ConsumerRulesJSON`, `StateDef`, `A11yDef`, `ExampleDef`, `SlotDef`, `SlotRole` (slot contracts for compound components), and 10+ other types
 - **Artifact loaders** — `loadRegistry()`, `loadTokens()`, `loadSchema()`, `loadConsumerRules()`, `loadComponentSchema()`
+- **Slot utilities** — `buildSlotTree(rootName, slots, notes?)` renders a `SlotDef[]` as a formatted ASCII tree string. Optional `notes` are appended after the tree (e.g. Table's dual-parent note)
 - **CSS mode recommendation** — `recommendCssMode()` shared function with `CSS_MODES` and `CSS_MODE_DESCRIPTIONS`
 
 ## Installation

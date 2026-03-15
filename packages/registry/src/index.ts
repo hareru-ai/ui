@@ -13,6 +13,8 @@ export type {
   StateBooleanDef,
   StateEnumDef,
   A11yDef,
+  SlotDef,
+  SlotRole,
   ExampleDef,
   ComponentSchemaJSON,
   ConsumerRulesJSON,
@@ -29,3 +31,5 @@ export {
 } from './loader.js';
 
 export { CSS_MODES, CSS_MODE_DESCRIPTIONS, recommendCssMode } from './css-mode.js';
+
+export { buildSlotTree } from './slot-tree.js';

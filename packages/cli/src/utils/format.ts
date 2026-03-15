@@ -1,5 +1,5 @@
 import type { ComponentEntry, ComponentGroup, CssMode, TaskBundle } from '@hareru/registry';
-import { CSS_MODES } from '@hareru/registry';
+import { CSS_MODES, buildSlotTree } from '@hareru/registry';
 
 export type { CssMode };
 export { CSS_MODES };
@@ -78,6 +78,18 @@ export function formatComponentDetail(entry: ComponentEntry): string {
   const allNames = [entry.name, ...subs];
   lines.push(`import { ${allNames.join(', ')} } from '@hareru/ui';`);
   lines.push('');
+
+  // Structure (Phase 3D) — placed after Import for quick structural overview in terminal
+  const slotTree = buildSlotTree(
+    entry.name,
+    entry.slots,
+    entry.name === 'Table' ? ['TableRow is also valid inside TableHeader.'] : undefined,
+  );
+  if (slotTree) {
+    lines.push('Structure:');
+    lines.push(slotTree);
+    lines.push('');
+  }
 
   // CSS per-component
   lines.push('CSS (per-component):');

@@ -581,6 +581,104 @@ function mergeStates(auto, manual) {
   return result.length > 0 ? result : undefined;
 }
 
+// --- Phase 3D: Slot tree validation ---
+const VALID_SLOT_ROLES = [
+  'trigger',
+  'content',
+  'container',
+  'item',
+  'label',
+  'description',
+  'action',
+  'separator',
+  'indicator',
+  'viewport',
+  'close',
+  'icon',
+  'input',
+  'submenu',
+  'anchor',
+  'control',
+];
+
+/**
+ * Validate slot tree integrity.
+ * Checks: slot names in subcomponents, no self-parent, valid parent refs,
+ * reachability from root, cycle detection, valid roles, no duplicates.
+ */
+function validateSlotTree(rootName, slots, subcomponents) {
+  const subSet = new Set(subcomponents);
+  const slotNameSet = new Set(slots.map((s) => s.name));
+
+  // Duplicate name check
+  if (slotNameSet.size !== slots.length) {
+    const seen = new Set();
+    for (const s of slots) {
+      if (seen.has(s.name)) {
+        throw new Error(`${rootName}: duplicate slot name "${s.name}"`);
+      }
+      seen.add(s.name);
+    }
+  }
+
+  for (const s of slots) {
+    // Slot name must be in subcomponents
+    if (!subSet.has(s.name)) {
+      throw new Error(
+        `${rootName}: slot "${s.name}" not found in subcomponents [${subcomponents.join(', ')}]`,
+      );
+    }
+
+    // Self-parent check
+    if (s.parent === s.name) {
+      throw new Error(`${rootName}: self-parent: ${s.name}`);
+    }
+
+    // Parent must be root or another slot
+    if (s.parent !== rootName && !slotNameSet.has(s.parent)) {
+      throw new Error(`${rootName}: slot "${s.name}" has invalid parent "${s.parent}"`);
+    }
+
+    // Valid role
+    if (!VALID_SLOT_ROLES.includes(s.role)) {
+      throw new Error(`${rootName}: slot "${s.name}" has invalid role "${s.role}"`);
+    }
+  }
+
+  // 3-color DFS: cycle detection + reachability
+  const childMap = new Map();
+  for (const s of slots) {
+    if (!childMap.has(s.parent)) childMap.set(s.parent, []);
+    childMap.get(s.parent).push(s);
+  }
+
+  const WHITE = 0;
+  const GRAY = 1;
+  const BLACK = 2;
+  const color = new Map();
+  color.set(rootName, WHITE);
+  for (const s of slots) color.set(s.name, WHITE);
+
+  function dfs(node) {
+    color.set(node, GRAY);
+    for (const child of childMap.get(node) ?? []) {
+      const c = color.get(child.name);
+      if (c === GRAY) throw new Error(`${rootName}: cycle: ${node} -> ${child.name}`);
+      if (c === WHITE) dfs(child.name);
+    }
+    color.set(node, BLACK);
+  }
+
+  dfs(rootName);
+
+  // Reachability: all slots must be BLACK
+  for (const s of slots) {
+    if (color.get(s.name) !== BLACK) {
+      throw new Error(`${rootName}: unreachable slot: ${s.name}`);
+    }
+  }
+}
+
 // --- Main ---
 const indexSource = readFileSync(INDEX_FILE, 'utf-8');
 const exportGroups = parseIndexExports(indexSource);
@@ -666,6 +764,13 @@ for (const dir of componentDirs) {
 
   const examples = meta.examples?.length > 0 ? meta.examples : undefined;
 
+  // --- Phase 3D: Slots ---
+  let slots = undefined;
+  if (meta.slots && meta.slots.length > 0) {
+    validateSlotTree(dir, meta.slots, subcomponents);
+    slots = meta.slots;
+  }
+
   const entry = {
     name: dir,
     displayName: displayNames.find((n) => n === dir) || dir,
@@ -696,6 +801,7 @@ for (const dir of componentDirs) {
         : undefined,
     states,
     a11y,
+    slots,
     examples,
   };
 

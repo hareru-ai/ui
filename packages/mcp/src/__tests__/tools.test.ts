@@ -191,6 +191,81 @@ describe('get-component-usage — Phase 3C fields', () => {
   });
 });
 
+describe('get-component-usage — Phase 3D Structure', () => {
+  let client: Client;
+
+  beforeAll(async () => {
+    const server = createServer();
+    client = new Client({ name: 'test-client', version: '1.0.0' });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([client.connect(clientTransport), server.connect(serverTransport)]);
+  });
+
+  afterAll(async () => {
+    await client?.close();
+  });
+
+  it('includes Structure section for Dialog wrapped in code fence', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Dialog' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('## Structure');
+    expect(text).toContain('```text');
+    expect(text).toContain('DialogTrigger [trigger] (expected)');
+    expect(text).toContain('DialogContent [content] (expected)');
+    expect(text).toContain(
+      '(expected) = recommended in canonical composition, not runtime-required.',
+    );
+  });
+
+  it('omits Structure section for Button', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Button' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).not.toContain('## Structure');
+  });
+
+  it('omits Structure section for Toast', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Toast' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).not.toContain('## Structure');
+  });
+});
+
+describe('MCP metadata — Phase 3D', () => {
+  let client: Client;
+
+  beforeAll(async () => {
+    const server = createServer();
+    client = new Client({ name: 'test-client', version: '1.0.0' });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([client.connect(clientTransport), server.connect(serverTransport)]);
+  });
+
+  afterAll(async () => {
+    await client?.close();
+  });
+
+  it('get-component-usage tool description includes slots', async () => {
+    const tools = await client.listTools();
+    const tool = tools.tools.find((t) => t.name === 'get-component-usage');
+    expect(tool?.description).toContain('slots');
+  });
+
+  it('hareru-ui://components resource description includes slot contracts', async () => {
+    const resources = await client.listResources();
+    const res = resources.resources.find((r) => r.uri === 'hareru-ui://components');
+    expect(res?.description).toContain('slot contracts');
+  });
+});
+
 describe('get-bundle-usage', () => {
   let client: Client;
 

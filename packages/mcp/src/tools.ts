@@ -3,6 +3,7 @@ import { z } from 'zod';
 import {
   CSS_MODES,
   CSS_MODE_DESCRIPTIONS,
+  buildSlotTree,
   loadRegistry,
   loadSchema,
   recommendCssMode,
@@ -74,6 +75,21 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
   parts.push(`@import '@hareru/ui/${entry.cssArtifact}';`);
   parts.push('```');
   parts.push('');
+
+  // Structure (Phase 3D) — placed after CSS, before Variants in markdown doc format
+  const slotTree = buildSlotTree(
+    entry.name,
+    entry.slots,
+    entry.name === 'Table' ? ['TableRow is also valid inside TableHeader.'] : undefined,
+  );
+  if (slotTree) {
+    parts.push('## Structure');
+    parts.push('');
+    parts.push('```text');
+    parts.push(slotTree);
+    parts.push('```');
+    parts.push('');
+  }
 
   const variants = entry.variants ?? [];
   const props = entry.props ?? [];
@@ -181,7 +197,7 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
 export function registerTools(server: McpServer): void {
   server.tool(
     'get-component-usage',
-    'Get usage documentation for a Hareru UI component — import, variants, props, states, accessibility, and examples',
+    'Get usage documentation for a Hareru UI component — import, structure, variants, props, states, accessibility, slots, and examples',
     { componentName: z.string().describe('Component name (e.g. "Button", "Card", "Alert")') },
     async ({ componentName }) => {
       const registry = loadRegistry();

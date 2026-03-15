@@ -140,6 +140,12 @@
           "items": {
             "$ref": "#/$defs/ExampleDef"
           }
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SlotDef"
+          }
         }
       }
     },
@@ -275,6 +281,46 @@
         },
         "code": {
           "type": "string"
+        }
+      }
+    },
+    "SlotDef": {
+      "type": "object",
+      "required": ["name", "role", "parent", "expected", "multiple"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "trigger",
+            "content",
+            "container",
+            "item",
+            "label",
+            "description",
+            "action",
+            "separator",
+            "indicator",
+            "viewport",
+            "close",
+            "icon",
+            "input",
+            "submenu",
+            "anchor",
+            "control"
+          ]
+        },
+        "parent": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "boolean"
+        },
+        "multiple": {
+          "type": "boolean"
         }
       }
     },

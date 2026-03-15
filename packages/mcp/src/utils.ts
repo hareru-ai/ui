@@ -7,6 +7,7 @@ export {
   CSS_MODES,
   CSS_MODE_DESCRIPTIONS,
   recommendCssMode,
+  buildSlotTree,
 } from '@hareru/registry';
 
 export type {
@@ -22,6 +23,8 @@ export type {
   PropDef,
   StateDef,
   A11yDef,
+  SlotDef,
+  SlotRole,
   ExampleDef,
   ComponentSchemaJSON,
   ConsumerRulesJSON,

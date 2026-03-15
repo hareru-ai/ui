@@ -43,7 +43,7 @@ Add to your `claude_desktop_config.json`:
 |-----|-------------|
 | `hareru-ui://tokens` | DTCG design tokens (light/dark themes, 150+ CSS custom properties) |
 | `hareru-ui://tokens/schema` | JSON Schema for design tokens — CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry — 49 components with CVA variants, Props, states, a11y, and examples |
+| `hareru-ui://components` | Component registry — 49 components with CVA variants, Props, states, a11y, examples, and slot contracts |
 | `hareru-ui://components/schema` | JSON Schema for the component registry |
 | `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
 | `hareru-ui://rules/consumer` | Consumer rules for AI agents — import patterns, styling rules, and token reference |
@@ -52,7 +52,7 @@ Add to your `claude_desktop_config.json`:
 
 | Tool | Description | Parameters |
 |------|-------------|------------|
-| `get-component-usage` | Get usage docs for a component — import, variants, props, JSX example, states, accessibility, and examples when available | `componentName` (string) |
+| `get-component-usage` | Get usage docs for a component — import, variants, props, JSX example, states, accessibility, examples, and Structure (slot tree for compound components) when available | `componentName` (string) |
 | `get-bundle-usage` | Get usage docs for a task bundle — components, CSS imports, and token categories | `bundleName` (string) |
 | `validate-token-value` | Validate a CSS value against the token schema | `tokenType` (string), `value` (string) |
 | `recommend-css-mode` | Recommend the best CSS import mode based on project context | `hasTailwind` (boolean), `componentCount` (number), `hasExistingReset?` (boolean) |

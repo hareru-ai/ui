@@ -68,6 +68,7 @@ export interface ComponentEntry {
   props?: PropDef[];
   states?: StateDef[];
   a11y?: A11yDef;
+  slots?: SlotDef[];
   examples?: ExampleDef[];
   componentSource: string;
   description: string;
@@ -141,6 +142,37 @@ export interface A11yDef {
 export interface ExampleDef {
   title: string;
   code: string;
+}
+
+export type SlotRole =
+  | 'trigger'
+  | 'content'
+  | 'container'
+  | 'item'
+  | 'label'
+  | 'description'
+  | 'action'
+  | 'separator'
+  | 'indicator'
+  | 'viewport'
+  | 'close'
+  | 'icon'
+  | 'input'
+  | 'submenu'
+  | 'anchor'
+  | 'control';
+
+export interface SlotDef {
+  /** Subcomponent name (e.g. "DialogContent") */
+  name: string;
+  /** Semantic role of this slot */
+  role: SlotRole;
+  /** Parent slot name. Use root component name for direct children */
+  parent: string;
+  /** Whether this slot is recommended in canonical composition (not runtime-required) */
+  expected: boolean;
+  /** Whether this slot can appear multiple times under the same parent (e.g. TabsTrigger, TableRow) */
+  multiple: boolean;
 }
 
 export interface ConsumerRulesJSON {
