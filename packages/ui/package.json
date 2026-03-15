@@ -9,16 +9,8 @@
     "directory": "packages/ui"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": [
-    "react",
-    "components",
-    "design-system",
-    "hareru",
-    "semantic-css"
-  ],
-  "sideEffects": [
-    "*.css"
-  ],
+  "keywords": ["react", "components", "design-system", "hareru", "semantic-css"],
+  "sideEffects": ["*.css"],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -44,10 +36,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist",
-    "LICENSE"
-  ],
+  "files": ["dist", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

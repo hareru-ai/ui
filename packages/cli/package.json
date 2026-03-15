@@ -9,12 +9,7 @@
     "directory": "packages/cli"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": [
-    "cli",
-    "design-system",
-    "hareru",
-    "css"
-  ],
+  "keywords": ["cli", "design-system", "hareru", "css"],
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,11 +25,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist",
-    "bin",
-    "LICENSE"
-  ],
+  "files": ["dist", "bin", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
