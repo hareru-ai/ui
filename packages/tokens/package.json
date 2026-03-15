@@ -1,6 +1,6 @@
 {
   "name": "@hareru/tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design tokens and CSS custom properties for Hareru UI",
   "license": "MIT",
   "repository": {
@@ -9,8 +9,15 @@
     "directory": "packages/tokens"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": ["design-tokens", "css-variables", "hareru", "dtcg"],
-  "sideEffects": ["*.css"],
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "hareru",
+    "dtcg"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -33,7 +40,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist", "LICENSE"],
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
