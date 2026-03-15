@@ -1,0 +1,87 @@
+---
+title: MCP Server
+description: Model Context Protocol server for AI agent integration
+---
+
+`@hareru/mcp` is an MCP (Model Context Protocol) server that exposes Hareru UI's design tokens, schema, and component registry to AI agents via stdio transport.
+
+## Installation
+
+```bash
+npm install @hareru/mcp
+```
+
+## Claude Desktop Configuration
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "hareru-ui": {
+      "command": "npx",
+      "args": ["-y", "@hareru/mcp"]
+    }
+  }
+}
+```
+
+Or if installed locally:
+
+```json
+{
+  "mcpServers": {
+    "hareru-ui": {
+      "command": "node",
+      "args": ["./node_modules/@hareru/mcp/bin/hareru-mcp.mjs"]
+    }
+  }
+}
+```
+
+## Resources
+
+| URI | Description |
+|-----|-------------|
+| `hareru-ui://tokens` | DTCG design tokens — CSS custom properties for light/dark themes |
+| `hareru-ui://tokens/schema` | JSON Schema — CSS variable enums and type constraints |
+| `hareru-ui://components` | Component registry with CVA variants and Props |
+| `hareru-ui://components/schema` | JSON Schema for the component registry |
+| `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
+| `hareru-ui://rules/consumer` | Consumer rules — import patterns, styling rules, and token reference |
+
+## Tools
+
+| Tool | Input | Output |
+|------|-------|--------|
+| `get-component-usage` | `componentName: string` | Markdown: import, variants table, props, JSX example |
+| `get-bundle-usage` | `bundleName: string` | Markdown: components, CSS imports, token categories |
+| `validate-token-value` | `tokenType: string, value: string` | Valid/Invalid with pattern description |
+| `recommend-css-mode` | `hasTailwind: boolean, componentCount: number, hasExistingReset?: boolean` | Recommended CSS import mode with reasoning |
+| `list-components-by-group` | `group: enum (core, form, layout, overlay, navigation, feedback, data-display, agent, di-domain)` | Filtered component list with variants and descriptions |
+
+## Prompts
+
+| Prompt | Parameters | Description |
+|--------|-----------|-------------|
+| `create-ui` | `description`, `framework?` | Generates a UI component using Hareru UI conventions |
+| `create-ui-tailwind` | `description` | Generates a component mixing Hareru UI and Tailwind CSS with Cascade Layer guidance |
+| `consumer-rules` | — | Import/styling/theming/provider/CSS import rules and token quick reference |
+
+## Programmatic Usage
+
+```typescript
+import { createServer } from '@hareru/mcp';
+
+const server = createServer();
+await server.connect(transport);
+```
+
+## MCP Apps Compatibility
+
+Hareru UI works in iframe sandboxes because:
+
+1. **CSS variables are scope-complete** — All styling uses `--hui-*` custom properties. Injecting `@hareru/tokens/css` provides all design tokens.
+2. **`data-theme` works on any root** — Theme switching works on any element, not just `document.documentElement`.
+3. **No CSS-in-JS runtime** — Static CSS files with BEM classes.
+4. **No framework runtime conflicts** — Standard React with no required global providers.

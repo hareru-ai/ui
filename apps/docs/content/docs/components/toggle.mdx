@@ -1,0 +1,86 @@
+---
+title: Toggle
+description: Pressable toggle button with pressed state tracking via aria-pressed.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import { Toggle } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Toggle` | Component | Main toggle button component |
+| `ToggleProps` | Type | Props interface |
+| `toggleVariants` | Function | CVA variant resolver |
+
+## Types
+
+```ts
+export interface ToggleProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "defaultValue">,
+    VariantProps<typeof toggleVariants> {
+  pressed?: boolean
+  defaultPressed?: boolean
+  onPressedChange?: (pressed: boolean) => void
+}
+```
+
+## Variants
+
+| Prop | Values | Default |
+|------|--------|---------|
+| `variant` | `default` \| `outline` | `default` |
+| `size` | `sm` \| `md` \| `lg` | `md` |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `string` | `"default"` | Visual style variant |
+| `size` | `string` | `"md"` | Size variant |
+| `pressed` | `boolean` | — | Controlled pressed state |
+| `defaultPressed` | `boolean` | `false` | Initial uncontrolled pressed state |
+| `onPressedChange` | `(pressed: boolean) => void` | — | Callback when pressed state changes |
+| `disabled` | `boolean` | `false` | Disables the toggle |
+
+## Usage
+
+```tsx
+import { Toggle } from "@hareru/ui"
+
+// Basic usage
+<Toggle>B</Toggle>
+
+// Outline variant
+<Toggle variant="outline">I</Toggle>
+
+// Small size
+<Toggle size="sm">U</Toggle>
+
+// Controlled
+<Toggle
+  pressed={bold}
+  onPressedChange={setBold}
+>
+  Bold
+</Toggle>
+
+// Toolbar example
+<div style={{ display: "flex", gap: "0.25rem" }}>
+  <Toggle size="sm" aria-label="Bold">B</Toggle>
+  <Toggle size="sm" variant="outline" aria-label="Italic">I</Toggle>
+  <Toggle size="sm" aria-label="Underline">U</Toggle>
+</div>
+```
+
+## Notes
+
+- Uses `aria-pressed` for accessibility — screen readers announce pressed state.
+- `data-state` is set to `"on"` or `"off"` and can be targeted in CSS.
+- Toggle manages its own uncontrolled state when `pressed` is not provided.

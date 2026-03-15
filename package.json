@@ -1,0 +1,31 @@
+{
+  "name": "hareru-ui",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "changeset": "changeset",
+    "release": "turbo build && changeset publish",
+    "test:e2e": "playwright test"
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup": ">=4.59.0",
+      "esbuild": ">=0.25.0",
+      "hono": ">=4.12.7",
+      "@hono/node-server": ">=1.19.10",
+      "express-rate-limit": ">=8.2.2"
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@changesets/cli": "^2.27.0",
+    "@playwright/test": "^1.58.2",
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.0"
+  }
+}

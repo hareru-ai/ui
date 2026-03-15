@@ -1,0 +1,19 @@
+/* Progress root */
+.hui-progress {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 0.625rem; /* 10px — progress bar track height */
+  border-radius: var(--hui-radius-full);
+  background-color: var(--hui-color-secondary);
+}
+
+/* Progress indicator */
+.hui-progress__indicator {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--hui-color-primary);
+  border-radius: var(--hui-radius-full);
+  transition: transform var(--hui-duration-normal);
+}

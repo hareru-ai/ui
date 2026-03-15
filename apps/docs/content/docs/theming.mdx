@@ -1,0 +1,89 @@
+---
+title: Theming
+description: Light and dark theme system with CSS custom properties
+---
+
+## Theme Switching
+
+Themes are controlled via the `data-theme` attribute on the `<html>` element.
+
+- `:root` = light theme (default)
+- `[data-theme="dark"]` = dark theme (override)
+
+The dark theme only overrides **color** and **shadow** tokens. Spacing, font, radius, duration, easing, and z-index are shared between light and dark.
+
+Use the `useTheme()` hook for theme switching:
+
+```tsx
+import { useTheme } from "@hareru/ui"
+
+const { theme, setTheme, resolvedTheme } = useTheme()
+
+// Switch to dark mode
+setTheme("dark")
+```
+
+## Styling Rules
+
+All style values must use `var(--hui-*)` tokens. Hardcoded values are prohibited.
+
+### Adding Custom Styles
+
+Pass a `className` prop to the component and reference tokens in your CSS:
+
+```css
+.my-component {
+  background-color: var(--hui-color-muted);
+  padding: var(--hui-spacing-4);
+  border-radius: var(--hui-radius-lg);
+  font-size: var(--hui-font-size-sm);
+  box-shadow: var(--hui-shadow-md);
+  transition: background-color var(--hui-duration-fast) var(--hui-easing-out);
+}
+```
+
+```tsx
+<Card className="my-component">
+  {/* ... */}
+</Card>
+```
+
+### Correct vs Incorrect
+
+```css
+/* Correct */
+.my-section {
+  padding: var(--hui-spacing-4);
+  background-color: var(--hui-color-muted);
+  border-radius: var(--hui-radius-lg);
+}
+
+/* Incorrect — hardcoded values */
+.my-section {
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+```
+
+## Prohibited Patterns
+
+| Pattern | Reason | Correct Approach |
+|---------|--------|-----------------|
+| `color: #333` | Hardcoded colors break theming | `color: var(--hui-color-foreground)` |
+| `z-index: 50` | Breaks z-index scale | `z-index: var(--hui-z-index-dropdown)` |
+| `document.setAttribute("data-theme", ...)` | Causes state mismatch | `useTheme().setTheme("dark")` |
+| Tailwind utilities for token values | Dual maintenance | Use `var(--hui-*)` |
+
+## Import Rules
+
+```tsx
+// Correct
+import { Button, Card } from "@hareru/ui"
+
+// Incorrect — sub-path imports don't exist
+import { Button } from "@hareru/ui/components/Button"
+
+// Incorrect — use Hareru UI wrappers instead
+import { Dialog } from "@base-ui-components/react/dialog"
+```

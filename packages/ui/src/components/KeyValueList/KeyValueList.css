@@ -1,0 +1,5 @@
+.hui-key-value-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-3, 0.75rem);
+}

@@ -1,0 +1,80 @@
+---
+title: Avatar
+description: User avatar with automatic image load state management and initials fallback.
+---
+
+**Category:** Data Display / Global Service
+
+## Import
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Avatar` | Component | Root container; manages image load status via internal Context |
+| `AvatarImage` | Component | The avatar `<img>` element; hidden on error |
+| `AvatarFallback` | Component | Shown while image is loading or when it fails |
+| `AvatarProps` | Type | Props interface for Avatar |
+| `AvatarImageProps` | Type | Props interface for AvatarImage |
+| `AvatarFallbackProps` | Type | Props interface for AvatarFallback |
+
+## Types
+
+```ts
+export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {}
+export interface AvatarImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}
+export interface AvatarFallbackProps extends React.HTMLAttributes<HTMLSpanElement> {}
+```
+
+## Image Status States
+
+The `Avatar` root manages an internal `ImageStatus` that drives visibility:
+
+| Status | `AvatarImage` | `AvatarFallback` |
+|--------|---------------|------------------|
+| `loading` | Visible | Visible |
+| `loaded` | Visible | Hidden |
+| `error` | Hidden | Visible |
+
+## Usage
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback } from "@hareru/ui"
+
+// Basic usage
+<Avatar>
+  <AvatarImage src="/avatar.png" alt="User" />
+  <AvatarFallback>YT</AvatarFallback>
+</Avatar>
+
+// Initials fallback
+<Avatar>
+  <AvatarImage src={user.avatarUrl} alt={user.name} />
+  <AvatarFallback>
+    {user.name.slice(0, 2).toUpperCase()}
+  </AvatarFallback>
+</Avatar>
+
+// No image (fallback always shown)
+<Avatar>
+  <AvatarFallback>?</AvatarFallback>
+</Avatar>
+
+// In a user list
+{users.map((user) => (
+  <Avatar key={user.id}>
+    <AvatarImage src={user.avatar} alt={user.name} />
+    <AvatarFallback>{user.initials}</AvatarFallback>
+  </Avatar>
+))}
+```
+
+## Notes
+
+- When `src` is omitted or `undefined`, `AvatarImage` immediately transitions to the `error` state, so `AvatarFallback` is displayed without a flash.
+- `AvatarFallback` is always present in the DOM during loading, preventing layout shift.
+- `Avatar` renders as a `<span>` element for inline use in text or flex containers.

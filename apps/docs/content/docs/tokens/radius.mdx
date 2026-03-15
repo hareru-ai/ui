@@ -1,0 +1,29 @@
+---
+title: Radius
+description: Border radius tokens
+---
+
+## Scale
+
+| Token | Value |
+|-------|-------|
+| `--hui-radius-none` | 0px |
+| `--hui-radius-sm` | 0.25rem |
+| `--hui-radius-md` | 0.375rem |
+| `--hui-radius-lg` | 0.5rem |
+| `--hui-radius-xl` | 0.75rem |
+| `--hui-radius-full` | 9999px |
+
+## Usage
+
+```css
+.my-element {
+  border-radius: var(--hui-radius-lg);
+}
+
+.my-avatar {
+  border-radius: var(--hui-radius-full);
+}
+```
+
+Radius tokens are shared between light and dark themes.

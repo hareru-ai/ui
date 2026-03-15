@@ -1,0 +1,62 @@
+---
+title: Input
+description: Single-line text input with error state and file input support.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import { Input } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Input` | Component | Main input component |
+| `InputProps` | Type | Props interface |
+
+## Types
+
+```ts
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  error?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `error` | `boolean` | `false` | Applies error styling (`hui-input--error`) |
+| `type` | `string` | — | When `"file"`, automatically adds `hui-input--file` class |
+
+## Usage
+
+```tsx
+import { Input } from "@hareru/ui"
+
+// Basic usage
+<Input placeholder="Enter text" />
+
+// Error state
+<Input error placeholder="Error state" />
+
+// File input
+<Input type="file" />
+
+// Controlled input
+<Input
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  placeholder="Controlled"
+/>
+```
+
+## Notes
+
+- All native `HTMLInputElement` attributes are forwarded.
+- Setting `type="file"` automatically applies the `hui-input--file` BEM modifier — no need to add it manually.
+- The `error` prop only applies visual styling. Pair with `FormField` for full accessible error handling.

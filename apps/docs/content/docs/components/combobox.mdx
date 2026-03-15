@@ -1,0 +1,125 @@
+---
+title: Combobox
+description: Searchable select with popover overlay, built on Base UI Popover and cmdk.
+---
+
+**Category:** Form / Base UI Overlay
+
+**Dependencies:** `@base-ui-components/react`, `cmdk`
+
+## Import
+
+```tsx
+import {
+  Combobox,
+  ComboboxTrigger,
+  ComboboxContent,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+  ComboboxGroup,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Combobox` | Component | Root component managing open state and context |
+| `ComboboxTrigger` | Component | Button that toggles the popover |
+| `ComboboxContent` | Component | Popover panel with the search command palette |
+| `ComboboxInput` | Component | Search input with built-in search icon |
+| `ComboboxList` | Component | Scrollable list of items |
+| `ComboboxItem` | Component | Individual selectable option |
+| `ComboboxEmpty` | Component | Shown when no items match the search |
+| `ComboboxGroup` | Component | Groups related items with a heading |
+
+## Types
+
+```ts
+export interface ComboboxProps {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  defaultOpen?: boolean
+  children: React.ReactNode
+  modal?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `modal` | `boolean` | — | Render as modal, blocking page interaction |
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import {
+  Combobox,
+  ComboboxTrigger,
+  ComboboxContent,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+} from "@hareru/ui"
+
+const fruits = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "cherry", label: "Cherry" },
+]
+
+function FruitCombobox() {
+  const [value, setValue] = useState("")
+
+  return (
+    <Combobox>
+      <ComboboxTrigger>{value || "Select a fruit..."}</ComboboxTrigger>
+      <ComboboxContent>
+        <ComboboxInput placeholder="Search..." />
+        <ComboboxList>
+          <ComboboxEmpty>No results found</ComboboxEmpty>
+          {fruits.map((fruit) => (
+            <ComboboxItem
+              key={fruit.value}
+              value={fruit.value}
+              onSelect={() => setValue(fruit.label)}
+            >
+              {fruit.label}
+            </ComboboxItem>
+          ))}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+
+// With groups
+<Combobox>
+  <ComboboxTrigger>Select...</ComboboxTrigger>
+  <ComboboxContent>
+    <ComboboxInput placeholder="Search..." />
+    <ComboboxList>
+      <ComboboxEmpty>No results found</ComboboxEmpty>
+      <ComboboxGroup heading="Fruits">
+        <ComboboxItem value="apple" onSelect={() => setValue("Apple")}>Apple</ComboboxItem>
+        <ComboboxItem value="banana" onSelect={() => setValue("Banana")}>Banana</ComboboxItem>
+      </ComboboxGroup>
+    </ComboboxList>
+  </ComboboxContent>
+</Combobox>
+```
+
+## Notes
+
+- `ComboboxItem` automatically closes the popover when selected via internal context.
+- `ComboboxContent` is positioned below the trigger with 4px offset, aligned to the start.
+- The `ComboboxInput` includes a built-in search icon — no need to add one manually.
+- Filtering is handled by `cmdk` internally based on item text content.

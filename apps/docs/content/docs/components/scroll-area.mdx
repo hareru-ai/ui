@@ -1,0 +1,82 @@
+---
+title: ScrollArea
+description: Custom-styled scrollable container built on Base UI ScrollArea primitives.
+---
+
+**Category:** Utility / Base UI Overlay
+
+**Dependency:** `@base-ui-components/react`
+
+## Import
+
+```tsx
+import { ScrollArea, ScrollBar } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ScrollArea` | Component | Scrollable container with a built-in vertical `ScrollBar` |
+| `ScrollBar` | Component | Custom scrollbar track and thumb |
+| `ScrollAreaProps` | Type | Props interface for ScrollArea |
+| `ScrollBarProps` | Type | Props interface for ScrollBar |
+
+## Types
+
+```ts
+export interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export interface ScrollBarProps extends React.HTMLAttributes<HTMLDivElement> {
+  orientation?: "vertical" | "horizontal"
+}
+```
+
+## Key Props
+
+| Prop | Type | Component | Default | Description |
+|------|------|-----------|---------|-------------|
+| `orientation` | `"vertical"` \| `"horizontal"` | `ScrollBar` | `"vertical"` | Scrollbar axis |
+
+## Usage
+
+```tsx
+import { ScrollArea, ScrollBar } from "@hareru/ui"
+
+// Basic vertical scroll
+<ScrollArea style={{ height: "200px" }}>
+  <div style={{ padding: "var(--hui-spacing-4)" }}>
+    {longContent}
+  </div>
+</ScrollArea>
+
+// Fixed height with content list
+<ScrollArea style={{ height: "320px", width: "300px" }}>
+  <ul>
+    {items.map((item) => (
+      <li key={item.id} style={{ padding: "var(--hui-spacing-2)" }}>
+        {item.name}
+      </li>
+    ))}
+  </ul>
+</ScrollArea>
+
+// Horizontal scroll
+<ScrollArea style={{ width: "100%", whiteSpace: "nowrap" }}>
+  <div style={{ display: "flex", gap: "var(--hui-spacing-4)", padding: "var(--hui-spacing-2)" }}>
+    {cards.map((card) => (
+      <div key={card.id} style={{ minWidth: "200px" }}>
+        {card.content}
+      </div>
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+## Notes
+
+- `ScrollArea` includes a vertical `ScrollBar` automatically — no need to add it manually for vertical scroll.
+- For horizontal scroll, add `<ScrollBar orientation="horizontal" />` as a child of `ScrollArea`.
+- Set an explicit `height` (or `max-height`) on `ScrollArea` to enable scrolling. Without a constrained height, the container grows to fit its content.
+- The scrollbar is styled via CSS tokens and appears on hover/focus following the OS behavior.

@@ -1,0 +1,188 @@
+/* Viewport: fixed position, bottom-right, above dialogs */
+.hui-toast__viewport {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: var(--hui-z-index-toast);
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--hui-spacing-4);
+  gap: var(--hui-spacing-2);
+  outline: none;
+}
+
+/* Keyframe animations */
+@keyframes hui-toast-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes hui-toast-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Toast base */
+.hui-toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hui-spacing-4);
+  overflow: hidden;
+  padding: var(--hui-spacing-4) var(--hui-spacing-6);
+  border-radius: var(--hui-radius-md);
+  border: 1px solid var(--hui-color-border);
+  box-shadow: var(--hui-shadow-lg);
+  font-family: var(--hui-font-family-sans);
+  transition: all var(--hui-duration-normal);
+  pointer-events: auto;
+}
+
+/* Animation states */
+.hui-toast[data-open] {
+  animation: hui-toast-slide-in var(--hui-duration-fast) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hui-toast[data-ending-style] {
+  animation: hui-toast-slide-out var(--hui-duration-fast) var(--hui-easing-in) forwards;
+}
+
+/* Swipe gestures */
+.hui-toast[data-swiping] {
+  transform: translateX(var(--toast-swipe-move-x, 0));
+}
+
+.hui-toast[data-swipe-direction="right"][data-ending-style] {
+  animation: hui-toast-slide-out var(--hui-duration-fast) var(--hui-easing-out) forwards;
+}
+
+/* Variants */
+.hui-toast--default {
+  background-color: var(--hui-color-background);
+  color: var(--hui-color-foreground);
+}
+
+.hui-toast--destructive {
+  background-color: var(--hui-color-destructive);
+  color: var(--hui-color-destructive-foreground);
+  border-color: var(--hui-color-destructive);
+}
+
+/* Body */
+.hui-toast__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-1);
+  flex: 1;
+}
+
+/* Title */
+.hui-toast__title {
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-semibold);
+  line-height: 1.4;
+}
+
+/* Description */
+.hui-toast__description {
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+  /* intentional: subtle de-emphasis, consistent with Dialog pattern */
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.hui-toast--destructive .hui-toast__description {
+  color: var(--hui-color-destructive-foreground);
+  /* intentional: subtle de-emphasis, consistent with Dialog pattern */
+  opacity: 0.9;
+}
+
+/* Action */
+.hui-toast__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--hui-radius-md);
+  border: 1px solid var(--hui-color-border);
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  background-color: transparent;
+  transition: all var(--hui-duration-normal);
+  cursor: pointer;
+}
+
+.hui-toast__action:hover {
+  background-color: var(--hui-color-secondary);
+}
+
+.hui-toast__action:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+.hui-toast--destructive .hui-toast__action {
+  border-color: var(--hui-color-border);
+  background-color: transparent;
+  color: var(--hui-color-destructive-foreground);
+}
+
+.hui-toast--destructive .hui-toast__action:hover {
+  background-color: var(--hui-color-secondary);
+}
+
+/* Close */
+.hui-toast__close {
+  position: absolute;
+  top: var(--hui-spacing-2);
+  right: var(--hui-spacing-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--hui-radius-sm);
+  border: none;
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  opacity: 0;
+  transition: opacity var(--hui-duration-normal);
+  cursor: pointer;
+}
+
+.hui-toast__close:hover {
+  opacity: 1;
+  background-color: var(--hui-color-secondary);
+}
+
+.hui-toast__close:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+.hui-toast:hover .hui-toast__close {
+  opacity: 0.7;
+}
+
+.hui-toast--destructive .hui-toast__close {
+  color: var(--hui-color-destructive-foreground);
+}
+
+.hui-toast--destructive .hui-toast__close:hover {
+  background-color: var(--hui-color-secondary);
+}

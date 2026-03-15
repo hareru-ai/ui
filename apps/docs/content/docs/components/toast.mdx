@@ -1,0 +1,85 @@
+---
+title: Toast
+description: Displays brief, non-blocking notifications triggered imperatively via the toast() function.
+---
+
+**Category:** Feedback / Global Service
+
+**Dependency:** `@base-ui-components/react/toast`
+
+Import from `@hareru/ui`:
+
+```tsx
+import { toast, useToast, Toaster } from "@hareru/ui"
+```
+
+## Exports
+
+| Export | Description |
+|--------|-------------|
+| `Toast` | Individual toast element |
+| `ToastProvider` | Included internally by `Toaster`. Use directly only when placing the toast viewport in a different DOM subtree |
+| `ToastViewport` | Renders the toast stack in the DOM |
+| `ToastTitle` | Title text inside a toast |
+| `ToastDescription` | Body text inside a toast |
+| `ToastAction` | Optional action button |
+| `ToastClose` | Dismiss button |
+| `Toaster` | Convenience wrapper that renders `ToastViewport` and all active toasts |
+| `toast` | Imperative function to trigger a new toast |
+| `useToast` | Hook that returns `{ toast, toasts, dismiss }` |
+| `toastVariants` | CVA variant function for external use |
+
+## Provider Setup
+
+`Toaster` must be placed in the provider tree (typically in your root layout). See [Getting Started](/docs/getting-started) for the full provider setup.
+
+```tsx
+import { ThemeProvider, Toaster } from "@hareru/ui"
+
+<ThemeProvider defaultTheme="system">
+  {children}
+  <Toaster />
+</ThemeProvider>
+```
+
+## Variants
+
+`toast()` accepts a `variant` option:
+
+| Value | Description |
+|-------|-------------|
+| `default` | Neutral notification (default) |
+| `destructive` | Error or danger notification |
+
+## toast() Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `title` | `string` | Toast heading text |
+| `description` | `string` | Supporting body text |
+| `variant` | `"default" \| "destructive"` | Visual style |
+| `action` | `ToastActionElement` | Optional action button element |
+
+## Usage
+
+```tsx
+import { toast } from "@hareru/ui"
+
+// Success notification
+toast({ title: "Done", description: "The operation completed successfully." })
+
+// Error notification
+toast({ title: "Error", description: "Something went wrong.", variant: "destructive" })
+```
+
+With an action button:
+
+```tsx
+import { toast, ToastAction } from "@hareru/ui"
+
+toast({
+  title: "File deleted",
+  description: "The file has been moved to trash.",
+  action: <ToastAction altText="Undo deletion">Undo</ToastAction>,
+})
+```

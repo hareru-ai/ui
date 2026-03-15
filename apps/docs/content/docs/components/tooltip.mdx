@@ -1,0 +1,59 @@
+---
+title: Tooltip
+description: Contextual label shown on hover or focus, built on Base UI Tooltip.
+---
+
+**Category:** Overlay — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/tooltip`
+
+## Import
+
+```tsx
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `TooltipProvider` | Component | App-level provider; place once near the root |
+| `Tooltip` | Component | Root tooltip context; wraps trigger and content |
+| `TooltipTrigger` | Component | Element that activates the tooltip; supports `asChild` |
+| `TooltipContent` | Component | Floating label content |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `sideOffset` | `number` | `4` | Gap in pixels between trigger and tooltip |
+
+## Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+  Button,
+} from "@hareru/ui"
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild><Button variant="outline">Hover me</Button></TooltipTrigger>
+    <TooltipContent><p>Tooltip content</p></TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+## Notes
+
+- `TooltipProvider` should be placed once at the application root (e.g. inside your layout), not per tooltip.
+- Tooltips appear on hover and keyboard focus, making them accessible without mouse interaction.
+- Do not place interactive elements (buttons, links) inside `TooltipContent`.

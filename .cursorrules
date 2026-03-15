@@ -1,0 +1,77 @@
+# Hareru UI — AI Agent Rules
+
+Hareru UI is a semantic CSS design system for React. Follow these rules when generating or modifying code that uses Hareru UI.
+
+## Imports
+
+- Import all components from `@hareru/ui` — no subpath imports exist
+- Import token types from `@hareru/tokens`
+- Never import from `@base-ui-components/*` directly — use Hareru wrappers
+- Example: `import { Button, Card, Dialog } from '@hareru/ui'`
+
+## CSS Styling
+
+- Use CSS variables (`var(--hui-*)`) for all style values — never hardcode colors, spacing, or other design values
+- Add custom styles via `className` prop + CSS file
+- Do not use Tailwind utilities to duplicate token values
+- BEM class naming: `hui-{component}`, `hui-{component}__{element}`, `hui-{component}--{modifier}`
+- Colors use OKLCH format
+
+## Theming
+
+- Use `useTheme()` hook for theme switching
+- Never manipulate `data-theme` attribute directly
+- Dark theme overrides color and shadow tokens only — spacing, font, radius are shared
+
+## Providers
+
+- Wrap app root with `ThemeProvider` and `Toaster`
+- `Toaster` includes `ToastProvider` internally
+- `toast()` requires `Toaster` in the component tree
+
+## CSS Import Patterns
+
+Choose one based on your project setup:
+
+### Standalone (simplest)
+```css
+@import '@hareru/ui/styles.css';
+```
+
+### Portable (no global reset)
+```css
+@import '@hareru/tokens/css';
+/* Optional: @import '@hareru/ui/styles/baseline.css'; — minimal reset (box-sizing, font: inherit) */
+@import '@hareru/ui/styles/components.css';
+/* Optional: @import '@hareru/ui/styles/scope.css'; — .hui-root typography scoping */
+```
+
+### Tailwind v4 Coexistence
+```css
+@layer theme, base, hui, components, utilities;
+@import 'tailwindcss';
+@import '@hareru/tokens/css';
+@import '@hareru/ui/styles/components.layer.css';
+```
+
+### Per-component (minimal bundle)
+```css
+@import '@hareru/tokens/css';
+@import '@hareru/ui/styles/components/Button.css';
+@import '@hareru/ui/styles/components/Card.css';
+/* Add animations.css if using StreamingText, ReasoningPanel, or ToolCallCard: */
+/* @import '@hareru/ui/styles/animations.css'; */
+```
+
+## Token Quick Reference
+
+| Category | Pattern |
+|----------|---------|
+| color | `--hui-color-{name}` (primary, secondary, destructive, warning, success, info, muted, accent) |
+| spacing | `--hui-spacing-{0\|1\|2\|3\|4\|5\|6\|8\|10\|12\|16}` |
+| radius | `--hui-radius-{none\|sm\|md\|lg\|xl\|full}` |
+| font | `--hui-font-{size\|weight\|family\|leading\|tracking}-{value}` |
+| shadow | `--hui-shadow{-sm\|-md\|-lg\|-xl}` (DEFAULT: `--hui-shadow`) |
+| duration | `--hui-duration-{fast\|normal\|slow\|slower}` |
+| easing | `--hui-easing-{linear\|in\|out\|in-out}` |
+| zIndex | `--hui-z-index-{base\|dropdown\|sticky\|modal\|toast}` |

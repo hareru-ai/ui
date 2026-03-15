@@ -1,0 +1,42 @@
+---
+title: Introduction
+description: Hareru UI — A semantic design system built for agents
+---
+
+Hareru UI is a semantic design system built for agents. It provides 40+ accessible React components, a registry-first architecture, and first-class AI agent integration via MCP server, CLI, and machine-readable contracts.
+
+## Key Features
+
+- **Semantic CSS** — BEM naming (`hui-*`) and CSS custom properties (`--hui-*`). No Tailwind dependency.
+- **Layered architecture** — Tokens, styles, and component behavior live in independent packages. Each layer is consumable on its own by both humans and AI agents.
+- **DTCG tokens** — 150+ tokens in [W3C Design Token Community Group](https://design-tokens.github.io/community-group/format/) format with JSON Schema validation.
+- **Zero-runtime theming** — Light and dark themes via `data-theme` attribute. Pure CSS, no JS runtime cost.
+- **OKLCH colors** — Perceptually uniform color space with automatic dark theme generation.
+- **Accessible components** — 40+ components built on [Base UI](https://base-ui.com/) primitives. WAI-ARIA compliant.
+- **4 CSS modes** — Standalone, portable, Tailwind v4 coexistence (Cascade Layers), and per-component.
+- **MCP server** — `@hareru/mcp` exposes design rules directly where AI agents operate via [Model Context Protocol](https://modelcontextprotocol.io/).
+- **CLI** — `npx @hareru/cli add Button --write` to generate CSS imports with auto-detected entry file.
+- **AG-UI chat components** — ChatContainer, StreamingText, ToolCallCard, and `useAGUIState` hook for agent UIs.
+
+## Architecture
+
+| Decision | Choice | Reason |
+|----------|--------|--------|
+| CSS variable prefix | `--hui-` | Short, unique abbreviation |
+| BEM naming | `hui-button--variant` | Semantic + collision avoidance |
+| Theme switching | `data-theme` attribute | Clear CSS variable scoping |
+| Color format | OKLCH | Perceptually uniform + gamut mapping |
+| tailwind-merge | Not used | BEM classes do not conflict |
+| Cascade Layers | `@layer hui` for Tailwind v4 | Coexistence without specificity wars |
+| Component pattern | `forwardRef` | Guarantees external ref access |
+| Distribution | Registry-first | Machine-readable contracts drive CLI, MCP, and docs |
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `@hareru/tokens` | Design tokens + CSS variable generation (DTCG format) |
+| `@hareru/ui` | 40+ React components with BEM CSS |
+| `@hareru/registry` | Shared registry types, loaders, and CSS mode recommendation |
+| `@hareru/cli` | [CLI](/docs/cli) for component management — list, info, add |
+| `@hareru/mcp` | [MCP server](/docs/mcp-server) for AI agent integration |

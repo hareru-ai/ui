@@ -1,0 +1,253 @@
+import type { HareruTheme, HareruTokens } from '../types';
+
+const lightTokens: HareruTokens = {
+  color: {
+    background: 'oklch(1 0 0)',
+    foreground: 'oklch(0.145 0.014 285.8)',
+    primary: {
+      DEFAULT: 'oklch(0.205 0.015 265)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.313 0.016 265)',
+    },
+    secondary: {
+      DEFAULT: 'oklch(0.965 0.003 264.5)',
+      foreground: 'oklch(0.205 0.015 265)',
+      hover: 'oklch(0.925 0.004 264.5)',
+    },
+    destructive: {
+      DEFAULT: 'oklch(0.577 0.245 27.3)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.494 0.222 27.3)',
+    },
+    warning: {
+      DEFAULT: 'oklch(0.608 0.17 52)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.527 0.154 52)',
+    },
+    success: {
+      DEFAULT: 'oklch(0.6 0.178 150.5)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.5 0.155 150.5)',
+    },
+    info: {
+      DEFAULT: 'oklch(0.623 0.14 237)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.528 0.13 237)',
+    },
+    muted: {
+      DEFAULT: 'oklch(0.965 0.003 264.5)',
+      foreground: 'oklch(0.556 0.009 264.5)',
+    },
+    accent: {
+      DEFAULT: 'oklch(0.965 0.003 264.5)',
+      foreground: 'oklch(0.205 0.015 265)',
+      hover: 'oklch(0.925 0.004 264.5)',
+    },
+    border: 'oklch(0.922 0.006 264.5)',
+    ring: 'oklch(0.205 0.015 265)',
+    card: {
+      DEFAULT: 'oklch(1 0 0)',
+      foreground: 'oklch(0.145 0.014 285.8)',
+    },
+    popover: {
+      DEFAULT: 'oklch(1 0 0)',
+      foreground: 'oklch(0.145 0.014 285.8)',
+    },
+    input: 'oklch(0.922 0.006 264.5)',
+    overlay: 'oklch(0 0 0 / 0.8)',
+    chart: {
+      '1': 'oklch(0.646 0.222 41.1)',
+      '2': 'oklch(0.6 0.178 150.5)',
+      '3': 'oklch(0.623 0.14 237)',
+      '4': 'oklch(0.608 0.17 52)',
+      '5': 'oklch(0.546 0.215 262)',
+    },
+  },
+  spacing: {
+    '0': '0px',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '5': '1.25rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+  },
+  radius: {
+    none: '0px',
+    sm: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    xl: '0.75rem',
+    full: '9999px',
+  },
+  font: {
+    family: {
+      sans: "'Inter', 'Noto Sans JP', system-ui, -apple-system, sans-serif",
+      mono: "'JetBrains Mono', 'Fira Code', ui-monospace, monospace",
+    },
+    size: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '2.5rem',
+      '6xl': '3rem',
+    },
+    weight: {
+      normal: '400',
+      medium: '500',
+      semibold: '600',
+      bold: '700',
+    },
+    leading: {
+      none: '1',
+      tight: '1.25',
+      snug: '1.375',
+      normal: '1.5',
+      relaxed: '1.625',
+      loose: '2',
+    },
+    tracking: {
+      tighter: '-0.05em',
+      tight: '-0.025em',
+      normal: '0em',
+      wide: '0.025em',
+      wider: '0.05em',
+      widest: '0.1em',
+    },
+  },
+  typography: {
+    h1: { fontSize: '2.25rem', fontWeight: '700', lineHeight: '1.25', letterSpacing: '-0.025em' },
+    h2: { fontSize: '1.875rem', fontWeight: '700', lineHeight: '1.3', letterSpacing: '-0.025em' },
+    h3: { fontSize: '1.5rem', fontWeight: '600', lineHeight: '1.375', letterSpacing: '0em' },
+    h4: { fontSize: '1.25rem', fontWeight: '600', lineHeight: '1.4', letterSpacing: '0em' },
+    body: { fontSize: '1rem', fontWeight: '400', lineHeight: '1.5', letterSpacing: '0em' },
+    'body-sm': {
+      fontSize: '0.875rem',
+      fontWeight: '400',
+      lineHeight: '1.5',
+      letterSpacing: '0em',
+    },
+    caption: {
+      fontSize: '0.75rem',
+      fontWeight: '500',
+      lineHeight: '1.25',
+      letterSpacing: '0.025em',
+    },
+  },
+  shadow: {
+    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  },
+  duration: {
+    fast: '100ms',
+    normal: '200ms',
+    slow: '300ms',
+    slower: '500ms',
+  },
+  easing: {
+    linear: 'cubic-bezier(0, 0, 1, 1)',
+    in: 'cubic-bezier(0.42, 0, 1, 1)',
+    out: 'cubic-bezier(0, 0, 0.58, 1)',
+    'in-out': 'cubic-bezier(0.42, 0, 0.58, 1)',
+  },
+  zIndex: {
+    base: '10',
+    dropdown: '50',
+    sticky: '500',
+    modal: '1000',
+    toast: '1100',
+  },
+};
+
+const darkTokens: HareruTokens = {
+  color: {
+    background: 'oklch(0.145 0.014 285.8)',
+    foreground: 'oklch(0.985 0 0)',
+    primary: {
+      DEFAULT: 'oklch(0.985 0 0)',
+      foreground: 'oklch(0.205 0.015 265)',
+      hover: 'oklch(0.88 0 0)',
+    },
+    secondary: {
+      DEFAULT: 'oklch(0.257 0.009 264.5)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.309 0.01 264.5)',
+    },
+    destructive: {
+      DEFAULT: 'oklch(0.396 0.17 27.3)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.49 0.2 27.3)',
+    },
+    warning: {
+      DEFAULT: 'oklch(0.47 0.13 52)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.565 0.15 52)',
+    },
+    success: {
+      DEFAULT: 'oklch(0.42 0.12 150.5)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.52 0.15 150.5)',
+    },
+    info: {
+      DEFAULT: 'oklch(0.44 0.1 237)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.54 0.12 237)',
+    },
+    muted: {
+      DEFAULT: 'oklch(0.257 0.009 264.5)',
+      foreground: 'oklch(0.706 0.015 264.5)',
+    },
+    accent: {
+      DEFAULT: 'oklch(0.257 0.009 264.5)',
+      foreground: 'oklch(0.985 0 0)',
+      hover: 'oklch(0.309 0.01 264.5)',
+    },
+    border: 'oklch(0.257 0.009 264.5)',
+    ring: 'oklch(0.87 0.007 264.5)',
+    card: {
+      DEFAULT: 'oklch(0.145 0.014 285.8)',
+      foreground: 'oklch(0.985 0 0)',
+    },
+    popover: {
+      DEFAULT: 'oklch(0.145 0.014 285.8)',
+      foreground: 'oklch(0.985 0 0)',
+    },
+    input: 'oklch(0.257 0.009 264.5)',
+    overlay: 'oklch(0 0 0 / 0.8)',
+    chart: {
+      '1': 'oklch(0.55 0.19 41.1)',
+      '2': 'oklch(0.5 0.15 150.5)',
+      '3': 'oklch(0.52 0.12 237)',
+      '4': 'oklch(0.52 0.14 52)',
+      '5': 'oklch(0.45 0.18 262)',
+    },
+  },
+  spacing: lightTokens.spacing,
+  radius: lightTokens.radius,
+  font: lightTokens.font,
+  typography: lightTokens.typography,
+  shadow: {
+    sm: '0 1px 2px 0 rgb(0 0 0 / 0.3)',
+    DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4)',
+    md: '0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4)',
+    lg: '0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4)',
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4)',
+  },
+  duration: lightTokens.duration,
+  easing: lightTokens.easing,
+  zIndex: lightTokens.zIndex,
+};
+
+export const defaultTheme: HareruTheme = { light: lightTokens, dark: darkTokens };

@@ -1,0 +1,204 @@
+/* MetricCard — metric card */
+
+/* ---------------------------------------------------------------------------
+ * Base
+ * -------------------------------------------------------------------------*/
+.hui-metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background-color: var(--hui-color-card);
+  color: var(--hui-color-card-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  box-shadow: var(--hui-shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--hui-duration-fast);
+}
+
+.hui-metric-card:hover {
+  box-shadow: var(--hui-shadow-md);
+}
+
+.hui-metric-card--loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.hui-metric-card--error {
+  border-color: var(--hui-color-destructive);
+}
+
+/* ---------------------------------------------------------------------------
+ * Header
+ * -------------------------------------------------------------------------*/
+.hui-metric-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--hui-spacing-2);
+  padding: var(--hui-spacing-4) var(--hui-spacing-4) var(--hui-spacing-2);
+}
+
+.hui-metric-card__label {
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  color: var(--hui-color-muted-foreground);
+  line-height: var(--hui-font-leading-normal);
+}
+
+.hui-metric-card__badges {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Body
+ * -------------------------------------------------------------------------*/
+.hui-metric-card__body {
+  padding: var(--hui-spacing-1) var(--hui-spacing-4) var(--hui-spacing-3);
+  flex: 1;
+}
+
+.hui-metric-card__value {
+  font-size: var(--hui-font-size-2xl);
+  font-weight: var(--hui-font-weight-bold);
+  line-height: var(--hui-font-leading-none);
+  letter-spacing: var(--hui-font-tracking-tight);
+  margin: 0 0 var(--hui-spacing-1);
+  color: var(--hui-color-foreground);
+}
+
+.hui-metric-card__description {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  margin: 0;
+  line-height: var(--hui-font-leading-relaxed);
+}
+
+.hui-metric-card__error {
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-destructive);
+  margin: 0;
+}
+
+/* Skeleton */
+.hui-metric-card__skeleton {
+  height: 2rem;
+  border-radius: var(--hui-radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--hui-color-muted) 25%,
+    var(--hui-color-border) 50%,
+    var(--hui-color-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: hui-skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes hui-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Footer
+ * -------------------------------------------------------------------------*/
+.hui-metric-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--hui-spacing-2) var(--hui-spacing-4);
+  border-top: 1px solid var(--hui-color-border);
+  background-color: var(--hui-color-muted);
+}
+
+.hui-metric-card__model {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  font-family: var(--hui-font-family-mono, monospace);
+}
+
+.hui-metric-card__definition-link {
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hui-metric-card__definition-link:hover {
+  color: var(--hui-color-primary);
+  opacity: 0.8;
+}
+
+.hui-metric-card__definition-link:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+  border-radius: var(--hui-radius-sm);
+}
+
+/* ---------------------------------------------------------------------------
+ * Badges: Freshness
+ * -------------------------------------------------------------------------*/
+.hui-metric-card__freshness {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--hui-spacing-1);
+  border-radius: var(--hui-radius-sm);
+  font-size: var(--hui-font-size-xs);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: 1.4;
+}
+
+.hui-metric-card__freshness--fresh {
+  background-color: color-mix(in oklch, var(--hui-color-success) 15%, transparent);
+  color: var(--hui-color-success-hover);
+}
+
+.hui-metric-card__freshness--stale {
+  background-color: color-mix(in oklch, var(--hui-color-warning) 15%, transparent);
+  color: var(--hui-color-warning-hover);
+}
+
+.hui-metric-card__freshness--unknown {
+  background-color: var(--hui-color-muted);
+  color: var(--hui-color-muted-foreground);
+}
+
+/* ---------------------------------------------------------------------------
+ * Badges: Confidence
+ * -------------------------------------------------------------------------*/
+.hui-metric-card__confidence {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--hui-spacing-1);
+  border-radius: var(--hui-radius-sm);
+  font-size: var(--hui-font-size-xs);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: 1.4;
+}
+
+.hui-metric-card__confidence--high {
+  background-color: color-mix(in oklch, var(--hui-color-info) 15%, transparent);
+  color: var(--hui-color-info-hover);
+}
+
+.hui-metric-card__confidence--medium {
+  background-color: color-mix(in oklch, var(--hui-color-warning) 15%, transparent);
+  color: var(--hui-color-warning-hover);
+}
+
+.hui-metric-card__confidence--low {
+  background-color: color-mix(in oklch, var(--hui-color-destructive) 15%, transparent);
+  color: var(--hui-color-destructive-hover);
+}

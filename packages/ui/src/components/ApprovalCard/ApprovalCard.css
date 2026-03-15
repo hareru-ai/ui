@@ -1,0 +1,121 @@
+/* ApprovalCard — approve/reject UI */
+
+.hui-approval-card {
+  flex-shrink: 0;
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  background-color: var(--hui-color-card);
+  color: var(--hui-color-card-foreground);
+  font-family: var(--hui-font-family-sans);
+  padding: var(--hui-spacing-4);
+}
+
+/* Status variants */
+.hui-approval-card--approved {
+  background-color: color-mix(in srgb, var(--hui-color-success) 5%, transparent);
+}
+
+.hui-approval-card--rejected {
+  background-color: color-mix(in srgb, var(--hui-color-destructive) 5%, transparent);
+}
+
+.hui-approval-card--expired {
+  opacity: 0.6;
+}
+
+/* Header */
+.hui-approval-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--hui-spacing-2);
+}
+
+.hui-approval-card__title {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-semibold);
+  line-height: var(--hui-font-leading-snug);
+}
+
+/* Status badge */
+.hui-approval-card__status {
+  flex-shrink: 0;
+  font-size: var(--hui-font-size-xs);
+  padding: 0 var(--hui-spacing-2);
+  border-radius: var(--hui-radius-full);
+  line-height: 1.6;
+  font-weight: var(--hui-font-weight-medium);
+}
+
+.hui-approval-card__status--pending {
+  background-color: var(--hui-color-muted);
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-approval-card__status--approved {
+  background-color: color-mix(in srgb, var(--hui-color-success) 15%, transparent);
+  color: var(--hui-color-success);
+}
+
+.hui-approval-card__status--rejected {
+  background-color: color-mix(in srgb, var(--hui-color-destructive) 15%, transparent);
+  color: var(--hui-color-destructive);
+}
+
+.hui-approval-card__status--expired {
+  background-color: var(--hui-color-muted);
+  color: var(--hui-color-muted-foreground);
+}
+
+/* Description */
+.hui-approval-card__description {
+  margin: var(--hui-spacing-2) 0 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+  line-height: var(--hui-font-leading-relaxed);
+}
+
+/* Actions */
+.hui-approval-card__actions {
+  display: flex;
+  gap: var(--hui-spacing-2);
+  margin-top: var(--hui-spacing-3);
+  justify-content: flex-end;
+}
+
+.hui-approval-card__approve,
+.hui-approval-card__reject {
+  padding: var(--hui-spacing-1) var(--hui-spacing-3);
+  border-radius: var(--hui-radius-md);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--hui-duration-fast);
+  border: 1px solid transparent;
+}
+
+.hui-approval-card__approve {
+  background-color: var(--hui-color-success);
+  color: var(--hui-color-success-foreground);
+}
+
+.hui-approval-card__approve:hover {
+  background-color: var(--hui-color-success-hover);
+}
+
+.hui-approval-card__reject {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border-color: var(--hui-color-border);
+}
+
+.hui-approval-card__reject:hover {
+  background-color: var(--hui-color-muted);
+}
+
+.hui-approval-card__approve:focus-visible,
+.hui-approval-card__reject:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
