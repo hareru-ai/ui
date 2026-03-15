@@ -1,6 +1,6 @@
 {
   "name": "@hareru/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI for Hareru UI design system — add components, manage CSS imports",
   "license": "MIT",
   "repository": {
@@ -9,7 +9,12 @@
     "directory": "packages/cli"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": ["cli", "design-system", "hareru", "css"],
+  "keywords": [
+    "cli",
+    "design-system",
+    "hareru",
+    "css"
+  ],
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,7 +30,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist", "bin", "LICENSE"],
+  "files": [
+    "dist",
+    "bin",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

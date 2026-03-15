@@ -1,6 +1,6 @@
 {
   "name": "@hareru/registry",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared registry types, loaders, and artifacts for Hareru UI",
   "license": "MIT",
   "repository": {
@@ -9,7 +9,11 @@
     "directory": "packages/registry"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": ["design-system", "registry", "hareru"],
+  "keywords": [
+    "design-system",
+    "registry",
+    "hareru"
+  ],
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +26,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist", "LICENSE"],
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
