@@ -480,6 +480,18 @@ Key options: `--write`, `--json`, `--force`, `--css-file <path>`, `--scope <sele
 
 `--write` safety: fails fast on missing `package.json`, broken JSON, or missing peer dependencies. Override with `--force`.
 
+## Documentation Site (apps/docs)
+
+Fumadocs (Next.js) documentation site at `apps/docs/`.
+
+**Registry-driven sections:** Component pages use Server Components (`RegistryStates`, `RegistryA11y`, `RegistrySlots`) that render data from `@hareru/ui/component-registry.json` at build time. These are registered as MDX components via `page.tsx`.
+
+- `apps/docs/lib/registry.ts` — data access layer (`getComponentOrThrow`, content helpers)
+- `apps/docs/app/components/registry/` — 3 React Server Components
+- `apps/docs/scripts/verify-registry-docs.mjs` — post-build validation (tag existence, heading pairs, name consistency)
+
+**Dev prerequisite:** `pnpm build` from monorepo root (or `pnpm dev`) before `next dev` — the registry JSON and types must be built first.
+
 ## Resources
 
 - Documentation site: `apps/docs/` (run `pnpm --filter @hareru/docs dev`)

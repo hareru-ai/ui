@@ -33,6 +33,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@hareru/registry':
+        specifier: workspace:*
+        version: link:../../packages/registry
       '@hareru/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens

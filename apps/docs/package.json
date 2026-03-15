@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/verify-registry-docs.mjs",
     "start": "next start"
   },
   "dependencies": {
+    "@hareru/registry": "workspace:*",
     "@hareru/tokens": "workspace:*",
     "@hareru/ui": "workspace:*",
     "fumadocs-core": "^16.6.17",
