@@ -1,6 +1,6 @@
 {
   "name": "@hareru/cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "CLI for Hareru UI design system — add components, manage CSS imports",
   "license": "MIT",
   "repository": {
