@@ -125,6 +125,21 @@
           "items": {
             "$ref": "#/$defs/PropsEntry"
           }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StateDef"
+          }
+        },
+        "a11y": {
+          "$ref": "#/$defs/A11yDef"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExampleDef"
+          }
         }
       }
     },
@@ -185,6 +200,81 @@
         },
         "required": {
           "type": "boolean"
+        }
+      }
+    },
+    "StateDef": {
+      "type": "object",
+      "required": ["name", "type"],
+      "oneOf": [
+        {
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "boolean" },
+            "cssReflection": { "type": "string", "enum": ["modifier", "data-attribute"] }
+          },
+          "required": ["name", "type"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "enum" },
+            "values": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            "defaultValue": { "type": "string" },
+            "cssReflection": { "type": "string", "enum": ["modifier", "data-attribute"] }
+          },
+          "required": ["name", "type", "values"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "A11yDef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ariaAttributes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "semanticElements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keyboardInteractions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "liveRegion": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "ExampleDef": {
+      "type": "object",
+      "required": ["title", "code"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
         }
       }
     },

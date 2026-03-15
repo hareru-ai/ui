@@ -469,6 +469,55 @@ if (existsSync(registryPath)) {
     console.log('  SKIP: component-registry.schema.json not found');
   }
 
+  // --- Phase 3C: states / a11y / examples representative checks ---
+  console.log('\nPhase 3C representative checks...');
+
+  const approvalCard = registry.components.find((c) => c.name === 'ApprovalCard');
+  if (approvalCard) {
+    const statusState = approvalCard.states?.find((s) => s.name === 'status');
+    assert(statusState?.type === 'enum', 'Phase 3C: ApprovalCard has status enum state');
+    assert(
+      statusState?.values?.includes('pending'),
+      'Phase 3C: ApprovalCard status includes "pending"',
+    );
+  }
+
+  const streamingText = registry.components.find((c) => c.name === 'StreamingText');
+  if (streamingText) {
+    assert(
+      streamingText.a11y?.liveRegion === true,
+      'Phase 3C: StreamingText a11y.liveRegion === true',
+    );
+    assert(
+      streamingText.a11y?.semanticElements?.includes('output'),
+      'Phase 3C: StreamingText a11y.semanticElements includes "output"',
+    );
+  }
+
+  const button = registry.components.find((c) => c.name === 'Button');
+  if (button) {
+    assert(
+      button.examples?.length > 0 && button.examples[0].code?.length > 0,
+      'Phase 3C: Button has examples with non-empty code',
+    );
+  }
+
+  // --- Phase 3C: manifest a11y cross-check against source ---
+  console.log('\nPhase 3C manifest a11y cross-check...');
+
+  for (const comp of registry.components) {
+    for (const el of comp.a11y?.semanticElements ?? []) {
+      const tsxPath = join(PKG_ROOT, comp.componentSource);
+      if (existsSync(tsxPath)) {
+        const src = readFileSync(tsxPath, 'utf-8');
+        assert(
+          src.includes(`<${el}`),
+          `Phase 3C: ${comp.name}.a11y.semanticElements["${el}"] found in source`,
+        );
+      }
+    }
+  }
+
   // --- Registry snapshot checks ---
   console.log('\nRegistry snapshot checks...');
   const ad = registry.components.find((c) => c.name === 'AlertDialog');

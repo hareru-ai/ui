@@ -136,6 +136,61 @@ describe('get-component-usage', () => {
   });
 });
 
+describe('get-component-usage — Phase 3C fields', () => {
+  let client: Client;
+
+  beforeAll(async () => {
+    const server = createServer();
+    client = new Client({ name: 'test-client', version: '1.0.0' });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([client.connect(clientTransport), server.connect(serverTransport)]);
+  });
+
+  afterAll(async () => {
+    await client?.close();
+  });
+
+  it('includes States section for ApprovalCard', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'ApprovalCard' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('## States');
+    expect(text).toContain('status');
+    expect(text).toContain('pending');
+  });
+
+  it('includes Accessibility section for Dialog', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Dialog' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('## Accessibility');
+    expect(text).toContain('dialog');
+  });
+
+  it('uses canonical Example when available', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Button' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).toContain('## Example');
+    expect(text).toContain('### ');
+  });
+
+  it('omits States section for Separator', async () => {
+    const result = await client.callTool({
+      name: 'get-component-usage',
+      arguments: { componentName: 'Separator' },
+    });
+    const text = (result.content as Array<{ type: string; text: string }>)[0].text;
+    expect(text).not.toContain('## States');
+  });
+});
+
 describe('get-bundle-usage', () => {
   let client: Client;
 

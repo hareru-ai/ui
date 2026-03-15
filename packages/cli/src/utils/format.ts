@@ -101,10 +101,52 @@ export function formatComponentDetail(entry: ComponentEntry): string {
     lines.push('');
   }
 
+  // States (Phase 3C)
+  const states = entry.states ?? [];
+  if (states.length > 0) {
+    lines.push('States:');
+    for (const s of states) {
+      if (s.type === 'enum') {
+        const values = s.values.join(' | ');
+        const def = s.defaultValue ? ` (default: ${s.defaultValue})` : '';
+        lines.push(`  ${s.name}: ${values}${def}`);
+      } else {
+        lines.push(`  ${s.name}: boolean`);
+      }
+    }
+    lines.push('');
+  }
+
+  // Accessibility (Phase 3C)
+  const a11y = entry.a11y;
+  if (a11y) {
+    lines.push('Accessibility:');
+    if (a11y.roles?.length) lines.push(`  Roles: ${a11y.roles.join(', ')}`);
+    if (a11y.ariaAttributes?.length) lines.push(`  ARIA: ${a11y.ariaAttributes.join(', ')}`);
+    if (a11y.semanticElements?.length)
+      lines.push(`  Semantic: ${a11y.semanticElements.join(', ')}`);
+    if (a11y.keyboardInteractions?.length)
+      lines.push(`  Keyboard: ${a11y.keyboardInteractions.join('; ')}`);
+    if (a11y.liveRegion) lines.push('  Live region: yes');
+    if (a11y.notes) lines.push(`  Notes: ${a11y.notes}`);
+    lines.push('');
+  }
+
   // Peer components
   if (entry.peerComponents) {
     lines.push(`Also consider: ${entry.peerComponents.join(', ')}`);
     lines.push('');
+  }
+
+  // Example (Phase 3C)
+  const examples = entry.examples ?? [];
+  if (examples.length > 0) {
+    lines.push('Example:');
+    for (const ex of examples) {
+      lines.push(`  [${ex.title}]`);
+      lines.push(`  ${ex.code.split('\n').join('\n  ')}`);
+      lines.push('');
+    }
   }
 
   return lines.join('\n').trimEnd();

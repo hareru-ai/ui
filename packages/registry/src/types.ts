@@ -66,6 +66,9 @@ export interface ComponentEntry {
   subcomponents?: string[];
   variants?: VariantDef[];
   props?: PropDef[];
+  states?: StateDef[];
+  a11y?: A11yDef;
+  examples?: ExampleDef[];
   componentSource: string;
   description: string;
   aiHint?: string;
@@ -108,6 +111,36 @@ export interface CssModeContext {
   componentCount: number;
   /** Whether the project already has a CSS reset or framework (e.g. Bootstrap, Pico) */
   hasExistingReset?: boolean;
+}
+
+export type StateDef = StateBooleanDef | StateEnumDef;
+
+export interface StateBooleanDef {
+  name: string;
+  type: 'boolean';
+  cssReflection?: 'modifier' | 'data-attribute';
+}
+
+export interface StateEnumDef {
+  name: string;
+  type: 'enum';
+  values: string[];
+  defaultValue?: string;
+  cssReflection?: 'modifier' | 'data-attribute';
+}
+
+export interface A11yDef {
+  roles?: string[];
+  ariaAttributes?: string[];
+  semanticElements?: string[];
+  keyboardInteractions?: string[];
+  liveRegion?: boolean;
+  notes?: string;
+}
+
+export interface ExampleDef {
+  title: string;
+  code: string;
 }
 
 export interface ConsumerRulesJSON {

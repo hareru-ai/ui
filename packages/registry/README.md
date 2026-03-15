@@ -9,7 +9,7 @@ Shared registry types, loaders, and CSS mode recommendation for [Hareru UI](http
 
 `@hareru/registry` is the shared contract layer used by `@hareru/mcp` and `@hareru/cli`. It provides:
 
-- **Type definitions** — `ComponentEntry`, `TaskBundle`, `CssMode`, `ConsumerRulesJSON`, and 10+ other types
+- **Type definitions** — `ComponentEntry`, `TaskBundle`, `CssMode`, `ConsumerRulesJSON`, `StateDef`, `A11yDef`, `ExampleDef`, and 10+ other types
 - **Artifact loaders** — `loadRegistry()`, `loadTokens()`, `loadSchema()`, `loadConsumerRules()`, `loadComponentSchema()`
 - **CSS mode recommendation** — `recommendCssMode()` shared function with `CSS_MODES` and `CSS_MODE_DESCRIPTIONS`
 
@@ -34,7 +34,7 @@ import {
 
 // Load the component registry
 const registry = loadRegistry();
-console.log(registry.components.length); // 40+
+console.log(registry.components.length); // 49
 
 // Recommend a CSS mode
 const { mode, reason } = recommendCssMode({

@@ -98,6 +98,37 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
     parts.push('');
   }
 
+  // States (Phase 3C)
+  const states = entry.states ?? [];
+  if (states.length > 0) {
+    parts.push('## States');
+    parts.push('');
+    parts.push('| State | Type | Values | Default |');
+    parts.push('|-------|------|--------|---------|');
+    for (const s of states) {
+      const values = s.type === 'enum' ? s.values.map(escPipe).join(', ') : '-';
+      const def = s.type === 'enum' && s.defaultValue ? escPipe(s.defaultValue) : '-';
+      parts.push(`| ${escPipe(s.name)} | ${s.type} | ${values} | ${def} |`);
+    }
+    parts.push('');
+  }
+
+  // Accessibility (Phase 3C)
+  const a11y = entry.a11y;
+  if (a11y) {
+    parts.push('## Accessibility');
+    parts.push('');
+    if (a11y.roles?.length) parts.push(`- Roles: ${a11y.roles.join(', ')}`);
+    if (a11y.ariaAttributes?.length) parts.push(`- ARIA: ${a11y.ariaAttributes.join(', ')}`);
+    if (a11y.semanticElements?.length)
+      parts.push(`- Semantic elements: ${a11y.semanticElements.join(', ')}`);
+    if (a11y.keyboardInteractions?.length)
+      parts.push(`- Keyboard: ${a11y.keyboardInteractions.join('; ')}`);
+    if (a11y.liveRegion) parts.push('- Live region: yes');
+    if (a11y.notes) parts.push(`- Notes: ${a11y.notes}`);
+    parts.push('');
+  }
+
   // Also Consider (Phase 3A)
   if (entry.peerComponents) {
     parts.push('## Also Consider');
@@ -108,25 +139,41 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
     parts.push('');
   }
 
-  parts.push('## Example');
-  parts.push('');
-  parts.push('```tsx');
-  if (variants.length > 0) {
-    const firstVariant = variants[0];
-    const propsStr = Object.entries(firstVariant.defaultVariants)
-      .map(([k, v]) => `${k}="${v}"`)
-      .join(' ');
-    parts.push(`<${entry.name} ${propsStr}>Content</${entry.name}>`);
-  } else if (subs.length > 0) {
-    parts.push(`<${entry.name}>`);
-    for (const sub of subs) {
-      parts.push(`  <${sub}>Content</${sub}>`);
+  // Example (Phase 3C: prefer canonical examples from manifest)
+  const examples = entry.examples ?? [];
+  if (examples.length > 0) {
+    parts.push('## Example');
+    parts.push('');
+    for (const ex of examples) {
+      parts.push(`### ${ex.title}`);
+      parts.push('');
+      parts.push('```tsx');
+      parts.push(ex.code);
+      parts.push('```');
+      parts.push('');
     }
-    parts.push(`</${entry.name}>`);
   } else {
-    parts.push(`<${entry.name}>Content</${entry.name}>`);
+    // Fallback: auto-generated example
+    parts.push('## Example');
+    parts.push('');
+    parts.push('```tsx');
+    if (variants.length > 0) {
+      const firstVariant = variants[0];
+      const propsStr = Object.entries(firstVariant.defaultVariants)
+        .map(([k, v]) => `${k}="${v}"`)
+        .join(' ');
+      parts.push(`<${entry.name} ${propsStr}>Content</${entry.name}>`);
+    } else if (subs.length > 0) {
+      parts.push(`<${entry.name}>`);
+      for (const sub of subs) {
+        parts.push(`  <${sub}>Content</${sub}>`);
+      }
+      parts.push(`</${entry.name}>`);
+    } else {
+      parts.push(`<${entry.name}>Content</${entry.name}>`);
+    }
+    parts.push('```');
   }
-  parts.push('```');
 
   return parts.join('\n');
 }
@@ -134,7 +181,7 @@ function formatUsageMarkdown(entry: ComponentEntry): string {
 export function registerTools(server: McpServer): void {
   server.tool(
     'get-component-usage',
-    'Get usage documentation for a Hareru UI component — import, variants, props, and JSX example',
+    'Get usage documentation for a Hareru UI component — import, variants, props, states, accessibility, and examples',
     { componentName: z.string().describe('Component name (e.g. "Button", "Card", "Alert")') },
     async ({ componentName }) => {
       const registry = loadRegistry();

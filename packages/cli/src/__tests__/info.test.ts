@@ -80,4 +80,22 @@ describe('hareru info', () => {
     expect(stdout).toContain('Variants:');
     expect(stdout).toContain('variant:');
   });
+
+  it('shows states for ApprovalCard', () => {
+    const { stdout } = runCommand('info', 'ApprovalCard');
+    expect(stdout).toContain('States:');
+    expect(stdout).toContain('status:');
+    expect(stdout).toContain('pending');
+  });
+
+  it('shows accessibility for Dialog', () => {
+    const { stdout } = runCommand('info', 'Dialog');
+    expect(stdout).toContain('Accessibility:');
+    expect(stdout).toContain('dialog');
+  });
+
+  it('shows example for Button', () => {
+    const { stdout } = runCommand('info', 'Button');
+    expect(stdout).toContain('Example:');
+  });
 });

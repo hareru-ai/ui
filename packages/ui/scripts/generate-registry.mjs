@@ -336,6 +336,251 @@ function parseIndexExports(indexSource) {
   return groups;
 }
 
+// --- Phase 3C: State and A11y auto-extraction ---
+
+/** Known boolean state props that can be auto-extracted from source. */
+const KNOWN_BOOLEAN_STATES = ['disabled', 'loading', 'streaming', 'open', 'pressed', 'checked'];
+
+/**
+ * Extract the root component Props interface body from source.
+ * Returns only the body text of `export interface {ComponentName}Props`,
+ * excluding subcomponent props, comments, and other code.
+ * Returns null if not found.
+ */
+function extractRootPropsBody(source, componentName) {
+  const targetName = `${componentName}Props`;
+  const headerRegex = new RegExp(
+    `export\\s+interface\\s+${targetName}\\s+(?:extends\\s+[^{]+)?\\{`,
+  );
+  const match = headerRegex.exec(source);
+  if (!match) return null;
+
+  const braceStart = match.index + match[0].length - 1;
+  const block = extractBraceBlock(source, braceStart);
+  if (!block) return null;
+
+  // Strip JSDoc and line comments to avoid false positives from comment text
+  return block.content.replace(/\/\*\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+}
+
+/**
+ * Extract known boolean states from the root component's Props interface.
+ * Only scans the root {ComponentName}Props body to avoid false positives
+ * from subcomponent props and comments.
+ * Only extracts KNOWN_BOOLEAN_STATES; enum states must be in manifest.
+ */
+function extractStates(source, cssSource, componentName) {
+  const rootPropsBody = extractRootPropsBody(source, componentName);
+  if (!rootPropsBody) return [];
+
+  const states = [];
+  const kebabName = componentName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+  for (const stateName of KNOWN_BOOLEAN_STATES) {
+    // Check if the prop is a direct member of the root Props interface
+    const propRegex = new RegExp(`\\b${stateName}\\b\\s*[?:]`);
+    if (!propRegex.test(rootPropsBody)) continue;
+
+    const state = { name: stateName, type: 'boolean' };
+
+    // Detect CSS reflection: specific data-{stateName} attribute first
+    const specificDataAttr = new RegExp(`data-${stateName}[^\\w-]`);
+    if (specificDataAttr.test(source)) {
+      state.cssReflection = 'data-attribute';
+    } else if (cssSource.includes(`hui-${kebabName}--${stateName}`)) {
+      // BEM modifier: hui-{component}--{state}
+      state.cssReflection = 'modifier';
+    } else if (stateName === 'pressed' && /data-state/.test(source)) {
+      // data-state='on'|'off' is the standard pattern for pressed state (Base UI)
+      state.cssReflection = 'data-attribute';
+    }
+
+    states.push(state);
+  }
+
+  return states;
+}
+
+/** Semantic HTML elements worth detecting in source. */
+const SEMANTIC_ELEMENTS = ['output', 'fieldset', 'article', 'details', 'summary'];
+
+/**
+ * aria-* attributes to detect.
+ * Excluded: aria-hidden (implementation detail, not an a11y feature to surface).
+ * Excluded: aria-live (detected separately as liveRegion boolean).
+ */
+const ARIA_ATTRS_PATTERN = /aria-(?!hidden|live)([\w-]+)/g;
+
+/**
+ * Extract a balanced block starting at the given index, where the
+ * opening character is `open` and the closing character is `close`.
+ * Reuses the same string-literal-skipping logic as extractBraceBlock.
+ */
+function extractBalancedBlock(str, startIndex, open, close) {
+  if (str[startIndex] !== open) return null;
+  let depth = 1;
+  let i = startIndex + 1;
+  while (i < str.length && depth > 0) {
+    const ch = str[i];
+    if (ch === "'" || ch === '"') {
+      i++;
+      while (i < str.length && str[i] !== ch) {
+        if (str[i] === '\\') i++;
+        i++;
+      }
+    } else if (ch === '`') {
+      i++;
+      while (i < str.length && str[i] !== '`') {
+        if (str[i] === '\\') {
+          i += 2;
+          continue;
+        }
+        if (str[i] === '$' && str[i + 1] === '{') {
+          i += 2;
+          let innerDepth = 1;
+          while (i < str.length && innerDepth > 0) {
+            if (str[i] === '{') innerDepth++;
+            else if (str[i] === '}') innerDepth--;
+            i++;
+          }
+          continue;
+        }
+        i++;
+      }
+    } else if (ch === open) {
+      depth++;
+    } else if (ch === close) {
+      depth--;
+    }
+    i++;
+  }
+  if (depth !== 0) return null;
+  return { content: str.slice(startIndex + 1, i - 1), end: i };
+}
+
+/**
+ * Extract the render body of the root component (the forwardRef callback).
+ * Handles both block body `=> { ... }` and expression body `=> ( ... )`.
+ * Falls back to the entire source if the pattern is not found.
+ */
+function extractRootRenderBody(source, componentName) {
+  // Match: export const ComponentName = forwardRef<...>((
+  const pattern = new RegExp(
+    `export\\s+const\\s+${componentName}\\s*=\\s*forwardRef[^(]*\\(\\s*\\(`,
+  );
+  const match = pattern.exec(source);
+  if (!match) return source; // fallback: simple wrapper components (e.g., BaseUI re-exports)
+
+  // Skip past the parameter list closing ')'
+  let i = match.index + match[0].length;
+  let parenDepth = 1;
+  while (i < source.length && parenDepth > 0) {
+    if (source[i] === '(') parenDepth++;
+    else if (source[i] === ')') parenDepth--;
+    i++;
+  }
+
+  // Find '=>' then either '{' (block body) or '(' (expression body)
+  const arrowMatch = source.slice(i).match(/=>\s*([{(])/);
+  if (!arrowMatch) return source;
+
+  const bodyStart = i + arrowMatch.index + arrowMatch[0].length - 1;
+  const opener = arrowMatch[1];
+
+  if (opener === '{') {
+    const block = extractBraceBlock(source, bodyStart);
+    return block ? block.content : source;
+  }
+  // Expression body: => ( ... )
+  const block = extractBalancedBlock(source, bodyStart, '(', ')');
+  return block ? block.content : source;
+}
+
+/**
+ * Extract a11y info from the root component's render body only.
+ * Scoped to avoid attributing nested child component a11y to the root.
+ * Returns partial A11yDef. Manifest values are merged on top.
+ */
+function extractA11y(source, componentName) {
+  const renderBody = extractRootRenderBody(source, componentName);
+  const a11y = {};
+
+  // roles: manifest-only. Auto-extraction from JSX is unreliable because
+  // role="..." on nested elements (e.g. role="alert" on an error <p>)
+  // does not represent the component-level semantics.
+
+  // Detect aria-* attributes (excluding aria-hidden, aria-live)
+  const ariaAttrs = new Set();
+  for (const m of renderBody.matchAll(ARIA_ATTRS_PATTERN)) {
+    ariaAttrs.add(`aria-${m[1]}`);
+  }
+  if (ariaAttrs.size > 0) a11y.ariaAttributes = [...ariaAttrs].sort();
+
+  // Detect semantic HTML elements
+  const semanticElements = SEMANTIC_ELEMENTS.filter(
+    (el) => renderBody.includes(`<${el}`) || renderBody.includes(`<${el}>`),
+  );
+  if (semanticElements.length > 0) a11y.semanticElements = semanticElements;
+
+  // Detect aria-live → liveRegion
+  if (/aria-live=/.test(renderBody)) a11y.liveRegion = true;
+
+  return a11y;
+}
+
+/**
+ * Merge auto-extracted and manifest a11y data.
+ * Manifest values take priority for scalar fields; arrays are unioned.
+ */
+function mergeA11y(auto, manual) {
+  if (!manual && Object.keys(auto).length === 0) return undefined;
+  if (!manual) return auto;
+  if (Object.keys(auto).length === 0) return manual;
+
+  const merged = {};
+
+  // roles: manifest-only (auto-extraction disabled for roles)
+  if (manual.roles?.length > 0) merged.roles = manual.roles;
+
+  // ariaAttributes, semanticElements: union (deduplicated), manual order first
+  for (const key of ['ariaAttributes', 'semanticElements']) {
+    const autoArr = auto[key] || [];
+    const manualArr = manual[key] || [];
+    const combined = [...new Set([...manualArr, ...autoArr])];
+    if (combined.length > 0) merged[key] = combined;
+  }
+
+  // keyboardInteractions: manifest only
+  if (manual.keyboardInteractions?.length > 0) {
+    merged.keyboardInteractions = manual.keyboardInteractions;
+  }
+
+  // liveRegion: manifest overrides auto
+  if (manual.liveRegion !== undefined) {
+    merged.liveRegion = manual.liveRegion;
+  } else if (auto.liveRegion !== undefined) {
+    merged.liveRegion = auto.liveRegion;
+  }
+
+  // notes: manifest only
+  if (manual.notes) merged.notes = manual.notes;
+
+  return Object.keys(merged).length > 0 ? merged : undefined;
+}
+
+/**
+ * Merge auto-extracted and manifest states.
+ * Uses `name` as key. Same-name entries: manifest overrides auto.
+ */
+function mergeStates(auto, manual) {
+  if ((!manual || manual.length === 0) && auto.length === 0) return undefined;
+
+  // Manifest order first, then auto-extracted items not in manifest
+  const manualNames = new Set((manual || []).map((s) => s.name));
+  const result = [...(manual || []), ...auto.filter((s) => !manualNames.has(s.name))];
+  return result.length > 0 ? result : undefined;
+}
+
 // --- Main ---
 const indexSource = readFileSync(INDEX_FILE, 'utf-8');
 const exportGroups = parseIndexExports(indexSource);
@@ -401,6 +646,26 @@ for (const dir of componentDirs) {
     ({ category }) => category,
   );
 
+  // --- Phase 3C: states, a11y, examples ---
+  const autoStates = extractStates(source, cssContent, dir);
+  const states = mergeStates(autoStates, meta.states);
+
+  // Validate enum state defaultValue is one of values
+  if (states) {
+    for (const s of states) {
+      if (s.type === 'enum' && s.defaultValue && !s.values.includes(s.defaultValue)) {
+        throw new Error(
+          `${dir}: state "${s.name}" defaultValue "${s.defaultValue}" is not in values [${s.values.join(', ')}]`,
+        );
+      }
+    }
+  }
+
+  const autoA11y = extractA11y(source, dir);
+  const a11y = mergeA11y(autoA11y, meta.a11y);
+
+  const examples = meta.examples?.length > 0 ? meta.examples : undefined;
+
   const entry = {
     name: dir,
     displayName: displayNames.find((n) => n === dir) || dir,
@@ -429,6 +694,9 @@ for (const dir of componentDirs) {
             customProps: p.customProps.length > 0 ? p.customProps : undefined,
           }))
         : undefined,
+    states,
+    a11y,
+    examples,
   };
 
   components.push(entry);
