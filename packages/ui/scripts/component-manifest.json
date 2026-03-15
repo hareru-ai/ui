@@ -1,0 +1,309 @@
+{
+  "Alert": {
+    "componentSource": "src/components/Alert/Alert.tsx",
+    "cssSource": "src/components/Alert/Alert.css",
+    "description": "Displays an inline contextual message with default and destructive severity variants.",
+    "aiHint": "Use for non-blocking status messages, validation summaries, or inline notifications — not for actions requiring user confirmation.",
+    "peerComponents": ["Button"]
+  },
+  "AlertDialog": {
+    "componentSource": "src/components/AlertDialog/AlertDialog.tsx",
+    "cssSource": "src/components/AlertDialog/AlertDialog.css",
+    "description": "Modal dialog that interrupts the user flow to confirm a destructive or irreversible action.",
+    "aiHint": "Use when the user must explicitly confirm before a delete, reset, or other destructive operation proceeds.",
+    "peerComponents": ["Button"]
+  },
+  "ApprovalCard": {
+    "componentSource": "src/components/ApprovalCard/ApprovalCard.tsx",
+    "cssSource": "src/components/ApprovalCard/ApprovalCard.css",
+    "description": "Presents an AI-generated action or proposal for human review with approve/reject controls.",
+    "aiHint": "Use in agent UIs where a tool call or autonomous action requires explicit human sign-off before execution.",
+    "peerComponents": ["Button"]
+  },
+  "AspectRatio": {
+    "componentSource": "src/components/AspectRatio/AspectRatio.tsx",
+    "cssSource": "src/components/AspectRatio/AspectRatio.css",
+    "description": "Constrains its child to a fixed aspect ratio, preventing layout shift during media loading."
+  },
+  "AsyncComboboxField": {
+    "componentSource": "src/components/AsyncComboboxField/AsyncComboboxField.tsx",
+    "cssSource": "src/components/AsyncComboboxField/AsyncComboboxField.css",
+    "description": "Combobox with debounced async search, loading state, and integrated label and error message.",
+    "aiHint": "Use when option lists are fetched from an API as the user types; prefer over Combobox when the full list is too large to load upfront.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "Avatar": {
+    "componentSource": "src/components/Avatar/Avatar.tsx",
+    "cssSource": "src/components/Avatar/Avatar.css",
+    "description": "Displays a user or entity image with automatic fallback to initials or a placeholder icon."
+  },
+  "Badge": {
+    "componentSource": "src/components/Badge/Badge.tsx",
+    "cssSource": "src/components/Badge/Badge.css",
+    "description": "Small inline label for status, category, or count with default, secondary, destructive, and outline variants."
+  },
+  "BentoGrid": {
+    "componentSource": "src/components/BentoGrid/BentoGrid.tsx",
+    "cssSource": "src/components/BentoGrid/BentoGrid.css",
+    "description": "CSS Grid layout container that arranges content tiles in a bento-style responsive grid."
+  },
+  "Button": {
+    "componentSource": "src/components/Button/Button.tsx",
+    "cssSource": "src/components/Button/Button.css",
+    "description": "Trigger element for user actions with size, variant, and asChild polymorphic rendering support.",
+    "aiHint": "Default choice for any clickable action; use variant='destructive' for delete flows and variant='outline' for secondary actions.",
+    "peerComponents": ["Input", "Label"]
+  },
+  "Card": {
+    "componentSource": "src/components/Card/Card.tsx",
+    "cssSource": "src/components/Card/Card.css",
+    "description": "Surface container with optional header, body, and footer sections, rendered as semantic article/header/footer elements.",
+    "aiHint": "Use as the primary content grouping unit for dashboards, entity details, or any bounded information block.",
+    "peerComponents": ["Button", "Badge"]
+  },
+  "ChatComposer": {
+    "componentSource": "src/components/ChatComposer/ChatComposer.tsx",
+    "cssSource": "src/components/ChatComposer/ChatComposer.css",
+    "description": "Compound component for composing and submitting chat messages. Compose with ChatComposerInput, ChatComposerActions, and ChatComposerSend.",
+    "aiHint": "Always pair with ChatContainer; use as the bottom-anchored input in any conversational UI.",
+    "peerComponents": ["Button"]
+  },
+  "ChatContainer": {
+    "componentSource": "src/components/ChatContainer/ChatContainer.tsx",
+    "cssSource": "src/components/ChatContainer/ChatContainer.css",
+    "description": "Structural layout container with header, message list (role=log), and composer slots for a chat thread.",
+    "aiHint": "Use as the root wrapper for any chat or agent conversation view; compose with ChatMessage and ChatComposer.",
+    "peerComponents": ["ChatMessage", "ChatComposer"]
+  },
+  "ChatMessage": {
+    "componentSource": "src/components/ChatMessage/ChatMessage.tsx",
+    "cssSource": "src/components/ChatMessage/ChatMessage.css",
+    "description": "Single chat bubble that renders user, assistant, or system messages with variant-based alignment and avatar.",
+    "aiHint": "Use inside ChatContainer for each turn; set variant='assistant' for AI responses and variant='user' for human input.",
+    "peerComponents": ["StreamingText", "ToolCallCard"]
+  },
+  "Collapsible": {
+    "componentSource": "src/components/Collapsible/Collapsible.tsx",
+    "cssSource": "src/components/Collapsible/Collapsible.css",
+    "description": "Disclosure widget that shows or hides content with an animated expand/collapse transition."
+  },
+  "Combobox": {
+    "componentSource": "src/components/Combobox/Combobox.tsx",
+    "cssSource": "src/components/Combobox/Combobox.css",
+    "description": "Filterable select with a searchable dropdown for choosing from a predefined option list.",
+    "aiHint": "Use when the option list is static or small enough to load at once; use AsyncComboboxField for server-side search.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "Command": {
+    "componentSource": "src/components/Command/Command.tsx",
+    "cssSource": "src/components/Command/Command.css",
+    "description": "Keyboard-driven command palette for search, navigation, and quick actions."
+  },
+  "ConfidenceBadge": {
+    "componentSource": "src/components/ConfidenceBadge/ConfidenceBadge.tsx",
+    "cssSource": "src/components/ConfidenceBadge/ConfidenceBadge.css",
+    "description": "Displays a confidence level (auto, validated, reviewed, authored) with color-coded source-type styling.",
+    "aiHint": "Use alongside AI-generated content or data matches to surface model confidence to the user.",
+    "peerComponents": ["Badge"]
+  },
+  "DataQualityIndicator": {
+    "componentSource": "src/components/DataQualityIndicator/DataQualityIndicator.tsx",
+    "cssSource": "src/components/DataQualityIndicator/DataQualityIndicator.css",
+    "description": "Visual indicator of data quality score with dimension-level breakdown (completeness, accuracy, etc.).",
+    "aiHint": "Use in data catalog, entity detail, or DI domain views where data reliability must be communicated to the user.",
+    "peerComponents": ["Badge"]
+  },
+  "DefinitionBrowser": {
+    "componentSource": "src/components/DefinitionBrowser/DefinitionBrowser.tsx",
+    "cssSource": "src/components/DefinitionBrowser/DefinitionBrowser.css",
+    "description": "Browsable panel for exploring metric or business-term definitions with search and detail view.",
+    "aiHint": "Use in DI domain contexts where users need to discover and inspect semantic definitions.",
+    "peerComponents": ["Card", "Tabs"]
+  },
+  "Dialog": {
+    "componentSource": "src/components/Dialog/Dialog.tsx",
+    "cssSource": "src/components/Dialog/Dialog.css",
+    "description": "Accessible modal overlay for presenting focused tasks or detailed content without leaving the current page.",
+    "aiHint": "Use for forms, detail views, or multi-step flows that need modal focus; use AlertDialog instead for destructive confirmations.",
+    "peerComponents": ["Button"]
+  },
+  "DropdownMenu": {
+    "componentSource": "src/components/DropdownMenu/DropdownMenu.tsx",
+    "cssSource": "src/components/DropdownMenu/DropdownMenu.css",
+    "description": "Contextual menu anchored to a trigger element, supporting items, separators, and submenus."
+  },
+  "EmptyState": {
+    "componentSource": "src/components/EmptyState/EmptyState.tsx",
+    "cssSource": "src/components/EmptyState/EmptyState.css",
+    "description": "Placeholder UI shown when a list or data view has no content, with optional icon, message, and CTA.",
+    "aiHint": "Use as the fallback rendering for any list, table, or search result area that may return zero items.",
+    "peerComponents": ["Button"]
+  },
+  "FieldDiff": {
+    "componentSource": "src/components/FieldDiff/FieldDiff.tsx",
+    "cssSource": "src/components/FieldDiff/FieldDiff.css",
+    "description": "Side-by-side or inline comparison of a field's old and new values with change highlighting.",
+    "aiHint": "Use in audit logs, approval flows, or change review UIs where field-level diffs need to be presented.",
+    "peerComponents": ["Badge"]
+  },
+  "FormField": {
+    "componentSource": "src/components/FormField/FormField.tsx",
+    "cssSource": "src/components/FormField/FormField.css",
+    "description": "Wrapper that composes a Label, input control, and validation message into an accessible form field unit.",
+    "aiHint": "Use as the standard wrapper for any form input; it handles id/aria linkage between label and control automatically.",
+    "peerComponents": ["Input", "Label", "Select"]
+  },
+  "Input": {
+    "componentSource": "src/components/Input/Input.tsx",
+    "cssSource": "src/components/Input/Input.css",
+    "description": "Single-line text input with size variants and full HTML input attribute support.",
+    "aiHint": "Default choice for any single-line text entry; wrap in FormField for accessible label and error message binding.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "KeyValueList": {
+    "componentSource": "src/components/KeyValueList/KeyValueList.tsx",
+    "cssSource": "src/components/KeyValueList/KeyValueList.css",
+    "description": "Renders a list of key–value pairs in a definition-list style, suitable for metadata or property panels."
+  },
+  "Label": {
+    "componentSource": "src/components/Label/Label.tsx",
+    "cssSource": "src/components/Label/Label.css",
+    "description": "Accessible form label that associates with an input via htmlFor.",
+    "aiHint": "Always pair with an input control; use inside FormField to get automatic id wiring.",
+    "peerComponents": ["Input", "FormField"]
+  },
+  "MetricCard": {
+    "componentSource": "src/components/MetricCard/MetricCard.tsx",
+    "cssSource": "src/components/MetricCard/MetricCard.css",
+    "description": "Dashboard tile that highlights a key metric value with trend indicator and optional badge.",
+    "aiHint": "Use in analytics dashboards or KPI summaries; compose multiple MetricCards in a BentoGrid for an overview layout.",
+    "peerComponents": ["Badge", "Card"]
+  },
+  "NavigationMenu": {
+    "componentSource": "src/components/NavigationMenu/NavigationMenu.tsx",
+    "cssSource": "src/components/NavigationMenu/NavigationMenu.css",
+    "description": "Navigation bar with dropdown panel support for multi-level site menus. Supports horizontal (default) and vertical orientation."
+  },
+  "Popover": {
+    "componentSource": "src/components/Popover/Popover.tsx",
+    "cssSource": "src/components/Popover/Popover.css",
+    "description": "Non-modal floating panel anchored to a trigger for contextual details, filters, or compact forms.",
+    "aiHint": "Use for inline supplementary content that should not block the rest of the UI; use Dialog for tasks requiring modal focus.",
+    "peerComponents": ["Button"]
+  },
+  "Progress": {
+    "componentSource": "src/components/Progress/Progress.tsx",
+    "cssSource": "src/components/Progress/Progress.css",
+    "description": "Linear progress bar supporting both determinate (percentage) and indeterminate (loading) states."
+  },
+  "QueryFeedback": {
+    "componentSource": "src/components/QueryFeedback/QueryFeedback.tsx",
+    "cssSource": "src/components/QueryFeedback/QueryFeedback.css",
+    "description": "Collects binary helpful/unhelpful feedback on a query result or AI-generated answer.",
+    "aiHint": "Use below search results or AI responses in DI domain views to capture user satisfaction signals.",
+    "peerComponents": ["Card", "Badge"]
+  },
+  "ReadonlyField": {
+    "componentSource": "src/components/ReadonlyField/ReadonlyField.tsx",
+    "cssSource": "src/components/ReadonlyField/ReadonlyField.css",
+    "description": "Displays a labeled field value in a read-only presentation, styled consistently with editable form fields."
+  },
+  "ReasoningPanel": {
+    "componentSource": "src/components/ReasoningPanel/ReasoningPanel.tsx",
+    "cssSource": "src/components/ReasoningPanel/ReasoningPanel.css",
+    "description": "Native details/summary disclosure widget that shows or hides an AI agent's reasoning trace, with a spinner icon during thinking state.",
+    "aiHint": "Use in agent chat UIs to give users transparency into model reasoning; typically rendered before the assistant ChatMessage.",
+    "peerComponents": ["ChatMessage"]
+  },
+  "ScrollArea": {
+    "componentSource": "src/components/ScrollArea/ScrollArea.tsx",
+    "cssSource": "src/components/ScrollArea/ScrollArea.css",
+    "description": "Cross-browser custom scrollable container with styled scrollbars that match the design system."
+  },
+  "Select": {
+    "componentSource": "src/components/Select/Select.tsx",
+    "cssSource": "src/components/Select/Select.css",
+    "description": "Accessible dropdown select for choosing a single option from a predefined list.",
+    "aiHint": "Use for short, static option lists; use Combobox when users need to search or filter options.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "SemanticSuggest": {
+    "componentSource": "src/components/SemanticSuggest/SemanticSuggest.tsx",
+    "cssSource": "src/components/SemanticSuggest/SemanticSuggest.css",
+    "description": "AI-powered suggestion input that surfaces semantically related terms or values as the user types.",
+    "aiHint": "Use in DI domain search or metadata authoring flows where embedding-based suggestions improve discoverability.",
+    "peerComponents": ["Combobox"]
+  },
+  "Separator": {
+    "componentSource": "src/components/Separator/Separator.tsx",
+    "cssSource": "src/components/Separator/Separator.css",
+    "description": "Thin horizontal or vertical rule for visually dividing sections of content."
+  },
+  "Sheet": {
+    "componentSource": "src/components/Sheet/Sheet.tsx",
+    "cssSource": "src/components/Sheet/Sheet.css",
+    "description": "Slide-in panel from any screen edge for secondary tasks, filters, or detail views without leaving context.",
+    "aiHint": "Use when the content is too detailed for a Popover but full navigation would break user flow; common for settings and filter panels.",
+    "peerComponents": ["Button"]
+  },
+  "Skeleton": {
+    "componentSource": "src/components/Skeleton/Skeleton.tsx",
+    "cssSource": "src/components/Skeleton/Skeleton.css",
+    "description": "Animated loading placeholder that matches the shape of content while data is being fetched."
+  },
+  "StreamingText": {
+    "componentSource": "src/components/StreamingText/StreamingText.tsx",
+    "cssSource": "src/components/StreamingText/StreamingText.css",
+    "description": "Wraps streaming LLM output with an optional blinking cursor indicator while streaming is true. Token-by-token rendering is managed by the caller."
+  },
+  "Switch": {
+    "componentSource": "src/components/Switch/Switch.tsx",
+    "cssSource": "src/components/Switch/Switch.css",
+    "description": "Toggle control for binary on/off settings, following ARIA switch role semantics.",
+    "aiHint": "Use for immediate-effect boolean settings; use Checkbox when the change is deferred until form submission.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "Table": {
+    "componentSource": "src/components/Table/Table.tsx",
+    "cssSource": "src/components/Table/Table.css",
+    "description": "Semantic HTML table with styled header, body, and footer for displaying structured data sets.",
+    "aiHint": "Use for multi-column structured data; compose Badge inside cells for status columns and Button for row-level actions.",
+    "peerComponents": ["Badge", "Button"]
+  },
+  "Tabs": {
+    "componentSource": "src/components/Tabs/Tabs.tsx",
+    "cssSource": "src/components/Tabs/Tabs.css",
+    "description": "Tabbed panel that switches between content sections within the same context, following ARIA tabs pattern."
+  },
+  "Textarea": {
+    "componentSource": "src/components/Textarea/Textarea.tsx",
+    "cssSource": "src/components/Textarea/Textarea.css",
+    "description": "Multi-line text input with optional error state and consistent form field styling.",
+    "aiHint": "Use for free-text entry longer than a single line; wrap in FormField for label and validation binding.",
+    "peerComponents": ["Label", "FormField"]
+  },
+  "Toast": {
+    "componentSource": "src/components/Toast/Toast.tsx",
+    "cssSource": "src/components/Toast/Toast.css",
+    "description": "Transient notification that appears at the screen edge to confirm an action or surface a brief status update.",
+    "aiHint": "Use for post-action confirmations (saved, copied, deleted); do not use for persistent errors — use Alert instead.",
+    "peerComponents": ["Button"]
+  },
+  "Toggle": {
+    "componentSource": "src/components/Toggle/Toggle.tsx",
+    "cssSource": "src/components/Toggle/Toggle.css",
+    "description": "Pressable button that maintains an active/inactive state, suitable for toolbar selections or filter toggles."
+  },
+  "ToolCallCard": {
+    "componentSource": "src/components/ToolCallCard/ToolCallCard.tsx",
+    "cssSource": "src/components/ToolCallCard/ToolCallCard.css",
+    "description": "Displays a single agent tool invocation with its name, arguments, and execution status inline in a chat thread.",
+    "aiHint": "Use inside ChatMessage for assistant turns that include tool use; shows the tool name, input, and result at a glance.",
+    "peerComponents": ["ApprovalCard", "Button", "Badge"]
+  },
+  "Tooltip": {
+    "componentSource": "src/components/Tooltip/Tooltip.tsx",
+    "cssSource": "src/components/Tooltip/Tooltip.css",
+    "description": "Short descriptive label that appears on hover or focus to clarify the purpose of an element."
+  }
+}

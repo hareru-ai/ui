@@ -1,0 +1,57 @@
+---
+title: Label
+description: Accessible form label built on a native HTML label element.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import { Label } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Label` | Component | Main label component |
+| `LabelProps` | Type | Props interface |
+
+## Types
+
+```ts
+export interface LabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement>,
+    VariantProps<typeof labelVariants> {}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `htmlFor` | `string` | — | Associates the label with a form control by `id` |
+
+## Usage
+
+```tsx
+import { Label, Input } from "@hareru/ui"
+
+// Associate with an input
+<Label htmlFor="email">Email address</Label>
+<Input id="email" type="email" placeholder="you@example.com" />
+
+// Within a FormField (id is injected automatically)
+<FormField>
+  <FormFieldLabel>Name</FormFieldLabel>
+  <FormFieldControl>
+    <Input placeholder="John Doe" />
+  </FormFieldControl>
+</FormField>
+```
+
+## Notes
+
+- No visual variants — the component applies base `hui-label` styles.
+- When used inside `FormField`, prefer `FormFieldLabel` which injects `htmlFor` automatically from context.
+- All native `HTMLLabelElement` attributes are forwarded.

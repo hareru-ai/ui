@@ -1,0 +1,57 @@
+---
+title: Collapsible
+description: Accessible show/hide section that toggles between expanded and collapsed states.
+---
+
+**Category:** Utility — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/collapsible`
+
+## Import
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Collapsible` | Component | Root collapsible context; accepts `open`, `defaultOpen`, and `onOpenChange` |
+| `CollapsibleTrigger` | Component | Element that toggles the expanded state; supports `asChild` |
+| `CollapsibleContent` | Component | Section that is shown or hidden based on open state |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultOpen` | `boolean` | `false` | Initial expanded state (uncontrolled) |
+| `open` | `boolean` | — | Controlled expanded state |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when expanded state changes |
+| `disabled` | `boolean` | `false` | Prevents toggling |
+
+## Usage
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  Button,
+} from "@hareru/ui"
+
+<Collapsible>
+  <CollapsibleTrigger asChild><Button variant="ghost">Show Details</Button></CollapsibleTrigger>
+  <CollapsibleContent><p>Collapsible content</p></CollapsibleContent>
+</Collapsible>
+```
+
+## Notes
+
+- `CollapsibleContent` animates open/close when CSS transitions are applied to `[data-state="open"]` and `[data-state="closed"]`.
+- The `data-state` attribute on both `CollapsibleTrigger` and `CollapsibleContent` reflects `"open"` or `"closed"` for CSS targeting.
+- Use the controlled `open` + `onOpenChange` props when you need to synchronise state with other UI elements.

@@ -1,0 +1,76 @@
+---
+title: CLI
+description: Command-line tool for managing Hareru UI components and CSS imports
+---
+
+`@hareru/cli` generates CSS imports, inspects component details, and auto-detects your project setup.
+
+## Installation
+
+```bash
+npm install -g @hareru/cli
+# or use directly with npx
+npx @hareru/cli
+```
+
+## Commands
+
+### `hareru list`
+
+List all components grouped by category.
+
+```bash
+hareru list
+hareru list --group form
+hareru list --json
+```
+
+### `hareru info <name>`
+
+Show details for a component or task bundle.
+
+```bash
+hareru info Button
+hareru info agent-chat-shell
+```
+
+### `hareru add <name>`
+
+Generate CSS import statements for a component or bundle.
+
+```bash
+hareru add Dialog
+hareru add Dialog --mode tailwind
+hareru add agent-chat-shell --write
+```
+
+## CSS Modes
+
+| Mode | Description |
+|------|-------------|
+| `standalone` | All-in-one bundle (`styles.css`) |
+| `portable` | Tokens + component bundle, no reset |
+| `tailwind` | Cascade Layers for Tailwind v4 coexistence |
+| `per-component` | Individual CSS files for minimal bundle (default) |
+
+CSS mode defaults to `per-component` when `--mode` is not specified.
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `--mode <mode>` | CSS mode (`standalone`, `portable`, `tailwind`, `per-component`) |
+| `--write` | Append imports to your CSS entry file |
+| `--css-file <path>` | Target CSS file (auto-detected if omitted) |
+| `--layer` | Use `@layer` wrapped variants |
+| `--scope` | Include `.hui-root` scope helper |
+| `--baseline` | Include minimal CSS reset |
+| `--force` | Skip safety checks |
+| `--json` | JSON output |
+
+## Auto-Detection
+
+The CLI automatically detects:
+
+- **CSS entry file** — Searches common paths (`globals.css`, `index.css`, `app.css`, etc.)
+- **Package manager** — pnpm, npm, yarn, bun (monorepo-aware lockfile discovery)

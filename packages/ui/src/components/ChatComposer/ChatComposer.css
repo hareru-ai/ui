@@ -1,0 +1,82 @@
+/* ChatComposer — chat input area */
+
+.hui-chat-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--hui-spacing-2);
+  padding: var(--hui-spacing-2);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  background-color: var(--hui-color-background);
+  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+}
+
+.hui-chat-composer:focus-within {
+  border-color: var(--hui-color-ring);
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+.hui-chat-composer--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Input (textarea) */
+.hui-chat-composer__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--hui-color-foreground);
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-normal);
+  padding: var(--hui-spacing-2);
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  min-height: calc(var(--hui-font-size-sm) * 1.5 + var(--hui-spacing-2) * 2);
+  max-height: 12rem;
+}
+
+.hui-chat-composer__input::placeholder {
+  color: var(--hui-color-muted-foreground);
+}
+
+/* Actions */
+.hui-chat-composer__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+  flex-shrink: 0;
+  padding-bottom: var(--hui-spacing-1);
+}
+
+/* Send button */
+.hui-chat-composer__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hui-spacing-8);
+  height: var(--hui-spacing-8);
+  border: none;
+  border-radius: var(--hui-radius-md);
+  background-color: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color var(--hui-duration-fast);
+}
+
+.hui-chat-composer__send:hover {
+  background-color: var(--hui-color-primary-hover);
+}
+
+.hui-chat-composer__send:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+.hui-chat-composer__send:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

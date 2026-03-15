@@ -1,0 +1,62 @@
+/* ReasoningPanel — collapsible reasoning process display */
+
+.hui-reasoning-panel {
+  border-radius: var(--hui-radius-md);
+  background-color: color-mix(in srgb, var(--hui-color-muted) 50%, transparent);
+  font-family: var(--hui-font-family-sans);
+}
+
+/* Summary (disclosure trigger) */
+.hui-reasoning-panel__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-2);
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  cursor: pointer;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+  list-style: none;
+  user-select: none;
+}
+
+/* Hide native disclosure marker */
+.hui-reasoning-panel__summary::-webkit-details-marker {
+  display: none;
+}
+
+.hui-reasoning-panel__summary::marker {
+  content: "";
+}
+
+.hui-reasoning-panel__summary:hover {
+  color: var(--hui-color-foreground);
+}
+
+/* Icon */
+.hui-reasoning-panel__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-reasoning-panel__icon--spinning {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: hui-tool-spin 1s var(--hui-easing-linear) infinite;
+}
+
+/* Label */
+.hui-reasoning-panel__label {
+  font-weight: var(--hui-font-weight-medium);
+}
+
+/* Content */
+.hui-reasoning-panel__content {
+  padding: 0 var(--hui-spacing-3) var(--hui-spacing-3);
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+  line-height: var(--hui-font-leading-relaxed);
+}

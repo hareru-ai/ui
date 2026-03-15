@@ -1,0 +1,34 @@
+/* Base */
+.hui-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--hui-radius-full);
+  padding: 0 var(--hui-spacing-2);
+  font-size: var(--hui-font-size-xs);
+  font-weight: var(--hui-font-weight-semibold);
+  transition-property: background-color, color, border-color;
+  transition-duration: var(--hui-duration-fast);
+}
+
+/* Variants */
+.hui-badge--default {
+  background-color: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+}
+
+.hui-badge--secondary {
+  background-color: var(--hui-color-secondary);
+  color: var(--hui-color-secondary-foreground);
+}
+
+.hui-badge--destructive {
+  background-color: var(--hui-color-destructive);
+  color: var(--hui-color-destructive-foreground);
+}
+
+.hui-badge--outline {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border-color: var(--hui-color-border);
+}

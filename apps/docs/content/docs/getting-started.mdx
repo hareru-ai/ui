@@ -1,0 +1,206 @@
+---
+title: Getting Started
+description: Set up Hareru UI in your React project
+---
+
+## Installation
+
+```bash
+npm install @hareru/tokens @hareru/ui
+```
+
+### CLI (optional)
+
+The Hareru CLI generates CSS imports and auto-detects your CSS entry file:
+
+```bash
+# Add a component (defaults to per-component CSS mode)
+npx @hareru/cli add Button --write
+
+# Specify CSS mode explicitly
+npx @hareru/cli add Button --write --mode tailwind
+
+# List all available components
+npx @hareru/cli list
+```
+
+## CSS Setup
+
+Add one of the following import patterns to your global stylesheet (e.g., `globals.css`):
+
+**A. Standalone** (Hareru-only app — includes tokens, reset, and all component styles):
+
+```css
+@import "@hareru/ui/styles.css";
+```
+
+**B. Portable** (alongside other frameworks — no global reset):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in: .hui-root subtree typography */
+```
+
+**C. Tailwind v4 coexistence** (recommended for Tailwind projects):
+
+```css
+@layer theme, base, hui, components, utilities;
+@import "tailwindcss";
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components.layer.css";
+@import "@hareru/ui/styles/scope.css"; /* opt-in */
+```
+
+**D. Per-component** (minimal bundle):
+
+```css
+@import "@hareru/tokens/css";
+@import "@hareru/ui/styles/components/Button.css";
+@import "@hareru/ui/styles/components/Card.css";
+/* Add @hareru/ui/styles/animations.css when using StreamingText, ReasoningPanel, or ToolCallCard */
+```
+
+> `styles.css` already bundles tokens, so `@hareru/tokens/css` is not needed when using it.
+>
+> If your host app has no CSS reset, optionally add `@import "@hareru/ui/styles/baseline.css"` for `box-sizing: border-box` and form element font inheritance.
+
+## Provider Setup
+
+Create a providers component to wrap your application:
+
+```tsx
+"use client"
+
+import { ThemeProvider, Toaster } from "@hareru/ui"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider defaultTheme="system">
+      {children}
+      <Toaster />
+    </ThemeProvider>
+  )
+}
+```
+
+Then integrate it in your root layout:
+
+```tsx
+// app/layout.tsx
+import { Providers } from "./providers"
+import "./globals.css"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+## Package Exports
+
+### @hareru/tokens
+
+| Export path | Contents |
+|-------------|---------|
+| `@hareru/tokens` | Type definitions + TokenGenerator + defaultTheme |
+| `@hareru/tokens/presets` | Preset themes |
+| `@hareru/tokens/css` | Pre-generated theme CSS variables |
+
+### @hareru/ui
+
+| Export path | Contents |
+|-------------|---------|
+| `@hareru/ui` | All components, utilities, providers, Toast API |
+| `@hareru/ui/styles.css` | Convenience bundle (tokens + reset + components) |
+| `@hareru/ui/styles.layer.css` | Convenience bundle wrapped in `@layer hui` |
+| `@hareru/ui/styles/components.css` | Component styles only (portable) |
+| `@hareru/ui/styles/components.layer.css` | Component styles wrapped in `@layer hui` (Tailwind coexistence) |
+| `@hareru/ui/styles/baseline.css` | Minimal reset (box-sizing, font: inherit) |
+| `@hareru/ui/styles/scope.css` | `.hui-root` typography scope helper |
+| `@hareru/ui/styles/animations.css` | Shared keyframes (for per-component usage) |
+| `@hareru/ui/styles/components/*.css` | Per-component CSS (49 files) |
+
+All components are imported flat from `@hareru/ui`. Sub-path imports like `@hareru/ui/components/Button` are not available.
+
+## useTheme API
+
+```tsx
+const { theme, setTheme, resolvedTheme } = useTheme()
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `theme` | `'light' \| 'dark' \| 'system'` | Current setting value |
+| `resolvedTheme` | `'light' \| 'dark'` | The actual resolved theme |
+| `setTheme` | `(theme) => void` | Function to set the theme |
+
+## Common Recipes
+
+### Form
+
+```tsx
+import {
+  FormField, FormFieldLabel, FormFieldControl,
+  FormFieldDescription, FormFieldMessage, Input, Button
+} from "@hareru/ui"
+
+<FormField error={!!errors.email}>
+  <FormFieldLabel>Email address</FormFieldLabel>
+  <FormFieldControl>
+    <Input type="email" placeholder="you@example.com" />
+  </FormFieldControl>
+  <FormFieldDescription>The email address used for login</FormFieldDescription>
+  <FormFieldMessage>Please enter a valid email address</FormFieldMessage>
+</FormField>
+```
+
+### Confirmation Dialog
+
+```tsx
+import {
+  AlertDialog, AlertDialogTrigger, AlertDialogContent,
+  AlertDialogHeader, AlertDialogFooter, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogAction, AlertDialogCancel,
+  Button
+} from "@hareru/ui"
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive">Delete</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+### Toast Notification
+
+```tsx
+import { toast } from "@hareru/ui"
+
+toast({ title: "Saved", description: "Your changes have been saved." })
+toast({ title: "Error", description: "Failed to save changes.", variant: "destructive" })
+```
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| CSS variables not working | `@import` not configured | Add `@import "@hareru/ui/styles.css"` (standalone) or `@import "@hareru/tokens/css"` + `@import "@hareru/ui/styles/components.css"` (portable) to globals.css |
+| Styles not applied in Next.js | transpilePackages missing | Add `transpilePackages: ["@hareru/ui", "@hareru/tokens"]` to next.config |
+| TypeScript type error | dist not generated | Run `pnpm build` in hareru-ui directory |
+| Theme switching not working | ThemeProvider missing | Place ThemeProvider in root layout |

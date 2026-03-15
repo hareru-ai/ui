@@ -1,0 +1,113 @@
+---
+title: Select
+description: Accessible dropdown select built on Base UI Select primitives.
+---
+
+**Category:** Form / Base UI Overlay
+
+**Dependency:** `@base-ui-components/react`
+
+## Import
+
+```tsx
+import {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Select` | Component | Root component (Base UI Select.Root) |
+| `SelectGroup` | Component | Groups related items (Base UI Select.Group) |
+| `SelectValue` | Component | Displays the selected value or placeholder |
+| `SelectTrigger` | Component | Button that opens the dropdown |
+| `SelectContent` | Component | Dropdown panel rendered in a portal |
+| `SelectLabel` | Component | Group heading label |
+| `SelectItem` | Component | Individual selectable option |
+| `SelectSeparator` | Component | Visual divider between groups |
+
+## Types
+
+```ts
+export interface SelectValueProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  placeholder?: string
+  children?: React.ReactNode | ((value: unknown) => React.ReactNode)
+}
+
+export interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  value?: string
+  disabled?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Component | Description |
+|------|------|-----------|-------------|
+| `value` | `string` | `Select` | Controlled selected value |
+| `defaultValue` | `string` | `Select` | Initial uncontrolled value |
+| `onValueChange` | `(value: string) => void` | `Select` | Callback on selection change |
+| `disabled` | `boolean` | `Select` | Disables the entire select |
+| `placeholder` | `string` | `SelectValue` | Text shown when no value is selected |
+| `value` | `string` | `SelectItem` | The value submitted on selection |
+| `disabled` | `boolean` | `SelectItem` | Disables an individual option |
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+} from "@hareru/ui"
+
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select an option" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Fruits</SelectLabel>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Vegetables</SelectLabel>
+      <SelectItem value="carrot">Carrot</SelectItem>
+      <SelectItem value="broccoli" disabled>Broccoli</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+
+// Controlled
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger>
+    <SelectValue placeholder="Choose..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Notes
+
+- `SelectContent` is rendered in a portal. No extra wrapper is needed.
+- The dropdown includes scroll arrows that appear automatically when items overflow.
+- Selected items display a checkmark indicator via `SelectItem`'s built-in indicator.

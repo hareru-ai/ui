@@ -1,0 +1,10 @@
+/* @hareru/ui — Typography scope helper for portable mode */
+
+.hui-root {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-base);
+  line-height: var(--hui-font-leading-normal);
+  color: var(--hui-color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,74 @@
+/* ChatMessage — AI agent chat message */
+
+.hui-chat-message {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--hui-spacing-3);
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-relaxed);
+}
+
+/* --- User variant: right-aligned, subtle background --- */
+.hui-chat-message--user {
+  justify-content: flex-end;
+}
+
+.hui-chat-message--user .hui-chat-message__content {
+  background-color: var(--hui-color-muted);
+  color: var(--hui-color-foreground);
+  border-radius: var(--hui-radius-xl) var(--hui-radius-xl) 0 var(--hui-radius-xl);
+  padding: var(--hui-spacing-3) var(--hui-spacing-4);
+  max-width: 75%;
+}
+
+/* --- Assistant variant: full-width text, no bubble (ChatGPT/v0 style) --- */
+.hui-chat-message--assistant {
+  align-items: flex-start;
+}
+
+.hui-chat-message--assistant .hui-chat-message__content {
+  color: var(--hui-color-foreground);
+  padding: 0;
+  max-width: 100%;
+}
+
+/* --- System variant: centered, subtle --- */
+.hui-chat-message--system {
+  justify-content: center;
+}
+
+.hui-chat-message--system .hui-chat-message__content {
+  color: var(--hui-color-muted-foreground);
+  font-size: var(--hui-font-size-xs);
+  text-align: center;
+  padding: var(--hui-spacing-1) 0;
+}
+
+/* Content */
+.hui-chat-message__content {
+  word-break: break-word;
+  min-width: 0;
+}
+
+/* Timestamp */
+.hui-chat-message__timestamp {
+  display: block;
+  font-size: var(--hui-font-size-xs);
+  color: var(--hui-color-muted-foreground);
+  margin-top: var(--hui-spacing-1);
+}
+
+/* Actions — visible on hover */
+.hui-chat-message__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+  margin-top: var(--hui-spacing-1);
+  opacity: 0;
+  transition: opacity var(--hui-duration-fast);
+}
+
+.hui-chat-message:hover .hui-chat-message__actions {
+  opacity: 1;
+}

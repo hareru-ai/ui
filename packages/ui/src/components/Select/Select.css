@@ -1,0 +1,146 @@
+/* Trigger */
+.hui-select__trigger {
+  display: flex;
+  width: 100%;
+  height: var(--hui-spacing-10);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--hui-spacing-2) var(--hui-spacing-3);
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border: 1px solid var(--hui-color-input);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  line-height: var(--hui-font-leading-normal);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+}
+
+.hui-select__trigger:focus-visible {
+  border-color: var(--hui-color-ring);
+  box-shadow: 0 0 0 1px var(--hui-color-ring);
+}
+
+.hui-select__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hui-select__trigger[data-placeholder] {
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-select__icon {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* Content */
+.hui-select__content {
+  position: relative;
+  z-index: var(--hui-z-index-dropdown);
+  max-height: 24rem;
+  min-width: 8rem;
+  overflow: hidden;
+  background-color: var(--hui-color-popover);
+  color: var(--hui-color-popover-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
+  box-shadow: var(--hui-shadow-md);
+}
+
+.hui-select__content[data-open] {
+  animation: hui-select-in var(--hui-duration-fast) var(--hui-easing-out);
+}
+
+.hui-select__content[data-ending-style] {
+  animation: hui-select-out var(--hui-duration-fast) var(--hui-easing-in);
+}
+
+@keyframes hui-select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hui-select-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+}
+
+/* Viewport */
+.hui-select__viewport {
+  padding: var(--hui-spacing-1);
+  width: var(--anchor-width);
+}
+
+/* Scroll buttons */
+.hui-select__scroll-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--hui-spacing-6);
+  cursor: default;
+}
+
+/* Label */
+.hui-select__label {
+  padding: var(--hui-spacing-2) var(--hui-spacing-2) var(--hui-spacing-1);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-semibold);
+}
+
+/* Item */
+.hui-select__item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: var(--hui-spacing-2) var(--hui-spacing-2) var(--hui-spacing-2) var(--hui-spacing-8);
+  border-radius: var(--hui-radius-sm);
+  font-size: var(--hui-font-size-sm);
+  outline: none;
+  cursor: default;
+  user-select: none;
+}
+
+.hui-select__item[data-highlighted] {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-select__item[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hui-select__item-indicator {
+  position: absolute;
+  left: var(--hui-spacing-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hui-spacing-4);
+  height: var(--hui-spacing-4);
+}
+
+/* Separator */
+.hui-select__separator {
+  height: 1px;
+  margin: var(--hui-spacing-1) calc(var(--hui-spacing-1) * -1);
+  background-color: var(--hui-color-muted);
+}

@@ -1,0 +1,43 @@
+---
+title: Design Tokens
+description: Token naming conventions and categories
+---
+
+## Naming Convention
+
+CSS variables follow the `--hui-{category}-{name}` pattern.
+
+The `DEFAULT` key expands to the parent name:
+- `color.primary.DEFAULT` → `--hui-color-primary`
+- `shadow.DEFAULT` → `--hui-shadow`
+
+## Token Categories
+
+| Category | Pattern | Example |
+|----------|---------|---------|
+| color | `--hui-color-{name}` | `--hui-color-primary` |
+| spacing | `--hui-spacing-{0-16}` | `--hui-spacing-4` |
+| radius | `--hui-radius-{size}` | `--hui-radius-lg` |
+| font | `--hui-font-{sub}-{name}` | `--hui-font-size-sm` |
+| typography | `--hui-typography-{variant}-{prop}` | `--hui-typography-h1-font-size` |
+| shadow | `--hui-shadow{-size}` | `--hui-shadow-md` |
+| duration | `--hui-duration-{speed}` | `--hui-duration-fast` |
+| easing | `--hui-easing-{type}` | `--hui-easing-out` |
+| z-index | `--hui-z-index-{layer}` | `--hui-z-index-modal` |
+
+## Theme Behavior
+
+- `:root` defines light theme (default)
+- `[data-theme="dark"]` overrides color and shadow only
+- Spacing, font, radius, duration, easing, and z-index are shared between themes
+
+## DTCG Format
+
+Tokens are available in the W3C Design Token Community Group (DTCG) standard JSON format via `@hareru/tokens`.
+
+```typescript
+import { TokenGenerator } from '@hareru/tokens';
+import { defaultTheme } from '@hareru/tokens/presets';
+
+const dtcg = TokenGenerator.toDTCG(defaultTheme.light);
+```

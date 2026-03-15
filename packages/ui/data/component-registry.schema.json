@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hareru.ai/schemas/component-registry.json",
+  "title": "Hareru UI Component Registry",
+  "type": "object",
+  "required": ["$schema", "name", "version", "componentCount", "components"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "componentCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ComponentEntry"
+      }
+    },
+    "taskBundles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TaskBundle"
+      }
+    }
+  },
+  "$defs": {
+    "ComponentEntry": {
+      "type": "object",
+      "required": [
+        "name",
+        "displayName",
+        "group",
+        "componentSource",
+        "cssArtifact",
+        "requiredCssArtifacts",
+        "tokenCategories",
+        "description"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string",
+          "enum": [
+            "core",
+            "form",
+            "layout",
+            "overlay",
+            "navigation",
+            "feedback",
+            "data-display",
+            "agent",
+            "di-domain"
+          ]
+        },
+        "componentSource": {
+          "type": "string"
+        },
+        "cssArtifact": {
+          "type": "string"
+        },
+        "requiredCssArtifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokenCategories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "color",
+              "spacing",
+              "radius",
+              "font",
+              "typography",
+              "shadow",
+              "duration",
+              "easing",
+              "zIndex"
+            ]
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "aiHint": {
+          "type": "string"
+        },
+        "peerComponents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subcomponents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VariantEntry"
+          }
+        },
+        "props": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PropsEntry"
+          }
+        }
+      }
+    },
+    "VariantEntry": {
+      "type": "object",
+      "required": ["name", "variants", "defaultVariants"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "variants": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "defaultVariants": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PropsEntry": {
+      "type": "object",
+      "required": ["name", "extends"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "extends": {
+          "type": ["string", "null"]
+        },
+        "customProps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CustomProp"
+          }
+        }
+      }
+    },
+    "CustomProp": {
+      "type": "object",
+      "required": ["name", "type", "required"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TaskBundle": {
+      "type": "object",
+      "required": ["name", "description", "components", "cssArtifacts", "tokenCategories"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cssArtifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokenCategories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

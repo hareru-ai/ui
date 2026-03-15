@@ -1,0 +1,23 @@
+/* @hareru/ui — Standalone Styles (Hareru-owned app only) */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-base);
+  line-height: var(--hui-font-leading-normal);
+  color: var(--hui-color-foreground);
+  background-color: var(--hui-color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

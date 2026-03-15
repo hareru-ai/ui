@@ -1,0 +1,59 @@
+---
+title: Textarea
+description: Multi-line text input with error state support.
+---
+
+**Category:** Form / Standalone
+
+## Import
+
+```tsx
+import { Textarea } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Textarea` | Component | Main textarea component |
+| `TextareaProps` | Type | Props interface |
+
+## Types
+
+```ts
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  error?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `error` | `boolean` | `false` | Applies error styling (`hui-textarea--error`) |
+| `rows` | `number` | — | Native `rows` attribute to control visible height |
+
+## Usage
+
+```tsx
+import { Textarea } from "@hareru/ui"
+
+// Basic usage
+<Textarea placeholder="Enter your message..." />
+
+// Error state
+<Textarea error placeholder="Error state" />
+
+// Controlled with row count
+<Textarea
+  rows={6}
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  placeholder="Write your bio..."
+/>
+```
+
+## Notes
+
+- All native `HTMLTextAreaElement` attributes are forwarded.
+- The `error` prop only applies visual styling. Pair with `FormField` for full accessible error handling including `aria-invalid` and `aria-describedby`.

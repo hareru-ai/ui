@@ -1,0 +1,70 @@
+---
+title: Separator
+description: Visual divider line supporting horizontal and vertical orientations.
+---
+
+**Category:** Layout / Standalone
+
+## Import
+
+```tsx
+import { Separator } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Separator` | Component | Main separator component |
+| `SeparatorProps` | Type | Props interface |
+
+## Types
+
+```ts
+export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  orientation?: "horizontal" | "vertical"
+  decorative?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `"horizontal"` \| `"vertical"` | `"horizontal"` | Direction of the separator line |
+| `decorative` | `boolean` | `true` | When `true`, renders as `role="none"` (purely visual). When `false`, renders as `role="separator"` with `aria-orientation`. |
+
+## Usage
+
+```tsx
+import { Separator } from "@hareru/ui"
+
+// Horizontal (default)
+<Separator />
+
+// Vertical separator in an inline layout
+<div style={{ display: "flex", alignItems: "center", gap: "0.75rem", height: "1.25rem" }}>
+  <span>Left</span>
+  <Separator orientation="vertical" />
+  <span>Right</span>
+</div>
+
+// Semantic separator (announced by screen readers)
+<Separator decorative={false} orientation="horizontal" />
+
+// Section divider
+<section>
+  <h2>Section One</h2>
+  <p>Content here.</p>
+</section>
+<Separator />
+<section>
+  <h2>Section Two</h2>
+  <p>Content here.</p>
+</section>
+```
+
+## Notes
+
+- When used as a visible section divider that conveys structure (not just visual decoration), set `decorative={false}` to expose `role="separator"` to assistive technologies.
+- For vertical separators, the parent container must have an explicit height or be a flex/grid container for the line to appear.

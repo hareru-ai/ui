@@ -1,0 +1,52 @@
+---
+title: Animation
+description: Duration, easing, and z-index tokens
+---
+
+## Duration
+
+| Token | Value |
+|-------|-------|
+| `--hui-duration-fast` | 100ms |
+| `--hui-duration-normal` | 200ms |
+| `--hui-duration-slow` | 300ms |
+| `--hui-duration-slower` | 500ms |
+
+## Easing
+
+| Token | Value |
+|-------|-------|
+| `--hui-easing-linear` | cubic-bezier(0, 0, 1, 1) |
+| `--hui-easing-in` | cubic-bezier(0.42, 0, 1, 1) |
+| `--hui-easing-out` | cubic-bezier(0, 0, 0.58, 1) |
+| `--hui-easing-in-out` | cubic-bezier(0.42, 0, 0.58, 1) |
+
+## Usage
+
+```css
+.my-element {
+  transition: background-color var(--hui-duration-fast) var(--hui-easing-out);
+}
+
+.my-modal {
+  transition: opacity var(--hui-duration-normal) var(--hui-easing-in-out);
+}
+```
+
+## Z-Index
+
+| Token | Value |
+|-------|-------|
+| `--hui-z-index-base` | 10 |
+| `--hui-z-index-dropdown` | 50 |
+| `--hui-z-index-sticky` | 500 |
+| `--hui-z-index-modal` | 1000 |
+| `--hui-z-index-toast` | 1100 |
+
+```css
+.my-sticky-header {
+  z-index: var(--hui-z-index-sticky);
+}
+```
+
+All animation and z-index tokens are shared between light and dark themes.

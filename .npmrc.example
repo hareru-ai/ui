@@ -1,0 +1,5 @@
+# npm public registry (default — no custom config needed)
+# Add auth token for publishing:
+#   npm login --scope=@hareru
+# or set NPM_TOKEN env var in CI:
+#   //registry.npmjs.org/:_authToken=${NPM_TOKEN}

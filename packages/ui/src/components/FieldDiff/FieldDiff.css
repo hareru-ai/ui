@@ -1,0 +1,44 @@
+.hui-field-diff {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-2, 0.5rem);
+}
+
+.hui-field-diff__row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto 2fr;
+  align-items: center;
+  gap: var(--hui-spacing-2, 0.5rem);
+  padding: var(--hui-spacing-2, 0.5rem);
+  border-radius: var(--hui-radius-sm, 0.25rem);
+  font-size: var(--hui-font-size-sm, 0.875rem);
+}
+
+.hui-field-diff__row--changed {
+  background-color: var(--hui-color-warning-subtle, #fef3c7);
+}
+
+.hui-field-diff__label {
+  color: var(--hui-color-text-muted, #6b7280);
+  font-weight: 500;
+}
+
+.hui-field-diff__value {
+  color: var(--hui-color-text, #111827);
+}
+
+.hui-field-diff__arrow {
+  color: var(--hui-color-text-muted, #6b7280);
+  font-size: var(--hui-font-size-xs, 0.75rem);
+  text-align: center;
+}
+
+.hui-field-diff__value--removed {
+  color: var(--hui-color-danger, #dc2626);
+  text-decoration: line-through;
+}
+
+.hui-field-diff__value--added {
+  color: var(--hui-color-success, #16a34a);
+  font-weight: 600;
+}

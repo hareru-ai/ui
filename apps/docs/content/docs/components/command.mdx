@@ -1,0 +1,83 @@
+---
+title: Command
+description: Command palette with fuzzy search, built on cmdk.
+---
+
+**Category:** Navigation — **Pattern:** Base UI Overlay
+
+**Dependency:** `cmdk`
+
+## Import
+
+```tsx
+import {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandSeparator,
+  CommandItem,
+  CommandShortcut,
+  CommandDialog,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Command` | Component | Root command palette context |
+| `CommandInput` | Component | Search input with built-in icon |
+| `CommandList` | Component | Scrollable list container for groups and items |
+| `CommandEmpty` | Component | Shown when search returns no results |
+| `CommandGroup` | Component | Labelled section within the list; accepts `heading` prop |
+| `CommandSeparator` | Component | Visual divider between groups |
+| `CommandItem` | Component | Selectable command entry |
+| `CommandShortcut` | Component | Keyboard shortcut hint (right-aligned text) |
+| `CommandDialog` | Component | Pre-composed modal wrapping `Command`; accepts `title` prop |
+
+## Key Props
+
+| Prop | Type | Component | Default | Description |
+|------|------|-----------|---------|-------------|
+| `title` | `string` | `CommandDialog` | — | Accessible dialog title (required for `CommandDialog`) |
+| `open` | `boolean` | `CommandDialog` | — | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `CommandDialog` | — | Callback when open state changes |
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import {
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "@hareru/ui"
+
+function CommandPalette() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <CommandDialog open={open} onOpenChange={setOpen} title="Commands">
+      <CommandInput placeholder="Search..." />
+      <CommandList>
+        <CommandEmpty>No results</CommandEmpty>
+        <CommandGroup heading="Actions">
+          <CommandItem>Settings</CommandItem>
+          <CommandItem>Profile</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  )
+}
+```
+
+## Notes
+
+- `CommandDialog` is the recommended entry point for command palette use cases — it handles the modal wrapper and accessibility title automatically.
+- Use the standalone `Command` component when embedding the palette inline (e.g. inside a `Popover`).
+- Items are filtered by fuzzy matching against their text content by default. Pass `filter` to `Command` to provide a custom filter function.

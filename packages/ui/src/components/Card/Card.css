@@ -1,0 +1,38 @@
+.hui-card {
+  background-color: var(--hui-color-card);
+  color: var(--hui-color-card-foreground);
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  box-shadow: var(--hui-shadow-sm);
+}
+
+.hui-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-1);
+  padding: var(--hui-spacing-6);
+}
+
+.hui-card__title {
+  margin: 0;
+  font-size: var(--hui-font-size-2xl);
+  font-weight: var(--hui-font-weight-semibold);
+  line-height: var(--hui-font-leading-none);
+  letter-spacing: var(--hui-font-tracking-tight);
+}
+
+.hui-card__description {
+  margin: 0;
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+}
+
+.hui-card__content {
+  padding: 0 var(--hui-spacing-6) var(--hui-spacing-6);
+}
+
+.hui-card__footer {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--hui-spacing-6) var(--hui-spacing-6);
+}

@@ -1,0 +1,62 @@
+---
+title: EmptyState
+description: Displays a placeholder UI when there is no content to show.
+---
+
+**Category:** Feedback / Composite
+
+Import from `@hareru/ui`:
+
+```tsx
+import {
+  EmptyState,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateAction,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Export | Description |
+|--------|-------------|
+| `EmptyState` | Root container. Renders with `role="status"` |
+| `EmptyStateIcon` | Optional icon slot above the title |
+| `EmptyStateTitle` | Primary heading |
+| `EmptyStateDescription` | Supporting text |
+| `EmptyStateAction` | Slot for action buttons |
+
+## Usage
+
+```tsx
+import {
+  EmptyState,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateAction,
+  Button,
+} from "@hareru/ui"
+
+<EmptyState>
+  <EmptyStateTitle>No data found</EmptyStateTitle>
+  <EmptyStateDescription>Create your first item to get started.</EmptyStateDescription>
+  <EmptyStateAction>
+    <Button>Create New</Button>
+  </EmptyStateAction>
+</EmptyState>
+```
+
+With an icon:
+
+```tsx
+import { InboxIcon } from "lucide-react"
+
+<EmptyState>
+  <EmptyStateIcon>
+    <InboxIcon />
+  </EmptyStateIcon>
+  <EmptyStateTitle>Your inbox is empty</EmptyStateTitle>
+  <EmptyStateDescription>New messages will appear here.</EmptyStateDescription>
+</EmptyState>
+```

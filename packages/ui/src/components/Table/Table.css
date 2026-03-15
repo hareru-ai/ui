@@ -1,0 +1,47 @@
+.hui-table__wrapper {
+  overflow: auto;
+  width: 100%;
+}
+
+.hui-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--hui-font-size-sm, 0.875rem);
+}
+
+.hui-table__header {
+  border-bottom: 2px solid var(--hui-color-border, #e5e7eb);
+}
+
+.hui-table__body .hui-table__row {
+  border-bottom: 1px solid var(--hui-color-border, #e5e7eb);
+}
+
+.hui-table__body .hui-table__row:last-child {
+  border-bottom: none;
+}
+
+.hui-table__head {
+  padding: var(--hui-spacing-3, 0.75rem);
+  font-weight: 600;
+  text-align: left;
+  font-size: var(--hui-font-size-xs, 0.75rem);
+  color: var(--hui-color-text-muted, #6b7280);
+  white-space: nowrap;
+}
+
+.hui-table__cell {
+  padding: var(--hui-spacing-3, 0.75rem);
+  font-size: var(--hui-font-size-sm, 0.875rem);
+  color: var(--hui-color-text, #111827);
+}
+
+.hui-table__head--center,
+.hui-table__cell--center {
+  text-align: center;
+}
+
+.hui-table__head--right,
+.hui-table__cell--right {
+  text-align: right;
+}

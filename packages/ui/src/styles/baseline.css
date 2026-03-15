@@ -1,0 +1,14 @@
+/* @hareru/ui — Baseline Reset (host-authorized optional) */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}

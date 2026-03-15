@@ -1,0 +1,140 @@
+---
+title: BentoGrid
+description: Responsive drag-and-drop grid layout built on react-grid-layout with preset breakpoint configurations.
+---
+
+**Category:** Layout / Composite
+
+**Dependency:** `react-grid-layout`
+
+## Import
+
+```tsx
+import { BentoGrid, BentoGridItem, BENTO_PRESETS } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `BentoGrid` | Component | Responsive grid root powered by `react-grid-layout` |
+| `BentoGridItem` | Component | Individual grid cell; supports `asChild` |
+| `BENTO_PRESETS` | Object | Built-in breakpoint and column configurations |
+| `BentoGridProps` | Type | Props interface for BentoGrid |
+| `BentoGridItemProps` | Type | Props interface for BentoGridItem |
+
+## Types
+
+```ts
+export interface BentoGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  layouts: ResponsiveLayouts
+  breakpoints?: Record<string, number>
+  cols?: Record<string, number>
+  rowHeight?: number
+  gap?: [number, number]
+  draggable?: boolean
+  resizable?: boolean
+  onLayoutChange?: (layout: Layout, allLayouts: ResponsiveLayouts) => void
+  onBreakpointChange?: (breakpoint: string, cols: number) => void
+  children: React.ReactNode
+}
+
+export interface BentoGridItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  asChild?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `layouts` | `ResponsiveLayouts` | required | Layout definitions per breakpoint |
+| `breakpoints` | `Record<string, number>` | `BENTO_PRESETS.default.breakpoints` | Breakpoint width thresholds in px |
+| `cols` | `Record<string, number>` | `BENTO_PRESETS.default.cols` | Column count per breakpoint |
+| `rowHeight` | `number` | `150` | Height of a single row unit in px |
+| `gap` | `[number, number]` | `[16, 16]` | Horizontal and vertical gap in px `[x, y]` |
+| `draggable` | `boolean` | `false` | Enable drag-to-reorder |
+| `resizable` | `boolean` | `false` | Enable resize handles |
+| `onLayoutChange` | `function` | — | Callback after layout changes |
+
+## BENTO_PRESETS
+
+| Preset | Breakpoints | Columns |
+|--------|-------------|---------|
+| `default` | `lg: 1200, md: 996, sm: 768, xs: 480` | `lg: 12, md: 8, sm: 4, xs: 2` |
+| `profile` | `lg: 1200, md: 768, sm: 480` | `lg: 6, md: 4, sm: 2` |
+
+## Layout Item Schema
+
+Each item in the layout array follows `react-grid-layout`'s `Layout` type:
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `i` | `string` | Unique key matching the `BentoGridItem`'s `key` prop |
+| `x` | `number` | Column position (0-indexed) |
+| `y` | `number` | Row position (0-indexed) |
+| `w` | `number` | Width in column units |
+| `h` | `number` | Height in row units |
+| `static` | `boolean` | Prevents drag/resize for this item |
+
+## Usage
+
+```tsx
+import { BentoGrid, BentoGridItem, BENTO_PRESETS } from "@hareru/ui"
+import { Card, CardContent, CardHeader, CardTitle } from "@hareru/ui"
+
+const layouts = {
+  lg: [
+    { i: "a", x: 0, y: 0, w: 6, h: 2 },
+    { i: "b", x: 6, y: 0, w: 6, h: 2 },
+    { i: "c", x: 0, y: 2, w: 12, h: 1 },
+  ],
+  md: [
+    { i: "a", x: 0, y: 0, w: 4, h: 2 },
+    { i: "b", x: 4, y: 0, w: 4, h: 2 },
+    { i: "c", x: 0, y: 2, w: 8, h: 1 },
+  ],
+}
+
+<BentoGrid layouts={layouts} rowHeight={80} gap={[12, 12]}>
+  <BentoGridItem key="a">
+    <Card>
+      <CardHeader><CardTitle>Visits</CardTitle></CardHeader>
+      <CardContent>12,340</CardContent>
+    </Card>
+  </BentoGridItem>
+  <BentoGridItem key="b">
+    <Card>
+      <CardHeader><CardTitle>Revenue</CardTitle></CardHeader>
+      <CardContent>$4,200</CardContent>
+    </Card>
+  </BentoGridItem>
+  <BentoGridItem key="c">
+    <Card>
+      <CardContent>Full-width chart area</CardContent>
+    </Card>
+  </BentoGridItem>
+</BentoGrid>
+
+// Draggable and resizable
+<BentoGrid
+  layouts={layouts}
+  draggable
+  resizable
+  onLayoutChange={(layout, allLayouts) => saveLayout(allLayouts)}
+>
+  ...
+</BentoGrid>
+
+// Using asChild for custom wrappers
+<BentoGridItem key="custom" asChild>
+  <article className="my-custom-card">Custom content</article>
+</BentoGridItem>
+```
+
+## Notes
+
+- Each `BentoGridItem`'s `key` prop must match the `i` field of the corresponding layout item.
+- The grid uses `useContainerWidth` internally and only renders after mounting to avoid SSR width mismatch.
+- `BENTO_PRESETS.default` uses a 12-column grid matching common design systems.
+- `BENTO_PRESETS.profile` uses a 6-column grid suited for profile or dashboard layouts.

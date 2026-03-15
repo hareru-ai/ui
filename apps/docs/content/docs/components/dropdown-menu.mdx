@@ -1,0 +1,84 @@
+---
+title: DropdownMenu
+description: Accessible dropdown menu with support for groups, submenus, checkboxes, and radio items.
+---
+
+**Category:** Navigation — **Pattern:** Base UI Overlay
+
+**Dependency:** `@base-ui-components/react/menu`
+
+## Import
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `DropdownMenu` | Component | Root dropdown context provider |
+| `DropdownMenuTrigger` | Component | Element that toggles the menu; supports `asChild` |
+| `DropdownMenuContent` | Component | Floating menu panel |
+| `DropdownMenuItem` | Component | Clickable menu item; accepts `inset` prop |
+| `DropdownMenuCheckboxItem` | Component | Menu item with a checkbox; accepts `checked` and `onCheckedChange` |
+| `DropdownMenuRadioItem` | Component | Menu item within a radio group |
+| `DropdownMenuLabel` | Component | Non-interactive section label; accepts `inset` prop |
+| `DropdownMenuSeparator` | Component | Visual divider between sections |
+| `DropdownMenuShortcut` | Component | Keyboard shortcut hint (right-aligned text) |
+| `DropdownMenuGroup` | Component | Semantic grouping wrapper |
+| `DropdownMenuSub` | Component | Submenu root context |
+| `DropdownMenuSubTrigger` | Component | Item that opens a submenu; accepts `inset` prop |
+| `DropdownMenuSubContent` | Component | Floating panel for the submenu |
+
+## Key Props
+
+| Prop | Type | Component | Description |
+|------|------|-----------|-------------|
+| `inset` | `boolean` | Item, Label, SubTrigger | Adds left padding to align with items that have icons |
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  Button,
+} from "@hareru/ui"
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild><Button variant="outline">Menu</Button></DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Notes
+
+- `DropdownMenuCheckboxItem` and `DropdownMenuRadioItem` manage their own internal state when used uncontrolled. Pass `checked` / `onCheckedChange` for controlled usage.
+- `DropdownMenuRadioItem` must be nested inside a `DropdownMenuRadioGroup` with a `value` prop.
+- `DropdownMenuShortcut` is purely decorative; keyboard shortcuts must be registered separately in your application.

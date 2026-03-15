@@ -1,0 +1,12 @@
+.hui-label {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: var(--hui-font-leading-none);
+  color: var(--hui-color-foreground);
+}
+
+.hui-label[data-disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

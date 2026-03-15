@@ -1,0 +1,94 @@
+/* react-grid-layout base styles (scoped under .hui-bento-grid) */
+.hui-bento-grid .react-grid-layout {
+  position: relative;
+  transition: height var(--hui-duration-normal) ease;
+}
+
+.hui-bento-grid .react-grid-item {
+  transition: all var(--hui-duration-normal) ease;
+  transition-property: left, top, width, height;
+}
+
+.hui-bento-grid .react-grid-item img {
+  pointer-events: none;
+  user-select: none;
+}
+
+.hui-bento-grid .react-grid-item.cssTransforms {
+  transition-property: transform, width, height;
+}
+
+.hui-bento-grid .react-grid-item.resizing {
+  transition: none;
+  z-index: 1;
+  will-change: width, height;
+}
+
+.hui-bento-grid .react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+.hui-bento-grid .react-grid-item.dropping {
+  visibility: hidden;
+}
+
+.hui-bento-grid .react-grid-item > .react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+}
+
+.hui-bento-grid .react-grid-item:hover > .react-resizable-handle {
+  opacity: 1;
+}
+
+.hui-bento-grid .react-grid-item > .react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  border-right: 2px solid var(--hui-color-border);
+  border-bottom: 2px solid var(--hui-color-border);
+}
+
+.hui-bento-grid .react-resizable-hide > .react-resizable-handle {
+  display: none;
+}
+
+.hui-bento-grid .react-grid-item > .react-resizable-handle.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+
+/* BentoGrid block */
+.hui-bento-grid {
+  position: relative;
+  width: 100%;
+}
+
+/* BentoGrid item element */
+.hui-bento-grid__item {
+  border-radius: var(--hui-radius-lg);
+  overflow: hidden;
+  transition-property: box-shadow;
+  transition-duration: var(--hui-duration-normal);
+}
+
+/* Dragging state */
+.hui-bento-grid__item.react-draggable-dragging {
+  z-index: 10;
+  box-shadow: var(--hui-shadow-lg);
+}
+
+/* Placeholder */
+.hui-bento-grid .react-grid-item.react-grid-placeholder {
+  background-color: var(--hui-color-muted);
+  border-radius: var(--hui-radius-lg);
+  opacity: 0.5;
+}

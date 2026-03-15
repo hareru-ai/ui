@@ -1,0 +1,64 @@
+/* Switch track */
+.hui-switch {
+  --switch-width: 2.75rem;
+  --switch-height: 1.5rem;
+  --switch-thumb-size: 1.25rem;
+  --switch-thumb-offset: 0.125rem;
+  /* translateX = width - thumb-size - offset*3 = 2.75 - 1.25 - 0.375 = 1.125rem */
+  --switch-thumb-translate: 1.125rem;
+
+  display: inline-flex;
+  align-items: center;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  padding: 0;
+  transition: background-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  outline: none;
+}
+
+/* Unchecked state */
+.hui-switch:not([data-checked]) {
+  background-color: var(--hui-color-input);
+}
+
+/* Checked state */
+.hui-switch[data-checked] {
+  background-color: var(--hui-color-primary);
+}
+
+/* Focus ring */
+.hui-switch:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Disabled */
+.hui-switch:disabled,
+.hui-switch[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Thumb */
+.hui-switch__thumb {
+  display: block;
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
+  border-radius: 9999px;
+  background-color: var(--hui-color-background);
+  box-shadow: var(--hui-shadow-sm);
+  transition: transform var(--hui-duration-fast);
+  pointer-events: none;
+}
+
+/* Thumb position */
+.hui-switch__thumb:not([data-checked]) {
+  transform: translateX(var(--switch-thumb-offset));
+}
+
+.hui-switch__thumb[data-checked] {
+  transform: translateX(var(--switch-thumb-translate));
+}

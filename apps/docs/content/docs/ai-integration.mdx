@@ -1,0 +1,80 @@
+---
+title: AI Integration
+description: How AI agents consume Hareru UI via MCP, CLI, and machine-readable contracts
+---
+
+Hareru UI provides multiple integration paths for AI agents, from full MCP server access to static guidance files.
+
+## Integration Paths
+
+| Path | Best for | Setup |
+|------|----------|-------|
+| [MCP Server](/docs/mcp-server) | Claude Desktop, Cursor, MCP-compatible clients | `npx @hareru/mcp` |
+| [CLI](/docs/cli) | Code generation agents, CI pipelines | `npx @hareru/cli add Button --write` |
+| `.cursorrules` | Cursor editor | Included in repository root |
+| `llms.txt` | Any AI agent without MCP | `ui.hareru.ai/llms.txt` |
+| `consumer-rules.json` | Custom agent integrations | `@hareru/ui/consumer-rules.json` |
+
+## MCP Server
+
+The `@hareru/mcp` server exposes the full design system contract:
+
+- **6 resources** — Tokens, token schema, component registry, component schema, task bundles, consumer rules
+- **5 tools** — `get-component-usage`, `get-bundle-usage`, `validate-token-value`, `recommend-css-mode`, `list-components-by-group`
+- **3 prompts** — `create-ui`, `create-ui-tailwind`, `consumer-rules`
+
+```json
+{
+  "mcpServers": {
+    "hareru-ui": {
+      "command": "npx",
+      "args": ["-y", "@hareru/mcp"]
+    }
+  }
+}
+```
+
+See the [MCP Server page](/docs/mcp-server) for full documentation.
+
+## CLI for Code Generation
+
+AI agents can use the CLI to generate correct CSS imports:
+
+```bash
+# Generate per-component CSS imports
+npx @hareru/cli add Button
+
+# Generate Tailwind coexistence imports
+npx @hareru/cli add Dialog --mode tailwind
+
+# Auto-append to CSS entry file
+npx @hareru/cli add agent-chat-shell --write
+```
+
+## AG-UI Event Mapping
+
+| AG-UI Event | Hareru Component | Props Mapping |
+|-------------|------------------|---------------|
+| `TEXT_MESSAGE_CONTENT` | `ChatMessage` + `StreamingText` | Append text to children |
+| `TOOL_CALL_START` | `ToolCallCard` | `toolName`, `status="running"` |
+| `TOOL_CALL_END` | `ToolCallCard` | `status="complete"`, `result` |
+| `STATE_DELTA` | `useAGUIState()` | Apply JSON Patch to state |
+| `RUN_STARTED` | `ReasoningPanel` | `status="thinking"` |
+| `RUN_FINISHED` | `ReasoningPanel` | `status="complete"` |
+
+### Responsibility Boundary
+
+Hareru UI provides **display components only**: ChatContainer, ChatMessage, ChatComposer, ToolCallCard, ApprovalCard, StreamingText, ReasoningPanel.
+
+**Application-side responsibilities** (not provided by Hareru UI): AG-UI transport, event stream parsing, authentication, message persistence.
+
+## Rules for AI Agents
+
+These rules are available programmatically via the MCP `consumer-rules` prompt or `hareru-ui://rules/consumer` resource.
+
+1. Import all components flat from `@hareru/ui`
+2. Use `var(--hui-*)` tokens for all CSS values — never hardcode
+3. Use `useTheme()` hook for theme switching — never manipulate `data-theme` directly
+4. Place `ThemeProvider` and `Toaster` at the application root
+5. Use BEM class naming (`hui-*`) if adding custom component styles
+6. Colors are OKLCH format
