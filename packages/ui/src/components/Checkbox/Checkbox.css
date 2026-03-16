@@ -1,0 +1,70 @@
+/* Checkbox root */
+.hui-checkbox {
+  --hui-checkbox-size: var(--hui-spacing-4);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hui-checkbox-size);
+  height: var(--hui-checkbox-size);
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-sm);
+  background-color: var(--hui-color-background);
+  padding: 0;
+  transition-property: background-color, border-color, box-shadow, color;
+  transition-duration: var(--hui-duration-fast);
+  outline: none;
+}
+
+/* Checked state */
+.hui-checkbox[data-checked] {
+  background-color: var(--hui-color-primary);
+  border-color: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+}
+
+/* Indeterminate state */
+.hui-checkbox[data-indeterminate] {
+  background-color: var(--hui-color-primary);
+  border-color: var(--hui-color-primary);
+  color: var(--hui-color-primary-foreground);
+}
+
+/* Focus ring */
+.hui-checkbox:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Disabled */
+.hui-checkbox:disabled,
+.hui-checkbox[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Indicator */
+.hui-checkbox__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hide icons by default */
+.hui-checkbox__check-icon,
+.hui-checkbox__indeterminate-icon {
+  display: none;
+}
+
+/* Show checkmark when checked (and not indeterminate) */
+.hui-checkbox[data-checked]:not([data-indeterminate]) .hui-checkbox__check-icon {
+  display: block;
+}
+
+/* Show dash when indeterminate */
+.hui-checkbox[data-indeterminate] .hui-checkbox__indeterminate-icon {
+  display: block;
+}

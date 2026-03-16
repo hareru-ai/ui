@@ -52,6 +52,12 @@ export {
 } from './components/BentoGrid';
 export { Button, buttonVariants, type ButtonProps } from './components/Button';
 export {
+  Checkbox,
+  CheckboxIndicator,
+  type CheckboxProps,
+  type CheckboxIndicatorProps,
+} from './components/Checkbox';
+export {
   Combobox,
   ComboboxTrigger,
   ComboboxContent,
@@ -246,11 +252,13 @@ export {
 export {
   FormField,
   FormFieldLabel,
+  FormFieldGroupLabel,
   FormFieldControl,
   FormFieldDescription,
   FormFieldMessage,
   type FormFieldProps,
   type FormFieldLabelProps,
+  type FormFieldGroupLabelProps,
   type FormFieldControlProps,
   type FormFieldDescriptionProps,
   type FormFieldMessageProps,
@@ -269,6 +277,14 @@ export {
   type ScrollBarProps,
 } from './components/ScrollArea';
 export { Switch, SwitchThumb, type SwitchProps, type SwitchThumbProps } from './components/Switch';
+export {
+  RadioGroup,
+  RadioGroupItem,
+  RadioGroupItemIndicator,
+  type RadioGroupProps,
+  type RadioGroupItemProps,
+  type RadioGroupItemIndicatorProps,
+} from './components/RadioGroup';
 export {
   Collapsible,
   CollapsibleTrigger,

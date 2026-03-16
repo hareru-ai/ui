@@ -13,9 +13,11 @@ import { cn } from '../../lib/cn';
 // --- Context ---
 interface FormFieldContextValue {
   id: string;
+  labelId: string;
   descriptionId: string;
   messageId: string;
   error: boolean;
+  group: boolean;
 }
 
 const FormFieldContext = createContext<FormFieldContextValue | null>(null);
@@ -29,21 +31,30 @@ function useFormField() {
 // --- FormField ---
 export interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   error?: boolean;
+  group?: boolean;
 }
 
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
-  ({ className, error = false, ...props }, ref) => {
+  ({ className, error = false, group = false, ...props }, ref) => {
     const id = useId();
     return (
       <FormFieldContext.Provider
         value={{
           id,
+          labelId: `${id}-label`,
           descriptionId: `${id}-description`,
           messageId: `${id}-message`,
           error,
+          group,
         }}
       >
-        <div ref={ref} className={cn('hui-form-field', className)} {...props} />
+        <div
+          ref={ref}
+          role={group ? 'group' : undefined}
+          aria-labelledby={group ? `${id}-label` : undefined}
+          className={cn('hui-form-field', className)}
+          {...props}
+        />
       </FormFieldContext.Provider>
     );
   },
@@ -55,7 +66,12 @@ export interface FormFieldLabelProps extends React.LabelHTMLAttributes<HTMLLabel
 
 export const FormFieldLabel = forwardRef<HTMLLabelElement, FormFieldLabelProps>(
   ({ className, ...props }, ref) => {
-    const { id, error } = useFormField();
+    const { id, error, group } = useFormField();
+    if (group) {
+      throw new Error(
+        'FormFieldLabel must not be used within <FormField group>. Use FormFieldGroupLabel instead.',
+      );
+    }
     return (
       // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor is dynamically set via FormField context
       <label
@@ -69,12 +85,35 @@ export const FormFieldLabel = forwardRef<HTMLLabelElement, FormFieldLabelProps>(
 );
 FormFieldLabel.displayName = 'FormFieldLabel';
 
+// --- FormFieldGroupLabel ---
+export interface FormFieldGroupLabelProps extends React.HTMLAttributes<HTMLSpanElement> {}
+
+export const FormFieldGroupLabel = forwardRef<HTMLSpanElement, FormFieldGroupLabelProps>(
+  ({ className, ...props }, ref) => {
+    const { labelId, error, group } = useFormField();
+    if (!group) {
+      throw new Error(
+        'FormFieldGroupLabel must be used within <FormField group>. Use FormFieldLabel for non-group fields.',
+      );
+    }
+    return (
+      <span
+        ref={ref}
+        id={labelId}
+        className={cn('hui-form-field__label', error && 'hui-form-field__label--error', className)}
+        {...props}
+      />
+    );
+  },
+);
+FormFieldGroupLabel.displayName = 'FormFieldGroupLabel';
+
 // --- FormFieldControl ---
 export interface FormFieldControlProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const FormFieldControl = forwardRef<HTMLDivElement, FormFieldControlProps>(
   ({ className, children, ...props }, ref) => {
-    const { id, descriptionId, messageId, error } = useFormField();
+    const { id, labelId, descriptionId, messageId, error, group } = useFormField();
     const child = Children.only(children);
     return (
       <div ref={ref} className={cn('hui-form-field__control', className)} {...props}>
@@ -82,14 +121,23 @@ export const FormFieldControl = forwardRef<HTMLDivElement, FormFieldControlProps
           ? cloneElement(
               child as ReactElement<{
                 id?: string;
+                'aria-labelledby'?: string;
                 'aria-describedby'?: string;
                 'aria-invalid'?: boolean;
               }>,
-              {
-                id,
-                'aria-describedby': `${descriptionId} ${messageId}`,
-                'aria-invalid': error || undefined,
-              },
+              // In group mode, aria-labelledby is set on both the wrapper div (role="group")
+              // and the child control. Screen readers use the most specific role's label.
+              group
+                ? {
+                    'aria-labelledby': labelId,
+                    'aria-describedby': `${descriptionId} ${messageId}`,
+                    'aria-invalid': error || undefined,
+                  }
+                : {
+                    id,
+                    'aria-describedby': `${descriptionId} ${messageId}`,
+                    'aria-invalid': error || undefined,
+                  },
             )
           : child}
       </div>

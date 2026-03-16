@@ -1,0 +1,123 @@
+---
+title: RadioGroup
+description: Single-select group of radio button items, each with an indicator and label.
+---
+
+**Category:** Form / Composite
+
+**Dependency:** `@base-ui-components/react`
+
+## Import
+
+```tsx
+import { RadioGroup, RadioGroupItem, RadioGroupItemIndicator } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `RadioGroup` | Component | Root container with `role="radiogroup"` |
+| `RadioGroupItem` | Component | Individual radio option (renders as `<label>` with implicit label association) |
+| `RadioGroupItemIndicator` | Component | Inner dot indicator |
+| `RadioGroupProps` | Type | Props interface for RadioGroup |
+| `RadioGroupItemProps` | Type | Props interface for RadioGroupItem |
+| `RadioGroupItemIndicatorProps` | Type | Props interface for RadioGroupItemIndicator |
+
+## Types
+
+```ts
+export interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  name?: string
+  required?: boolean
+  disabled?: boolean
+}
+
+export interface RadioGroupItemProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  value: string
+  disabled?: boolean
+}
+```
+
+## Key Props
+
+### RadioGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Controlled selected value |
+| `defaultValue` | `string` | — | Initial uncontrolled selected value |
+| `onValueChange` | `(value: string) => void` | — | Callback when selection changes |
+| `name` | `string` | — | Form field name for native form submission |
+| `required` | `boolean` | `false` | Marks the group as required |
+| `disabled` | `boolean` | `false` | Disables all items in the group |
+
+### RadioGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Value for this radio option (required) |
+| `disabled` | `boolean` | `false` | Disables this individual item |
+| `children` | `ReactNode` | — | Label text for this option |
+
+## Structure
+
+<RegistrySlots name="RadioGroup" />
+
+## States
+
+<RegistryStates name="RadioGroup" />
+
+## Accessibility
+
+<RegistryA11y name="RadioGroup" />
+
+## Usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@hareru/ui"
+
+// Basic usage
+<RadioGroup defaultValue="apple">
+  <RadioGroupItem value="apple">Apple</RadioGroupItem>
+  <RadioGroupItem value="banana">Banana</RadioGroupItem>
+  <RadioGroupItem value="cherry">Cherry</RadioGroupItem>
+</RadioGroup>
+
+// Controlled
+<RadioGroup value={fruit} onValueChange={setFruit}>
+  <RadioGroupItem value="apple">Apple</RadioGroupItem>
+  <RadioGroupItem value="banana">Banana</RadioGroupItem>
+</RadioGroup>
+
+// With disabled item
+<RadioGroup>
+  <RadioGroupItem value="free">Free</RadioGroupItem>
+  <RadioGroupItem value="pro">Pro</RadioGroupItem>
+  <RadioGroupItem value="enterprise" disabled>Enterprise (coming soon)</RadioGroupItem>
+</RadioGroup>
+
+// With FormField (group mode)
+<FormField group error={!!errors.fruit}>
+  <FormFieldGroupLabel>Preferred fruit</FormFieldGroupLabel>
+  <FormFieldControl>
+    <RadioGroup value={fruit} onValueChange={setFruit}>
+      <RadioGroupItem value="apple">Apple</RadioGroupItem>
+      <RadioGroupItem value="banana">Banana</RadioGroupItem>
+    </RadioGroup>
+  </FormFieldControl>
+  <FormFieldMessage>{errors.fruit?.message}</FormFieldMessage>
+</FormField>
+```
+
+## Notes
+
+- `RadioGroupItem` renders as a native `<label>` wrapping the radio control, providing implicit label association without needing separate `Label` + `htmlFor`.
+- `RadioGroupItemIndicator` is rendered internally by `RadioGroupItem` — you do not need to add it manually.
+- Use `RadioGroup` when exactly one option must be selected from a small set. Use `Select` for longer lists.
+- When using with `FormField`, use the `group` prop and `FormFieldGroupLabel` instead of `FormFieldLabel` (see [FormField](/docs/components/form-field)).
+- Arrow keys navigate between radio items; Space selects the focused item.

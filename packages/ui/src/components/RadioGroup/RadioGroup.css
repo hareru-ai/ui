@@ -1,0 +1,72 @@
+/* RadioGroup root */
+.hui-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-3);
+}
+
+/* RadioGroup item (label wrapper) */
+.hui-radio-group-item {
+  display: flex;
+  align-items: center;
+  gap: var(--hui-spacing-2);
+  cursor: pointer;
+}
+
+.hui-radio-group-item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Radio control (circle) */
+.hui-radio-group-item__control {
+  --hui-radio-size: var(--hui-spacing-4);
+  --hui-radio-indicator-size: var(--hui-spacing-2);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hui-radio-size);
+  height: var(--hui-radio-size);
+  flex-shrink: 0;
+  border: 1px solid var(--hui-color-border);
+  border-radius: 50%;
+  background-color: var(--hui-color-background);
+  padding: 0;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--hui-duration-fast);
+  outline: none;
+}
+
+/* Checked state */
+.hui-radio-group-item__control[data-checked] {
+  border-color: var(--hui-color-primary);
+}
+
+/* Focus ring */
+.hui-radio-group-item__control:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+/* Disabled — opacity is handled by .hui-radio-group-item--disabled on the parent */
+.hui-radio-group-item__control[data-disabled] {
+  cursor: not-allowed;
+}
+
+/* Inner dot indicator */
+.hui-radio-group-item__indicator {
+  display: block;
+  width: var(--hui-radio-indicator-size);
+  height: var(--hui-radio-indicator-size);
+  border-radius: 50%;
+  background-color: var(--hui-color-primary);
+}
+
+/* Label text */
+.hui-radio-group-item__label {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  font-weight: var(--hui-font-weight-normal);
+  line-height: var(--hui-font-leading-normal);
+  color: var(--hui-color-foreground);
+}

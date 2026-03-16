@@ -124,7 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 | `@hareru/ui/styles/baseline.css` | Minimal reset (box-sizing, font: inherit) |
 | `@hareru/ui/styles/scope.css` | `.hui-root` typography scope helper |
 | `@hareru/ui/styles/animations.css` | Shared keyframes (for per-component usage) |
-| `@hareru/ui/styles/components/*.css` | Per-component CSS (49 files) |
+| `@hareru/ui/styles/components/*.css` | Per-component CSS (51 files) |
 
 All components are imported flat from `@hareru/ui`. Sub-path imports like `@hareru/ui/components/Button` are not available.
 
@@ -159,6 +159,8 @@ import {
   <FormFieldMessage>Please enter a valid email address</FormFieldMessage>
 </FormField>
 ```
+
+> For React Hook Form integration patterns, see the [React Hook Form guide](/docs/forms/react-hook-form).
 
 ### Confirmation Dialog
 

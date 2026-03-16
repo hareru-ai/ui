@@ -11,6 +11,7 @@ description: Composite form field providing accessible label, control, descripti
 import {
   FormField,
   FormFieldLabel,
+  FormFieldGroupLabel,
   FormFieldControl,
   FormFieldDescription,
   FormFieldMessage,
@@ -23,6 +24,7 @@ import {
 |------|------|-------------|
 | `FormField` | Component | Root container; generates a unique `id` and provides context |
 | `FormFieldLabel` | Component | `<label>` with `htmlFor` injected from context |
+| `FormFieldGroupLabel` | Component | `<span>` label for group mode (RadioGroup, etc.); uses `aria-labelledby` instead of `htmlFor` |
 | `FormFieldControl` | Component | Wrapper that injects `id`, `aria-describedby`, and `aria-invalid` into its single child |
 | `FormFieldDescription` | Component | Helper text with stable `id` for `aria-describedby` |
 | `FormFieldMessage` | Component | Error or validation message; renders as `role="alert"` when in error state |
@@ -32,9 +34,11 @@ import {
 ```ts
 export interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   error?: boolean
+  group?: boolean
 }
 
 export interface FormFieldLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
+export interface FormFieldGroupLabelProps extends React.HTMLAttributes<HTMLSpanElement> {}
 export interface FormFieldControlProps extends React.HTMLAttributes<HTMLDivElement> {}
 export interface FormFieldDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 export interface FormFieldMessageProps extends React.HTMLAttributes<HTMLParagraphElement> {}
@@ -45,21 +49,38 @@ export interface FormFieldMessageProps extends React.HTMLAttributes<HTMLParagrap
 | Prop | Type | Component | Default | Description |
 |------|------|-----------|---------|-------------|
 | `error` | `boolean` | `FormField` | `false` | Activates error styles and `role="alert"` on the message |
+| `group` | `boolean` | `FormField` | `false` | Enables group mode: uses `role="group"` + `aria-labelledby` instead of `htmlFor` |
 
 ## Accessibility Wiring
 
 `FormFieldControl` automatically injects the following props into its direct child element:
 
+### Default mode (`group={false}`)
+
 | Injected Prop | Value | Purpose |
 |---------------|-------|---------|
-| `id` | Auto-generated UUID | Associates control with label |
+| `id` | Auto-generated UUID | Associates control with label via `htmlFor` |
 | `aria-describedby` | `"<id>-description <id>-message"` | Links control to description and message |
 | `aria-invalid` | `true` (only when `error=true`) | Signals invalid state to screen readers |
+
+### Group mode (`group={true}`)
+
+| Injected Prop | Value | Purpose |
+|---------------|-------|---------|
+| `aria-labelledby` | `<id>-label` | Associates control with `FormFieldGroupLabel` |
+| `aria-describedby` | `"<id>-description <id>-message"` | Links control to description and message |
+| `aria-invalid` | `true` (only when `error=true`) | Signals invalid state to screen readers |
+
+Note: In group mode, `id` is **not** injected (the child manages its own id).
 
 
 ## Structure
 
 <RegistrySlots name="FormField" />
+
+## States
+
+<RegistryStates name="FormField" />
 
 ## Accessibility
 
@@ -75,6 +96,7 @@ import {
   FormFieldDescription,
   FormFieldMessage,
   Input,
+  Textarea,
   Button,
 } from "@hareru/ui"
 
@@ -107,9 +129,42 @@ import {
 </FormField>
 ```
 
+## Group Mode
+
+Use `group` prop with `FormFieldGroupLabel` for controls that cannot be associated via `<label htmlFor>` (e.g., RadioGroup):
+
+```tsx
+import {
+  FormField,
+  FormFieldGroupLabel,
+  FormFieldControl,
+  FormFieldMessage,
+  RadioGroup,
+  RadioGroupItem,
+} from "@hareru/ui"
+
+<FormField group error={!!errors.fruit}>
+  <FormFieldGroupLabel>Preferred fruit</FormFieldGroupLabel>
+  <FormFieldControl>
+    <RadioGroup value={fruit} onValueChange={setFruit}>
+      <RadioGroupItem value="apple">Apple</RadioGroupItem>
+      <RadioGroupItem value="banana">Banana</RadioGroupItem>
+    </RadioGroup>
+  </FormFieldControl>
+  <FormFieldMessage>{errors.fruit?.message}</FormFieldMessage>
+</FormField>
+```
+
+In group mode:
+- The root `<div>` receives `role="group"` and `aria-labelledby`
+- `FormFieldControl` injects `aria-labelledby` instead of `id` onto the child
+- `FormFieldGroupLabel` renders a `<span>` (not `<label>`) to avoid invalid HTML
+
 ## Notes
 
 - `FormFieldControl` expects exactly one child element. Wrapping multiple elements will throw.
 - `FormFieldMessage` renders `null` when `children` is empty, so it is safe to always include it.
 - `FormFieldLabel` and `FormFieldControl` must be used within `<FormField>` — they will throw if the context is missing.
 - The `error` prop on `FormField` propagates to both `FormFieldLabel` (error style) and `FormFieldMessage` (`role="alert"`).
+- `FormFieldLabel` and `FormFieldGroupLabel` are mutually exclusive: using `FormFieldLabel` in group mode (or vice versa) will throw.
+- For React Hook Form integration patterns, see the [React Hook Form guide](/docs/forms/react-hook-form).

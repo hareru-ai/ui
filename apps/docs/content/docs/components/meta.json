@@ -9,6 +9,8 @@
     "label",
     "select",
     "combobox",
+    "checkbox",
+    "radio-group",
     "switch",
     "toggle",
     "form-field",

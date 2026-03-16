@@ -1,0 +1,384 @@
+---
+title: React Hook Form
+description: Official recipes for connecting Hareru UI components to React Hook Form
+---
+
+Hareru UI does not ship a React Hook Form (RHF) adapter. This page provides the official patterns for connecting existing headless components to RHF.
+
+Zod is the recommended library for the validation examples below, but it is not required.
+
+## Setup
+
+```bash
+npm install react-hook-form @hookform/resolvers zod
+```
+
+## Connecting with register (Input, Textarea)
+
+`Input` and `Textarea` are implemented with `forwardRef` and accept native HTML attributes directly. Spreading `register()` works without any wrapper.
+
+### Input
+
+```tsx
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import {
+  FormField,
+  FormFieldLabel,
+  FormFieldControl,
+  FormFieldMessage,
+  Input,
+  Button,
+} from "@hareru/ui"
+
+const schema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+})
+
+type FormData = z.infer<typeof schema>
+
+function ContactForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  })
+
+  const onSubmit = (data: FormData) => {
+    console.log(data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormField error={!!errors.name}>
+        <FormFieldLabel>Name</FormFieldLabel>
+        <FormFieldControl>
+          <Input placeholder="John Doe" {...register("name")} />
+        </FormFieldControl>
+        <FormFieldMessage>{errors.name?.message}</FormFieldMessage>
+      </FormField>
+
+      <FormField error={!!errors.email}>
+        <FormFieldLabel>Email</FormFieldLabel>
+        <FormFieldControl>
+          <Input type="email" placeholder="you@example.com" {...register("email")} />
+        </FormFieldControl>
+        <FormFieldMessage>{errors.email?.message}</FormFieldMessage>
+      </FormField>
+
+      <Button type="submit">Submit</Button>
+    </form>
+  )
+}
+```
+
+`register()` returns `{ ref, name, onChange, onBlur }`. Since `Input` uses `forwardRef` and accepts native HTML attributes, spreading is all that is needed.
+
+### Textarea
+
+Textarea follows the same pattern:
+
+```tsx
+<FormField error={!!errors.message}>
+  <FormFieldLabel>Message</FormFieldLabel>
+  <FormFieldControl>
+    <Textarea rows={4} placeholder="Your message..." {...register("message")} />
+  </FormFieldControl>
+  <FormFieldMessage>{errors.message?.message}</FormFieldMessage>
+</FormField>
+```
+
+## Connecting with Controller (Select, Switch, Checkbox, RadioGroup)
+
+`Select`, `Switch`, `Checkbox`, and `RadioGroup` expose their own value management APIs (`value`/`onValueChange` or `checked`/`onCheckedChange`), so they require RHF's `Controller`.
+
+### Select
+
+```tsx
+import { Controller, useForm } from "react-hook-form"
+import {
+  FormField,
+  FormFieldLabel,
+  FormFieldControl,
+  FormFieldMessage,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@hareru/ui"
+
+<Controller
+  name="category"
+  control={control}
+  render={({ field }) => (
+    <FormField error={!!errors.category}>
+      <FormFieldLabel>Category</FormFieldLabel>
+      <FormFieldControl>
+        <Select value={field.value} onValueChange={field.onChange}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="general">General</SelectItem>
+            <SelectItem value="support">Support</SelectItem>
+            <SelectItem value="billing">Billing</SelectItem>
+          </SelectContent>
+        </Select>
+      </FormFieldControl>
+      <FormFieldMessage>{errors.category?.message}</FormFieldMessage>
+    </FormField>
+  )}
+/>
+```
+
+### Switch
+
+```tsx
+<Controller
+  name="notifications"
+  control={control}
+  render={({ field }) => (
+    <FormField>
+      <FormFieldLabel>Enable notifications</FormFieldLabel>
+      <FormFieldControl>
+        <Switch
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
+      </FormFieldControl>
+    </FormField>
+  )}
+/>
+```
+
+### Checkbox
+
+```tsx
+<Controller
+  name="acceptTerms"
+  control={control}
+  render={({ field }) => (
+    <FormField error={!!errors.acceptTerms}>
+      <FormFieldControl>
+        <Checkbox
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
+      </FormFieldControl>
+      <FormFieldLabel>Accept terms and conditions</FormFieldLabel>
+      <FormFieldMessage>{errors.acceptTerms?.message}</FormFieldMessage>
+    </FormField>
+  )}
+/>
+```
+
+### RadioGroup
+
+`RadioGroup` renders as `<div role="radiogroup">`, which cannot be associated via `<label htmlFor>`. Use the `group` prop on `FormField` together with `FormFieldGroupLabel`:
+
+```tsx
+import {
+  FormField,
+  FormFieldGroupLabel,
+  FormFieldControl,
+  FormFieldMessage,
+  RadioGroup,
+  RadioGroupItem,
+} from "@hareru/ui"
+
+<Controller
+  name="contactMethod"
+  control={control}
+  render={({ field }) => (
+    <FormField group error={!!errors.contactMethod}>
+      <FormFieldGroupLabel>Preferred contact method</FormFieldGroupLabel>
+      <FormFieldControl>
+        <RadioGroup value={field.value} onValueChange={field.onChange}>
+          <RadioGroupItem value="email">Email</RadioGroupItem>
+          <RadioGroupItem value="phone">Phone</RadioGroupItem>
+          <RadioGroupItem value="slack">Slack</RadioGroupItem>
+        </RadioGroup>
+      </FormFieldControl>
+      <FormFieldMessage>{errors.contactMethod?.message}</FormFieldMessage>
+    </FormField>
+  )}
+/>
+```
+
+## Complete Example
+
+A contact form with name, email, category select, message, terms acceptance, and preferred contact method.
+
+```tsx
+import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import {
+  Button,
+  Checkbox,
+  FormField,
+  FormFieldControl,
+  FormFieldGroupLabel,
+  FormFieldLabel,
+  FormFieldMessage,
+  Input,
+  RadioGroup,
+  RadioGroupItem,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea,
+} from "@hareru/ui"
+
+const contactSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email"),
+  category: z.string().min(1, "Please select a category"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  acceptTerms: z
+    .boolean()
+    .refine((val) => val === true, { message: "You must accept the terms" }),
+  contactMethod: z.enum(["email", "phone", "slack"], {
+    errorMap: () => ({ message: "Please select a contact method" }),
+  }),
+})
+
+type ContactFormData = z.infer<typeof contactSchema>
+
+export function ContactForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      category: "",
+      message: "",
+      acceptTerms: false,
+      contactMethod: undefined,
+    },
+  })
+
+  const onSubmit = (data: ContactFormData) => {
+    console.log("Form submitted:", data)
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+    >
+      {/* Name — register */}
+      <FormField error={!!errors.name}>
+        <FormFieldLabel>Name</FormFieldLabel>
+        <FormFieldControl>
+          <Input placeholder="John Doe" {...register("name")} />
+        </FormFieldControl>
+        <FormFieldMessage>{errors.name?.message}</FormFieldMessage>
+      </FormField>
+
+      {/* Email — register */}
+      <FormField error={!!errors.email}>
+        <FormFieldLabel>Email</FormFieldLabel>
+        <FormFieldControl>
+          <Input type="email" placeholder="you@example.com" {...register("email")} />
+        </FormFieldControl>
+        <FormFieldMessage>{errors.email?.message}</FormFieldMessage>
+      </FormField>
+
+      {/* Category — Controller (Select) */}
+      <Controller
+        name="category"
+        control={control}
+        render={({ field }) => (
+          <FormField error={!!errors.category}>
+            <FormFieldLabel>Category</FormFieldLabel>
+            <FormFieldControl>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="support">Support</SelectItem>
+                  <SelectItem value="billing">Billing</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormFieldControl>
+            <FormFieldMessage>{errors.category?.message}</FormFieldMessage>
+          </FormField>
+        )}
+      />
+
+      {/* Message — register (Textarea) */}
+      <FormField error={!!errors.message}>
+        <FormFieldLabel>Message</FormFieldLabel>
+        <FormFieldControl>
+          <Textarea rows={4} placeholder="Your message..." {...register("message")} />
+        </FormFieldControl>
+        <FormFieldMessage>{errors.message?.message}</FormFieldMessage>
+      </FormField>
+
+      {/* Accept Terms — Controller (Checkbox) */}
+      <Controller
+        name="acceptTerms"
+        control={control}
+        render={({ field }) => (
+          <FormField error={!!errors.acceptTerms}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FormFieldControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormFieldControl>
+              <FormFieldLabel>I accept the terms and conditions</FormFieldLabel>
+            </div>
+            <FormFieldMessage>{errors.acceptTerms?.message}</FormFieldMessage>
+          </FormField>
+        )}
+      />
+
+      {/* Contact Method — Controller (RadioGroup + group mode) */}
+      <Controller
+        name="contactMethod"
+        control={control}
+        render={({ field }) => (
+          <FormField group error={!!errors.contactMethod}>
+            <FormFieldGroupLabel>Preferred contact method</FormFieldGroupLabel>
+            <FormFieldControl>
+              <RadioGroup value={field.value} onValueChange={field.onChange}>
+                <RadioGroupItem value="email">Email</RadioGroupItem>
+                <RadioGroupItem value="phone">Phone</RadioGroupItem>
+                <RadioGroupItem value="slack">Slack</RadioGroupItem>
+              </RadioGroup>
+            </FormFieldControl>
+            <FormFieldMessage>{errors.contactMethod?.message}</FormFieldMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">Send</Button>
+    </form>
+  )
+}
+```
+
+## Gotchas
+
+- **`FormFieldControl` overwrites `id` / `aria-describedby` / `aria-invalid`** — it injects these attributes into the child via `cloneElement`, so any `id` coming from `Controller`'s `field` will be overridden. This is intentional.
+- **`FormField` is responsible for aria wiring, not form state** — RHF owns validation state; `FormField` simply receives it through the `error` prop.
+- **Use `FormField group` + `FormFieldGroupLabel` for RadioGroup** — `FormFieldLabel` renders `<label htmlFor>`, which is invalid HTML when the target is `<div role="radiogroup">`.
+- **Hareru UI provides standalone Checkbox and RadioGroup, but not a CheckboxGroup (multi-select array)** — for multiple selections, use individual Checkboxes with RHF's `useFieldArray` or separate boolean fields.
+- **Switch vs. Checkbox** — use Switch for immediate-effect toggles (e.g., settings on/off) and Checkbox for submission-time selections (e.g., form options). Choose based on the intended UX.

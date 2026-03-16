@@ -23,6 +23,7 @@ import {
   ChatContainerMessages,
   ChatMessage,
   ChatMessageContent,
+  Checkbox,
   Combobox,
   ComboboxContent,
   ComboboxEmpty,
@@ -46,12 +47,15 @@ import {
   DialogTitle,
   DialogTrigger,
   Input,
+  Label,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  RadioGroup,
+  RadioGroupItem,
   ReasoningPanel,
   Separator,
   Sheet,
@@ -727,6 +731,61 @@ function ChatDemo() {
   );
 }
 
+function CheckboxDemo() {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Checkbox</CardTitle>
+        <CardDescription>Checkbox control with indeterminate state</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Checkbox id="terms" checked={checked} onCheckedChange={setChecked} />
+            <Label htmlFor="terms">Accept terms and conditions</Label>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Checkbox indeterminate />
+            <Label>Indeterminate</Label>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Checkbox disabled defaultChecked />
+            <Label>Disabled (checked)</Label>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RadioGroupDemo() {
+  const [value, setValue] = useState('apple');
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>RadioGroup</CardTitle>
+        <CardDescription>Single-select radio group</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <RadioGroup value={value} onValueChange={setValue}>
+          <RadioGroupItem value="apple">Apple</RadioGroupItem>
+          <RadioGroupItem value="banana">Banana</RadioGroupItem>
+          <RadioGroupItem value="cherry">Cherry</RadioGroupItem>
+          <RadioGroupItem value="grape" disabled>
+            Grape (disabled)
+          </RadioGroupItem>
+        </RadioGroup>
+        <p style={{ marginTop: '0.75rem', fontSize: '0.875rem', opacity: 0.7 }}>
+          Selected: {value}
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function App() {
   return (
     <ThemeProvider>
@@ -748,6 +807,8 @@ export function App() {
         <SkeletonDemo />
         <SeparatorDemo />
         <AvatarDemo />
+        <CheckboxDemo />
+        <RadioGroupDemo />
         <ButtonDemo />
         <InputDemo />
         <TabsDemo />

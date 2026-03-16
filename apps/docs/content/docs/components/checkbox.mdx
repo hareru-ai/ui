@@ -1,0 +1,99 @@
+---
+title: Checkbox
+description: Binary selection control with checked, unchecked, and indeterminate states for use in forms.
+---
+
+**Category:** Form / Standalone
+
+**Dependency:** `@base-ui-components/react`
+
+## Import
+
+```tsx
+import { Checkbox, CheckboxIndicator } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Checkbox` | Component | Root checkbox control (renders `CheckboxIndicator` automatically) |
+| `CheckboxIndicator` | Component | Internal visual indicator (checkmark / dash) |
+| `CheckboxProps` | Type | Props interface for Checkbox |
+| `CheckboxIndicatorProps` | Type | Props interface for CheckboxIndicator |
+
+## Types
+
+```ts
+export interface CheckboxProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
+  checked?: boolean
+  defaultChecked?: boolean
+  onCheckedChange?: (checked: boolean) => void
+  indeterminate?: boolean
+  disabled?: boolean
+  name?: string
+  value?: string
+  required?: boolean
+}
+```
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | — | Controlled checked state |
+| `defaultChecked` | `boolean` | — | Initial uncontrolled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | — | Callback when checked state changes |
+| `indeterminate` | `boolean` | `false` | Displays indeterminate (mixed) state |
+| `disabled` | `boolean` | `false` | Disables the checkbox |
+| `name` | `string` | — | Form field name for native form submission |
+| `value` | `string` | — | Value for native form submission |
+| `required` | `boolean` | `false` | Marks the field as required |
+
+## Structure
+
+<RegistrySlots name="Checkbox" />
+
+## States
+
+<RegistryStates name="Checkbox" />
+
+## Accessibility
+
+<RegistryA11y name="Checkbox" />
+
+## Usage
+
+```tsx
+import { Checkbox, Label } from "@hareru/ui"
+
+// Basic usage
+<Checkbox />
+
+// With a label
+<div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">Accept terms and conditions</Label>
+</div>
+
+// Controlled
+<Checkbox
+  checked={accepted}
+  onCheckedChange={setAccepted}
+/>
+
+// Indeterminate
+<Checkbox indeterminate />
+
+// Disabled
+<Checkbox disabled defaultChecked />
+```
+
+## Notes
+
+- `Checkbox` renders `CheckboxIndicator` internally — you do not need to add it manually.
+- `CheckboxIndicator` is exported for custom CSS styling reference.
+- Use `Checkbox` for deferred form selections (submitted with a form). Use `Switch` for immediate-effect boolean settings.
+- The underlying element is a `<button type="button">` for keyboard and assistive technology support.
+- Indeterminate state is reflected as `aria-checked="mixed"` and `[data-indeterminate]` in CSS.

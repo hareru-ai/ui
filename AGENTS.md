@@ -415,7 +415,7 @@ The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 |-----|---------|
 | `hareru-ui://tokens` | DTCG design tokens (light/dark themes, 150+ CSS custom properties) |
 | `hareru-ui://tokens/schema` | JSON Schema — CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry — 49 components with variants, props, states, a11y, examples, and slot contracts |
+| `hareru-ui://components` | Component registry — 51 components with variants, props, states, a11y, examples, and slot contracts |
 | `hareru-ui://components/schema` | JSON Schema for component registry |
 | `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
 | `hareru-ui://rules/consumer` | Consumer rules — import patterns, styling rules, token reference |

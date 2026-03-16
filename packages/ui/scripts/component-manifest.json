@@ -250,6 +250,34 @@
       }
     ]
   },
+  "Checkbox": {
+    "componentSource": "src/components/Checkbox/Checkbox.tsx",
+    "cssSource": "src/components/Checkbox/Checkbox.css",
+    "description": "Binary selection control with checked, unchecked, and indeterminate states for use in forms.",
+    "aiHint": "Use for deferred form selections; use Switch for immediate-effect boolean settings.",
+    "peerComponents": ["Label", "FormField"],
+    "a11y": {
+      "roles": ["checkbox"],
+      "ariaAttributes": ["aria-checked"],
+      "keyboardInteractions": ["Space to toggle"],
+      "notes": "ARIA checkbox role and state management provided by Base UI. Supports indeterminate state via aria-checked='mixed'."
+    },
+    "examples": [
+      {
+        "title": "Basic checkbox",
+        "code": "<div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>\n  <Checkbox id=\"terms\" checked={accepted} onCheckedChange={setAccepted} />\n  <Label htmlFor=\"terms\">Accept terms and conditions</Label>\n</div>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "CheckboxIndicator",
+        "role": "indicator",
+        "parent": "Checkbox",
+        "expected": false,
+        "multiple": false
+      }
+    ]
+  },
   "Card": {
     "componentSource": "src/components/Card/Card.tsx",
     "cssSource": "src/components/Card/Card.css",
@@ -906,21 +934,40 @@
   "FormField": {
     "componentSource": "src/components/FormField/FormField.tsx",
     "cssSource": "src/components/FormField/FormField.css",
-    "description": "Wrapper that composes a Label, input control, and validation message into an accessible form field unit.",
-    "aiHint": "Use as the standard wrapper for any form input; it handles id/aria linkage between label and control automatically.",
-    "peerComponents": ["Input", "Label", "Select"],
+    "description": "Wrapper that composes a Label, input control, and validation message into an accessible form field unit. Supports group mode for RadioGroup and other grouped controls.",
+    "aiHint": "Use as the standard wrapper for any form input; it handles id/aria linkage between label and control automatically. Use group prop with FormFieldGroupLabel for RadioGroup.",
+    "peerComponents": ["Input", "Label", "Select", "Textarea", "Checkbox", "RadioGroup", "Switch"],
     "a11y": {
-      "notes": "Automatically links label, input, and error message via aria-describedby."
+      "ariaAttributes": ["aria-invalid", "aria-describedby", "aria-labelledby"],
+      "notes": "Automatically links label, input, and error message via aria-describedby. Group mode uses role='group' with aria-labelledby. FormFieldMessage renders with role='alert' when error is true."
     },
+    "states": [
+      {
+        "name": "error",
+        "type": "boolean",
+        "cssReflection": "modifier"
+      }
+    ],
     "examples": [
       {
         "title": "With validation",
-        "code": "<FormField label=\"Email\" error=\"Please enter a valid email.\">\n  <Input type=\"email\" placeholder=\"you@example.com\" />\n</FormField>"
+        "code": "<FormField error={true}>\n  <FormFieldLabel>Email</FormFieldLabel>\n  <FormFieldControl>\n    <Input type=\"email\" placeholder=\"you@example.com\" />\n  </FormFieldControl>\n  <FormFieldMessage>Please enter a valid email.</FormFieldMessage>\n</FormField>"
+      },
+      {
+        "title": "Group mode (RadioGroup)",
+        "code": "<FormField group error={true}>\n  <FormFieldGroupLabel>Preferred fruit</FormFieldGroupLabel>\n  <FormFieldControl>\n    <RadioGroup>\n      <RadioGroupItem value=\"apple\">Apple</RadioGroupItem>\n      <RadioGroupItem value=\"banana\">Banana</RadioGroupItem>\n    </RadioGroup>\n  </FormFieldControl>\n  <FormFieldMessage>Please select a fruit.</FormFieldMessage>\n</FormField>"
       }
     ],
     "slots": [
       {
         "name": "FormFieldLabel",
+        "role": "label",
+        "parent": "FormField",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "FormFieldGroupLabel",
         "role": "label",
         "parent": "FormField",
         "expected": false,
@@ -1144,6 +1191,41 @@
       }
     ]
   },
+  "RadioGroup": {
+    "componentSource": "src/components/RadioGroup/RadioGroup.tsx",
+    "cssSource": "src/components/RadioGroup/RadioGroup.css",
+    "description": "Single-select group of radio button items, each with an indicator and label.",
+    "aiHint": "Use when exactly one option must be selected from a small set; use Select for longer lists.",
+    "peerComponents": ["Label", "FormField"],
+    "a11y": {
+      "roles": ["radiogroup", "radio"],
+      "ariaAttributes": ["aria-checked"],
+      "keyboardInteractions": ["Arrow keys to move between options", "Space to select"],
+      "notes": "ARIA radiogroup and radio roles provided by Base UI."
+    },
+    "examples": [
+      {
+        "title": "Basic radio group",
+        "code": "<RadioGroup value={plan} onValueChange={setPlan}>\n  <RadioGroupItem value=\"free\">Free</RadioGroupItem>\n  <RadioGroupItem value=\"pro\">Pro</RadioGroupItem>\n</RadioGroup>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "RadioGroupItem",
+        "role": "item",
+        "parent": "RadioGroup",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "RadioGroupItemIndicator",
+        "role": "indicator",
+        "parent": "RadioGroupItem",
+        "expected": false,
+        "multiple": false
+      }
+    ]
+  },
   "QueryFeedback": {
     "componentSource": "src/components/QueryFeedback/QueryFeedback.tsx",
     "cssSource": "src/components/QueryFeedback/QueryFeedback.css",
@@ -1321,7 +1403,7 @@
     "examples": [
       {
         "title": "Suggestion card",
-        "code": "<SemanticSuggest\n  type=\"add_synonym\"\n  title=\"Add synonym: 売上高\"\n  description=\"Related to revenue metric\"\n  confidence={0.85}\n  onAccept={() => handleAccept()}\n  onReject={() => handleReject()}\n/>"
+        "code": "<SemanticSuggest\n  type=\"add_synonym\"\n  title=\"Add synonym: Revenue\"\n  description=\"Related to revenue metric\"\n  confidence={0.85}\n  onAccept={() => handleAccept()}\n  onReject={() => handleReject()}\n/>"
       }
     ]
   },

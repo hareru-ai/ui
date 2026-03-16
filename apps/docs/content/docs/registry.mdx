@@ -1,0 +1,333 @@
+---
+title: Registry
+description: Machine-readable contract layer for CLI, MCP, and custom tool integration.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+<Callout type="info">
+This page is for developers building CLI tools, MCP servers, or custom integrations. If you are using Hareru UI in an application, you do not need to install `@hareru/registry` directly — [CLI](/docs/cli) and [MCP Server](/docs/mcp-server) depend on it internally.
+</Callout>
+
+## Overview
+
+`@hareru/registry` is the shared contract layer that exposes Hareru UI components, tokens, and rules as **machine-readable JSON artifacts**.
+
+- **Type definitions** — 19+ TypeScript types including `ComponentEntry`, `SlotDef`, and `A11yDef`
+- **Artifact loaders** — 5 synchronous loader functions with internal caching
+- **CSS mode recommendation** — heuristic-based recommendation of the optimal CSS import mode
+- **Slot tree builder** — visualizes compound component structure as an ASCII tree
+
+Both `@hareru/cli` and `@hareru/mcp` depend on this package. No React dependency.
+
+## Installation
+
+```bash
+npm install @hareru/registry
+```
+
+<Callout type="warn">
+Most users do not need to install this package directly. It is automatically installed as a dependency of `@hareru/mcp` and `@hareru/cli`. Install it directly only when building custom tools or scripts that need access to Hareru UI artifacts.
+</Callout>
+
+## Artifact Sources
+
+`@hareru/registry` bundles 5 JSON artifacts. Each artifact is generated during the build of `@hareru/tokens` or `@hareru/ui` and copied into the registry package's `dist/`.
+
+| Artifact | Source package | Contents |
+|----------|---------------|----------|
+| `tokens.json` | `@hareru/tokens` | DTCG design tokens for light/dark themes (150+ tokens) |
+| `tokens.schema.json` | `@hareru/tokens` | Token JSON Schema — CSS variable names, type constraints, patterns |
+| `component-registry.json` | `@hareru/ui` | All component definitions — variants, props, slots, states, a11y, examples |
+| `component-registry.schema.json` | `@hareru/ui` | JSON Schema for the component registry |
+| `consumer-rules.json` | `@hareru/ui` | Usage rules for AI agents and developers — import patterns, styling conventions, token reference |
+
+## Loaders
+
+All 5 loader functions load JSON synchronously. Subsequent calls return from an internal cache.
+
+### loadRegistry()
+
+Loads the full component registry, including task bundles.
+
+```ts
+import { loadRegistry } from '@hareru/registry';
+import type { ComponentRegistryJSON } from '@hareru/registry';
+
+const registry: ComponentRegistryJSON = loadRegistry();
+
+console.log(registry.name);           // "hareru-ui"
+console.log(registry.componentCount); // 51
+console.log(registry.components[0]);  // ComponentEntry
+console.log(registry.taskBundles);    // TaskBundle[] | undefined
+```
+
+### loadTokens()
+
+Loads design tokens for light and dark themes.
+
+```ts
+import { loadTokens } from '@hareru/registry';
+import type { TokensJSON } from '@hareru/registry';
+
+const tokens: TokensJSON = loadTokens();
+
+console.log(Object.keys(tokens.light)); // array of CSS variable names
+console.log(Object.keys(tokens.dark));  // dark theme overrides
+```
+
+### loadSchema()
+
+Loads the token JSON Schema — includes the list of CSS variable names and type constraints.
+
+```ts
+import { loadSchema } from '@hareru/registry';
+import type { SchemaJSON } from '@hareru/registry';
+
+const schema: SchemaJSON = loadSchema();
+
+// valid CSS variable names
+const cssVars = schema.properties.cssVariables.items.enum;
+// type constraints (pattern matching)
+const constraints = schema.properties.typeConstraints.properties;
+```
+
+### loadComponentSchema()
+
+Loads the JSON Schema for the component registry.
+
+```ts
+import { loadComponentSchema } from '@hareru/registry';
+import type { ComponentSchemaJSON } from '@hareru/registry';
+
+const schema: ComponentSchemaJSON = loadComponentSchema();
+```
+
+### loadConsumerRules()
+
+Loads usage rules for AI agents and developers.
+
+```ts
+import { loadConsumerRules } from '@hareru/registry';
+import type { ConsumerRulesJSON } from '@hareru/registry';
+
+const rules: ConsumerRulesJSON = loadConsumerRules();
+
+console.log(rules.version);
+console.log(Object.keys(rules.rules));  // rule categories
+console.log(rules.tokenQuickReference); // token quick reference
+```
+
+## Types
+
+### Core types
+
+#### ComponentEntry
+
+Complete definition for a single component. The central type of the registry.
+
+```ts
+interface ComponentEntry {
+  name: string;                        // "Button"
+  displayName: string;                 // "Button"
+  group: ComponentGroup;               // "core" | "form" | "layout" | ...
+  cssArtifact: string;                 // "@hareru/ui/button.css"
+  requiredCssArtifacts: string[];      // CSS artifacts this component depends on
+  tokenCategories: TokenCategory[];    // token categories used
+  subcomponents?: string[];            // subcomponent names
+  variants?: VariantDef[];             // CVA variant definitions
+  props?: PropDef[];                   // prop definitions
+  states?: StateDef[];                 // state definitions (boolean / enum)
+  a11y?: A11yDef;                      // accessibility definition
+  slots?: SlotDef[];                   // slot structure (compound components)
+  examples?: ExampleDef[];             // usage examples
+  componentSource: string;             // source file path
+  description: string;                 // component description
+  aiHint?: string;                     // hint for AI agents
+  peerComponents?: string[];           // related components
+}
+```
+
+#### StateDef
+
+Defines component state as a boolean or enum.
+
+```ts
+type StateDef = StateBooleanDef | StateEnumDef;
+
+interface StateBooleanDef {
+  name: string;                          // "disabled"
+  type: 'boolean';
+  cssReflection?: 'modifier' | 'data-attribute';
+}
+
+interface StateEnumDef {
+  name: string;                          // "variant"
+  type: 'enum';
+  values: string[];                      // ["default", "destructive", "outline"]
+  defaultValue?: string;                 // "default"
+  cssReflection?: 'modifier' | 'data-attribute';
+}
+```
+
+#### A11yDef
+
+Structured accessibility information for a component.
+
+```ts
+interface A11yDef {
+  roles?: string[];                // WAI-ARIA roles
+  ariaAttributes?: string[];       // ARIA attributes used
+  semanticElements?: string[];     // recommended HTML elements
+  keyboardInteractions?: string[]; // keyboard interactions
+  liveRegion?: boolean;            // whether this is a live region
+  notes?: string;                  // additional notes
+}
+```
+
+#### SlotDef
+
+Defines the slot structure of a compound component. Parent-child relationships form a tree.
+
+```ts
+interface SlotDef {
+  name: string;        // "DialogContent"
+  role: SlotRole;      // "content"
+  parent: string;      // "Dialog" (root component name = direct child)
+  expected: boolean;   // recommended in canonical composition (not runtime-required)
+  multiple: boolean;   // whether multiple instances are allowed under the same parent
+}
+```
+
+`SlotRole` is a union of 16 values:
+
+```ts
+type SlotRole =
+  | 'trigger' | 'content' | 'container' | 'item'
+  | 'label' | 'description' | 'action' | 'separator'
+  | 'indicator' | 'viewport' | 'close' | 'icon'
+  | 'input' | 'submenu' | 'anchor' | 'control';
+```
+
+#### CssModeContext
+
+Project context passed to `recommendCssMode()`.
+
+```ts
+interface CssModeContext {
+  hasTailwind: boolean;        // whether Tailwind CSS is detected
+  componentCount: number;      // number of Hareru components in use
+  hasExistingReset?: boolean;  // whether an existing CSS reset or framework is present
+}
+```
+
+### Additional types
+
+| Type | Description |
+|------|-------------|
+| `ComponentRegistryJSON` | Full registry structure (`components` + `taskBundles`) |
+| `TokensJSON` | Token map for light and dark themes |
+| `SchemaJSON` | Token JSON Schema |
+| `ComponentSchemaJSON` | JSON Schema for the component registry |
+| `ConsumerRulesJSON` | Usage rules for AI agents and developers |
+| `TaskBundle` | A curated set of components for a common UI pattern |
+| `ComponentGroup` | Component group (9 values: `core`, `form`, `layout`, `overlay`, `navigation`, `feedback`, `data-display`, `agent`, `di-domain`) |
+| `TokenCategory` | Token category (9 values: `color`, `spacing`, `radius`, `font`, `typography`, `shadow`, `duration`, `easing`, `zIndex`) |
+| `VariantDef` | CVA variant definition |
+| `PropDef` | Prop definition (supports `extends` inheritance) |
+| `CustomPropDef` | Custom prop definition |
+| `ExampleDef` | Usage example (`title` + `code`) |
+| `CssMode` | CSS mode (`'standalone'` \| `'portable'` \| `'tailwind'` \| `'per-component'`) |
+
+## CSS Mode Recommendation
+
+`recommendCssMode()` recommends the optimal CSS import mode based on project context. Heuristics are evaluated in priority order.
+
+```ts
+import { recommendCssMode, CSS_MODES, CSS_MODE_DESCRIPTIONS } from '@hareru/registry';
+
+const { mode, reason } = recommendCssMode({
+  hasTailwind: true,
+  componentCount: 10,
+});
+
+console.log(mode);   // "tailwind"
+console.log(reason); // "Tailwind CSS detected. Uses Cascade Layers..."
+```
+
+### Heuristics
+
+| Priority | Condition | Recommended mode | Reason |
+|----------|-----------|-----------------|--------|
+| 1 | Tailwind CSS detected | `tailwind` | Cascade Layers (`@layer hui`) prevent specificity conflicts with Tailwind utilities |
+| 2 | 1–3 components | `per-component` | Per-component imports minimize CSS bundle size |
+| 3 | Existing CSS reset or framework present | `portable` | Imports tokens and components separately, avoiding duplicate resets |
+| 4 | Default | `standalone` | Single import with all tokens and components — simplest setup |
+
+### Constants
+
+```ts
+// all valid CSS modes
+CSS_MODES: readonly CssMode[]
+// => ['standalone', 'portable', 'tailwind', 'per-component']
+
+// description for each mode
+CSS_MODE_DESCRIPTIONS: Readonly<Record<CssMode, string>>
+```
+
+## Slot Tree Builder
+
+`buildSlotTree()` generates a visual ASCII tree from a `SlotDef[]`. Used by `hareru info` in the CLI and the `get-component-usage` tool in MCP.
+
+```ts
+import { buildSlotTree } from '@hareru/registry';
+import type { SlotDef } from '@hareru/registry';
+
+const slots: SlotDef[] = [
+  { name: 'DialogTrigger', role: 'trigger', parent: 'Dialog', expected: true, multiple: false },
+  { name: 'DialogContent', role: 'content', parent: 'Dialog', expected: true, multiple: false },
+  { name: 'DialogHeader',  role: 'container', parent: 'DialogContent', expected: false, multiple: false },
+  { name: 'DialogClose',   role: 'close', parent: 'DialogContent', expected: false, multiple: false },
+];
+
+const tree = buildSlotTree('Dialog', slots);
+console.log(tree);
+```
+
+Output:
+
+```
+Dialog
+├── DialogTrigger [trigger] (expected)
+└── DialogContent [content] (expected)
+    ├── DialogHeader [container]
+    └── DialogClose [close]
+
+(expected) = recommended in canonical composition, not runtime-required.
+```
+
+Pass a notes array as the third argument to append supplementary information after the tree.
+
+```ts
+const tree = buildSlotTree('Table', slots, [
+  'TableRow is also valid inside TableHeader.',
+]);
+```
+
+## Stability
+
+<Callout type="warn">
+`@hareru/registry` is currently v0.x. Exported types and functions are treated as public API, but breaking changes may occur in minor versions during 0.x. All breaking changes will be noted in the CHANGELOG.
+
+JSON artifact shape is kept stable where possible, but is not guaranteed in 0.x.
+
+Union types such as `SlotRole` follow an additive-only policy.
+
+The internal cache and artifact resolution paths are implementation details and are not subject to SemVer.
+</Callout>
+
+## See Also
+
+- [CLI](/docs/cli) — `@hareru/cli` uses the registry to generate CSS imports
+- [MCP Server](/docs/mcp-server) — `@hareru/mcp` exposes the registry as resources and tools for AI agents
+- [AI Integration](/docs/ai-integration) — integration paths for AI agents using Hareru UI
