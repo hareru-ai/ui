@@ -9,11 +9,7 @@
     "directory": "packages/registry"
   },
   "homepage": "https://github.com/hareru-ai/ui",
-  "keywords": [
-    "design-system",
-    "registry",
-    "hareru"
-  ],
+  "keywords": ["design-system", "registry", "hareru"],
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,10 +22,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist",
-    "LICENSE"
-  ],
+  "files": ["dist", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
