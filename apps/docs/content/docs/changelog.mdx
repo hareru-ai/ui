@@ -1,9 +1,76 @@
 ---
 title: Changelog
-description: Release history and version notes
+description: Release history and version notes for Hareru UI
 ---
 
-## Unreleased
+## 0.4.0
+
+`@hareru/ui@0.4.0` · `@hareru/registry@0.4.1` · `@hareru/mcp@0.4.1` · `@hareru/cli@0.3.1`
+
+### New Components
+
+- **Checkbox** — Binary selection control with checked, unchecked, and indeterminate states. Built on Base UI Checkbox primitives.
+- **RadioGroup** — Single-select radio group with implicit label association via `<label>` + `aria-labelledby`. Built on Base UI RadioGroup/Radio primitives.
+
+### Enhancements
+
+- **FormField group mode** — New `group` prop and `FormFieldGroupLabel` sub-component for accessible labelling of grouped controls (e.g., RadioGroup). Uses `role="group"` + `aria-labelledby` instead of `<label htmlFor>`.
+- Component count: 49 → 51.
+
+### Documentation
+
+- Added [Registry](/docs/registry) documentation page — Loaders, Types, CSS Mode, Slot Tree, Stability.
+- Added [React Hook Form guide](/docs/forms/react-hook-form) — register/Controller patterns with complete form example.
+
+---
+
+## 0.3.0
+
+`@hareru/ui@0.3.0` · `@hareru/registry@0.4.0` · `@hareru/mcp@0.4.0` · `@hareru/cli@0.3.0`
+
+### Slot Contracts
+
+- Added `SlotDef` and `SlotRole` types for describing JSX nesting contracts of compound components.
+- Added `buildSlotTree()` shared helper for rendering slot trees as formatted ASCII text.
+- 25 compound components now include `slots` data (117 slot definitions).
+- MCP `get-component-usage` and CLI `hareru info` include a **Structure** section.
+
+### Documentation
+
+- Registry-driven **Structure**, **States**, and **Accessibility** sections on component pages.
+
+---
+
+## 0.2.0
+
+`@hareru/ui@0.2.0` · `@hareru/registry@0.3.0` · `@hareru/mcp@0.3.0` · `@hareru/cli@0.2.0`
+
+### Registry Enrichment
+
+- `StateDef`, `A11yDef`, `ExampleDef` types added to `@hareru/registry`.
+- All 49 components enriched with hand-written a11y, states, and examples data.
+- MCP `get-component-usage` and CLI `hareru info` include **States**, **Accessibility**, and **Example** sections.
+
+### MCP & CLI
+
+- Added `recommend-css-mode` and `list-components-by-group` tools.
+- Added `create-ui-tailwind` prompt (5 tools, 3 prompts total).
+- `CssMode` type and `recommendCssMode()` shared via `@hareru/registry`.
+
+---
+
+## 0.1.1
+
+`@hareru/ui@0.1.1` · `@hareru/tokens@0.1.1`
+
+### Fixes
+
+- Replaced Japanese UI strings with English in AsyncComboboxField.
+- Updated package metadata (homepage, LICENSE).
+
+---
+
+## 0.1.0
 
 Initial public release of Hareru UI.
 
@@ -12,9 +79,9 @@ Initial public release of Hareru UI.
 - 150+ design tokens as CSS custom properties (DTCG format)
 - 4 CSS distribution modes: standalone, portable, Tailwind v4 (Cascade Layers), per-component
 - `@hareru/mcp` — MCP server with 6 resources, 5 tools, 3 prompts
-- `@hareru/cli` — CLI for component management (list, info, add with --write)
+- `@hareru/cli` — CLI for component management (`list`, `info`, `add` with `--write`)
 - `@hareru/registry` — Shared types, loaders, and CSS mode recommendation
-- AG-UI chat components: ChatContainer, ChatMessage, ChatComposer, StreamingText, ToolCallCard, ApprovalCard, ReasoningPanel
+- AG-UI chat components (ChatContainer, ChatMessage, ChatComposer, StreamingText, ToolCallCard, ApprovalCard, ReasoningPanel)
 - Typography composite tokens (h1–h4, body, body-sm, caption)
 - `.cursorrules` and `llms.txt` for AI agent guidance
 - BEM naming convention with CVA variant management
