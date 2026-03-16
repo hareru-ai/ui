@@ -1,5 +1,12 @@
 # @hareru/playground
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [6bce77e]
+  - @hareru/ui@0.4.0
+
 ## 0.0.4
 
 ### Patch Changes
