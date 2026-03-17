@@ -7,7 +7,7 @@ Semantic CSS component library for [Hareru UI](https://github.com/hareru-ai/ui).
 
 ## Features
 
-- **51 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
+- **53 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
 - **Semantic CSS** — BEM naming (`hui-*`) with CSS custom properties (`--hui-*`)
 - **CVA variants** — Type-safe variant management with [class-variance-authority](https://cva.style/)
 - **Accessible** — Built on [Base UI](https://base-ui.com/) primitives, WAI-ARIA compliant

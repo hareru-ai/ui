@@ -43,7 +43,7 @@ Add to your `claude_desktop_config.json`:
 |-----|-------------|
 | `hareru-ui://tokens` | DTCG design tokens (light/dark themes, 150+ CSS custom properties) |
 | `hareru-ui://tokens/schema` | JSON Schema for design tokens — CSS variable enums and type constraints |
-| `hareru-ui://components` | Component registry — 51 components with CVA variants, Props, states, a11y, examples, and slot contracts |
+| `hareru-ui://components` | Component registry — 53 components with CVA variants, Props, states, a11y, examples, and slot contracts |
 | `hareru-ui://components/schema` | JSON Schema for the component registry |
 | `hareru-ui://bundles` | Task bundles — curated component sets for common UI patterns |
 | `hareru-ui://rules/consumer` | Consumer rules for AI agents — import patterns, styling rules, and token reference |

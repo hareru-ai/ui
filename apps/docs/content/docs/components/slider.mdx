@@ -1,0 +1,162 @@
+---
+title: Slider
+description: Input control for selecting a numeric value or range by dragging a thumb.
+---
+
+**Category:** Form — **Pattern:** Base UI Slider
+
+**Dependency:** `@base-ui-components/react/slider`
+
+## Import
+
+```tsx
+import {
+  Slider,
+  SliderTrack,
+  SliderRange,
+  SliderThumb,
+  SliderOutput,
+  sliderVariants,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Slider` | Component | Root slider context; accepts value, range, and interaction props |
+| `SliderTrack` | Component | The track bar along which the thumb moves |
+| `SliderRange` | Component | Filled portion of the track between origin and thumb(s) |
+| `SliderThumb` | Component | Draggable handle; one per value in a range slider |
+| `SliderOutput` | Component | Live readout of the current value; can be placed freely inside `Slider` |
+| `sliderVariants` | CVA function | CVA variant function for size variants |
+
+## Key Props
+
+### Slider
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number \| readonly number[]` | — | Controlled value; single number or array for range |
+| `defaultValue` | `number \| readonly number[]` | — | Initial uncontrolled value |
+| `onValueChange` | `(value: number \| readonly number[]) => void` | — | Callback fired while dragging |
+| `onValueCommitted` | `(value: number \| readonly number[]) => void` | — | Callback fired when the user releases the thumb |
+| `min` | `number` | `0` | Minimum allowed value |
+| `max` | `number` | `100` | Maximum allowed value |
+| `step` | `number` | `1` | Increment between steps |
+| `disabled` | `boolean` | `false` | Disables all interaction |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `name` | `string` | — | Form field name for native form submission |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Visual size variant (CVA) |
+
+### SliderThumb Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `index` | `number` | — | Index of this thumb in a range slider (0 for the first, 1 for the second) |
+| `disabled` | `boolean` | `false` | Disables this thumb independently |
+| `getAriaLabel` | `(index: number) => string` | — | Returns an accessible label for the thumb at `index` |
+| `getAriaValueText` | `(formattedValue: string, value: number, index: number) => string` | — | Returns a human-readable value string for assistive technology |
+| `inputRef` | `React.Ref<HTMLInputElement>` | — | Ref forwarded to the underlying hidden `<input>` |
+
+## Variants
+
+| Variant | Values | Description |
+|---------|--------|-------------|
+| `size` | `sm`, `md`, `lg` | Controls track height and thumb diameter |
+
+## Structure
+
+<RegistrySlots name="Slider" />
+
+## States
+
+<RegistryStates name="Slider" />
+
+## Accessibility
+
+<RegistryA11y name="Slider" />
+
+## Usage
+
+```tsx
+import {
+  Slider,
+  SliderTrack,
+  SliderRange,
+  SliderThumb,
+  SliderOutput,
+} from "@hareru/ui"
+
+// Basic
+<Slider defaultValue={40}>
+  <SliderOutput />
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb />
+  </SliderTrack>
+</Slider>
+
+// With output label
+<div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+  <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <label>Volume</label>
+    <Slider defaultValue={60}>
+      <SliderOutput />
+      <SliderTrack>
+        <SliderRange />
+        <SliderThumb getAriaLabel={() => "volume"} />
+      </SliderTrack>
+    </Slider>
+  </div>
+</div>
+
+// Range slider (two thumbs)
+<Slider defaultValue={[20, 80]}>
+  <SliderOutput />
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb index={0} getAriaLabel={() => "minimum price"} />
+    <SliderThumb index={1} getAriaLabel={() => "maximum price"} />
+  </SliderTrack>
+</Slider>
+
+// Vertical orientation
+<Slider defaultValue={50} orientation="vertical" style={{ height: "200px" }}>
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb />
+  </SliderTrack>
+</Slider>
+
+// Size variants
+<Slider defaultValue={30} size="sm">
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb />
+  </SliderTrack>
+</Slider>
+
+<Slider defaultValue={30} size="lg">
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb />
+  </SliderTrack>
+</Slider>
+
+// Controlled
+<Slider value={volume} onValueChange={(v) => setVolume(v as number)}>
+  <SliderOutput />
+  <SliderTrack>
+    <SliderRange />
+    <SliderThumb />
+  </SliderTrack>
+</Slider>
+```
+
+## Notes
+
+- `SliderRange` and `SliderThumb` must be placed inside `SliderTrack` — they rely on the track's layout context for positioning.
+- `SliderOutput` can be placed freely anywhere inside the `Slider` root and will always reflect the current value.
+- For range sliders, provide one `SliderThumb` per value and set the `index` prop so each thumb corresponds to the correct value.
+- Use `getAriaLabel` and `getAriaValueText` on `SliderThumb` to provide meaningful text for screen readers, especially when multiple thumbs are present.

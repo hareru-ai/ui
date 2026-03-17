@@ -1,0 +1,107 @@
+/* Accordion root */
+.hui-accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accordion item */
+.hui-accordion__item {
+  border-bottom: 1px solid var(--hui-color-border);
+}
+
+/* Accordion header */
+.hui-accordion__header {
+  display: flex;
+  margin: 0;
+  font-family: var(--hui-font-family-sans);
+  font-weight: var(--hui-font-weight-medium);
+  font-size: var(--hui-font-size-sm);
+}
+
+/* Accordion trigger */
+.hui-accordion__trigger {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--hui-spacing-4) 0;
+  border: none;
+  background: transparent;
+  color: var(--hui-color-foreground);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--hui-font-weight-medium);
+  cursor: pointer;
+  outline: none;
+  transition: opacity var(--hui-duration-fast);
+}
+
+.hui-accordion__trigger:hover {
+  opacity: 0.8;
+}
+
+.hui-accordion__trigger:focus-visible {
+  outline: 2px solid var(--hui-color-ring);
+  outline-offset: 2px;
+}
+
+.hui-accordion__trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chevron icon via CSS pseudo-element */
+.hui-accordion__trigger::after {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  margin-left: var(--hui-spacing-2);
+  background-color: currentColor;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  transition: transform var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-accordion__trigger[data-panel-open]::after {
+  transform: rotate(180deg);
+}
+
+/* Accordion content (Panel)
+   Animation uses Base UI's height transition pattern:
+   - [data-open]: triggers open keyframe on initial expand
+   - [data-ending-style]: triggers close keyframe during collapse
+   - --accordion-panel-height: CSS var set automatically by Base UI */
+.hui-accordion__content {
+  overflow: hidden;
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-accordion__content[data-open] {
+  animation: accordion-open var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+.hui-accordion__content[data-ending-style] {
+  animation: accordion-close var(--hui-duration-normal) var(--hui-easing-out);
+}
+
+@keyframes accordion-open {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--accordion-panel-height);
+  }
+}
+
+@keyframes accordion-close {
+  from {
+    height: var(--accordion-panel-height);
+  }
+  to {
+    height: 0;
+  }
+}

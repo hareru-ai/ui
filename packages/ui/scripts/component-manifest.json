@@ -1,4 +1,53 @@
 {
+  "Accordion": {
+    "componentSource": "src/components/Accordion/Accordion.tsx",
+    "cssSource": "src/components/Accordion/Accordion.css",
+    "description": "Vertically stacked set of interactive headings that each reveal a section of content.",
+    "aiHint": "Use for FAQs, settings sections, or any content that benefits from progressive disclosure. Use Collapsible for a single expandable section.",
+    "peerComponents": ["Collapsible"],
+    "a11y": {
+      "roles": ["region"],
+      "ariaAttributes": ["aria-expanded", "aria-controls"],
+      "keyboardInteractions": ["Enter or Space to toggle", "Arrow Up/Down to navigate items"],
+      "notes": "WAI-ARIA Accordion pattern with keyboard navigation provided by Base UI."
+    },
+    "examples": [
+      {
+        "title": "Basic accordion",
+        "code": "<Accordion type=\"single\" defaultValue={['item-1']}>\n  <AccordionItem value=\"item-1\">\n    <AccordionHeader>\n      <AccordionTrigger>Section 1</AccordionTrigger>\n    </AccordionHeader>\n    <AccordionContent>Content for section 1.</AccordionContent>\n  </AccordionItem>\n  <AccordionItem value=\"item-2\">\n    <AccordionHeader>\n      <AccordionTrigger>Section 2</AccordionTrigger>\n    </AccordionHeader>\n    <AccordionContent>Content for section 2.</AccordionContent>\n  </AccordionItem>\n</Accordion>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "AccordionItem",
+        "role": "item",
+        "parent": "Accordion",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "AccordionHeader",
+        "role": "container",
+        "parent": "AccordionItem",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AccordionTrigger",
+        "role": "trigger",
+        "parent": "AccordionHeader",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "AccordionContent",
+        "role": "content",
+        "parent": "AccordionItem",
+        "expected": true,
+        "multiple": false
+      }
+    ]
+  },
   "Alert": {
     "componentSource": "src/components/Alert/Alert.tsx",
     "cssSource": "src/components/Alert/Alert.css",
@@ -1503,6 +1552,63 @@
       {
         "title": "Loading placeholder",
         "code": "<Skeleton className=\"h-4 w-[250px]\" />\n<Skeleton className=\"h-4 w-[200px]\" />\n<Skeleton className=\"h-10 w-10 rounded-full\" />"
+      }
+    ]
+  },
+  "Slider": {
+    "componentSource": "src/components/Slider/Slider.tsx",
+    "cssSource": "src/components/Slider/Slider.css",
+    "description": "Input control that allows selecting a numeric value or range within a bounded interval by dragging a thumb.",
+    "aiHint": "Use for continuous numeric input where approximate values are acceptable (volume, brightness, price range). Use Input with type=number for precise numeric entry.",
+    "peerComponents": ["Label", "FormField"],
+    "a11y": {
+      "roles": ["slider"],
+      "ariaAttributes": ["aria-valuemin", "aria-valuemax", "aria-valuenow", "aria-orientation"],
+      "keyboardInteractions": [
+        "Arrow Left/Right to adjust value",
+        "Home/End for min/max",
+        "Page Up/Down for large steps"
+      ],
+      "notes": "WAI-ARIA Slider pattern with full keyboard support provided by Base UI."
+    },
+    "examples": [
+      {
+        "title": "Basic slider",
+        "code": "<Slider defaultValue={50}>\n  <SliderTrack>\n    <SliderRange />\n    <SliderThumb getAriaLabel={() => 'Value'} />\n  </SliderTrack>\n</Slider>"
+      },
+      {
+        "title": "Range slider",
+        "code": "<Slider defaultValue={[25, 75]}>\n  <SliderTrack>\n    <SliderRange />\n    <SliderThumb index={0} getAriaLabel={() => 'Minimum'} />\n    <SliderThumb index={1} getAriaLabel={() => 'Maximum'} />\n  </SliderTrack>\n</Slider>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "SliderTrack",
+        "role": "container",
+        "parent": "Slider",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SliderRange",
+        "role": "indicator",
+        "parent": "SliderTrack",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "SliderThumb",
+        "role": "control",
+        "parent": "SliderTrack",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "SliderOutput",
+        "role": "label",
+        "parent": "Slider",
+        "expected": false,
+        "multiple": false
       }
     ]
   },

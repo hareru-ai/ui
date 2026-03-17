@@ -13,7 +13,7 @@ A semantic design system built for agents.
 - **DTCG tokens** — 150+ tokens in [W3C Design Token Community Group](https://design-tokens.github.io/community-group/format/) format with JSON Schema validation. A typed contract between designers, developers, and AI agents.
 - **Zero-runtime theming** — Light and dark themes via `data-theme` attribute. Pure CSS, no JS runtime cost.
 - **OKLCH colors** — Perceptually uniform color space with automatic dark theme generation.
-- **Accessible components** — 51 components built on [Base UI](https://base-ui.com/) primitives. WAI-ARIA compliant.
+- **Accessible components** — 53 components built on [Base UI](https://base-ui.com/) primitives. WAI-ARIA compliant.
 - **MCP server** — `@hareru/mcp` exposes design rules directly where AI agents operate via [Model Context Protocol](https://modelcontextprotocol.io/). Tokens, schema, and component registry are all queryable.
 - **AG-UI chat components** — ChatContainer, StreamingText, ToolCallCard, and `useAGUIState` hook for building agent UIs with the [AG-UI protocol](https://ag-ui.com/).
 
@@ -139,7 +139,7 @@ npx @hareru/cli add Button --write --mode tailwind
 | Package | Description |
 |---------|-------------|
 | [`@hareru/tokens`](./packages/tokens) | Design tokens and CSS custom properties (DTCG format) |
-| [`@hareru/ui`](./packages/ui) | 51 React components with semantic CSS styling |
+| [`@hareru/ui`](./packages/ui) | 53 React components with semantic CSS styling |
 | [`@hareru/registry`](./packages/registry) | Shared registry types, loaders, and CSS mode recommendation |
 | [`@hareru/cli`](./packages/cli) | CLI for component management — init, update, list, info, add |
 | [`@hareru/mcp`](./packages/mcp) | MCP server for AI agent integration (6 resources, 5 tools, 3 prompts) |

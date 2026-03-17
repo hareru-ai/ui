@@ -1,0 +1,117 @@
+/* Slider root */
+.hui-slider {
+  --slider-height: 0.375rem;
+  --slider-thumb-size: 1rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  touch-action: none;
+  user-select: none;
+}
+
+/* Size variants via CSS custom properties */
+.hui-slider--sm {
+  --slider-height: 0.25rem;
+  --slider-thumb-size: 0.75rem;
+}
+
+.hui-slider--md {
+  --slider-height: 0.375rem;
+  --slider-thumb-size: 1rem;
+}
+
+.hui-slider--lg {
+  --slider-height: 0.5rem;
+  --slider-thumb-size: 1.25rem;
+}
+
+/* Control — interactive area, wraps Track exactly */
+.hui-slider__control {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Track */
+.hui-slider__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--slider-height);
+  border-radius: var(--hui-radius-full);
+  background-color: var(--hui-color-secondary);
+}
+
+/* Range (filled indicator) */
+.hui-slider__range {
+  height: 100%;
+  background-color: var(--hui-color-primary);
+  border-radius: var(--hui-radius-full);
+}
+
+/* Thumb */
+.hui-slider__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  border-radius: var(--hui-radius-full);
+  background-color: var(--hui-color-background);
+  border: 2px solid var(--hui-color-primary);
+  box-shadow: var(--hui-shadow-sm);
+  outline: none;
+  cursor: grab;
+  transition: box-shadow var(--hui-duration-fast);
+}
+
+.hui-slider__thumb[data-focused] {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+.hui-slider__thumb[data-dragging] {
+  cursor: grabbing;
+}
+
+.hui-slider__thumb[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Disabled state */
+.hui-slider[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hui-slider[data-disabled] .hui-slider__control {
+  cursor: not-allowed;
+}
+
+/* Vertical orientation */
+.hui-slider[data-orientation="vertical"] {
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+}
+
+.hui-slider[data-orientation="vertical"] .hui-slider__control {
+  flex-direction: column;
+  height: 100%;
+}
+
+.hui-slider[data-orientation="vertical"] .hui-slider__track {
+  width: var(--slider-height);
+  height: 100%;
+  flex-direction: column;
+}
+
+/* Output */
+.hui-slider__output {
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-muted-foreground);
+}

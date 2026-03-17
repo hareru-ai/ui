@@ -1,0 +1,145 @@
+---
+title: Accordion
+description: Vertically stacked set of interactive headings that each reveal a section of content.
+---
+
+**Category:** Layout — **Pattern:** Base UI Accordion
+
+**Dependency:** `@base-ui-components/react/accordion`
+
+## Import
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Accordion` | Component | Root accordion context; accepts `type`, `value`, `defaultValue`, `onValueChange`, `disabled`, and `orientation` |
+| `AccordionItem` | Component | Individual accordion section; requires a `value` prop |
+| `AccordionHeader` | Component | Heading element wrapping the trigger; maps to `<h3>` by default |
+| `AccordionTrigger` | Component | Button that toggles the panel; shows open/close indicator |
+| `AccordionContent` | Component | Panel that is shown or hidden based on the item's open state |
+
+## Key Props
+
+### Accordion
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `'single' \| 'multiple'` | `'multiple'` | Whether one or multiple panels can be open simultaneously |
+| `defaultValue` | `(string \| number)[]` | `[]` | Initial open items (uncontrolled) |
+| `value` | `(string \| number)[]` | — | Controlled open items |
+| `onValueChange` | `(value: (string \| number)[]) => void` | — | Callback when open items change |
+| `disabled` | `boolean` | `false` | Disables all items |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Keyboard navigation orientation |
+
+### AccordionItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| number` | — | **Required.** Unique identifier for this item |
+| `disabled` | `boolean` | `false` | Disables this item independently of the root |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when this item's open state changes |
+
+## Structure
+
+<RegistrySlots name="Accordion" />
+
+## States
+
+<RegistryStates name="Accordion" />
+
+## Accessibility
+
+<RegistryA11y name="Accordion" />
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+} from "@hareru/ui"
+
+// Basic — multiple panels open at once (default)
+<Accordion defaultValue={["item-1"]}>
+  <AccordionItem value="item-1">
+    <AccordionHeader>
+      <AccordionTrigger>What is Hareru UI?</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent>
+      <p>A semantic design system built for agents.</p>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionHeader>
+      <AccordionTrigger>How do I install it?</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent>
+      <p>Run <code>npm install @hareru/tokens @hareru/ui</code>.</p>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Single — only one panel open at a time
+<Accordion type="single" defaultValue={["item-1"]}>
+  <AccordionItem value="item-1">
+    <AccordionHeader>
+      <AccordionTrigger>Section 1</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent><p>Content 1</p></AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionHeader>
+      <AccordionTrigger>Section 2</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent><p>Content 2</p></AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Disabled item
+<Accordion>
+  <AccordionItem value="item-1">
+    <AccordionHeader>
+      <AccordionTrigger>Available</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent><p>This panel can be opened.</p></AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2" disabled>
+    <AccordionHeader>
+      <AccordionTrigger>Disabled</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent><p>This panel cannot be opened.</p></AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Controlled
+<Accordion value={openItems} onValueChange={setOpenItems}>
+  <AccordionItem value="item-1">
+    <AccordionHeader>
+      <AccordionTrigger>Controlled Section</AccordionTrigger>
+    </AccordionHeader>
+    <AccordionContent><p>Open state managed externally.</p></AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Notes
+
+- Unlike `Collapsible` (a single show/hide section), `Accordion` manages a list of items and coordinates their open states under one root.
+- `defaultValue` and `value` are always arrays, even in `type="single"` mode (e.g. `defaultValue={["item-1"]}`).
+- `AccordionContent` animates open/close via CSS animations on the `[data-open]` and `[data-ending-style]` attributes.
+- `AccordionItem`, `AccordionHeader`, and `AccordionContent` expose `[data-open]` for CSS targeting. Note that `AccordionTrigger` uses `[data-panel-open]` instead.
+- With `type="single"`, opening one item automatically closes the previously open item.

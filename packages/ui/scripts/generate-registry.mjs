@@ -18,6 +18,7 @@ const OUT_FILE = join(PKG_ROOT, 'dist', 'component-registry.json');
 
 // --- Taxonomy: component → group mapping ---
 const TAXONOMY = {
+  Accordion: 'layout',
   Alert: 'feedback',
   AlertDialog: 'overlay',
   ApprovalCard: 'agent',
@@ -60,6 +61,7 @@ const TAXONOMY = {
   Separator: 'core',
   Sheet: 'overlay',
   Skeleton: 'layout',
+  Slider: 'form',
   StreamingText: 'agent',
   Switch: 'core',
   Table: 'data-display',

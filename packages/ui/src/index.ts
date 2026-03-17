@@ -6,6 +6,18 @@ export { ThemeProvider, useTheme } from './provider/ThemeProvider';
 
 // Components
 export {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+  type AccordionProps,
+  type AccordionItemProps,
+  type AccordionHeaderProps,
+  type AccordionTriggerProps,
+  type AccordionContentProps,
+} from './components/Accordion';
+export {
   Alert,
   AlertTitle,
   AlertDescription,
@@ -199,6 +211,19 @@ export {
   type SheetDescriptionProps,
 } from './components/Sheet';
 export { Skeleton, type SkeletonProps } from './components/Skeleton';
+export {
+  Slider,
+  SliderTrack,
+  SliderRange,
+  SliderThumb,
+  SliderOutput,
+  sliderVariants,
+  type SliderProps,
+  type SliderTrackProps,
+  type SliderRangeProps,
+  type SliderThumbProps,
+  type SliderOutputProps,
+} from './components/Slider';
 export {
   Tabs,
   TabsList,
