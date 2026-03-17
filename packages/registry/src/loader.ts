@@ -31,27 +31,67 @@ function loadJSON<T>(filename: string): T {
   // Production: read from dist/ (bundled artifacts)
   const distPath = join(distDir, filename);
   if (existsSync(distPath)) {
-    const raw = readFileSync(distPath, 'utf-8');
-    const data = JSON.parse(raw) as T;
-    cache.set(filename, data);
-    return data;
+    let raw: string;
+    try {
+      raw = readFileSync(distPath, 'utf-8');
+    } catch (readErr) {
+      throw new Error(
+        `Failed to read "${filename}" at ${distPath}: ${(readErr as Error).message}`,
+        { cause: readErr },
+      );
+    }
+
+    try {
+      const data = JSON.parse(raw) as T;
+      cache.set(filename, data);
+      return data;
+    } catch (parseErr) {
+      throw new Error(
+        `Failed to parse "${filename}" at ${distPath}: ${(parseErr as Error).message}`,
+        { cause: parseErr },
+      );
+    }
   }
 
   // Development/test: resolve from workspace packages
   const pkgExport = ARTIFACT_SOURCES[filename];
   if (pkgExport) {
+    let filePath: string;
     try {
-      const filePath = require.resolve(pkgExport);
-      const raw = readFileSync(filePath, 'utf-8');
+      filePath = require.resolve(pkgExport);
+    } catch (resolveErr) {
+      throw new Error(
+        `Failed to resolve "${filename}" via ${pkgExport}: ${(resolveErr as Error).message}`,
+        { cause: resolveErr },
+      );
+    }
+
+    let raw: string;
+    try {
+      raw = readFileSync(filePath, 'utf-8');
+    } catch (readErr) {
+      throw new Error(
+        `Failed to read "${filename}" at ${filePath}: ${(readErr as Error).message}`,
+        { cause: readErr },
+      );
+    }
+
+    try {
       const data = JSON.parse(raw) as T;
       cache.set(filename, data);
       return data;
-    } catch {
-      // fall through to error
+    } catch (parseErr) {
+      throw new Error(
+        `Failed to parse "${filename}" at ${filePath}: ${(parseErr as Error).message}`,
+        { cause: parseErr },
+      );
     }
   }
 
-  throw new Error(`Failed to load "${filename}". Run "pnpm build" first. Checked: ${distPath}`);
+  // No underlying cause — the artifact simply does not exist at any known path
+  throw new Error(
+    `"${filename}" not found. Checked: ${distPath}. Run "pnpm build" to generate artifacts.`,
+  );
 }
 
 export function loadTokens(): TokensJSON {

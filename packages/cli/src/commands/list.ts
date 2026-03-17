@@ -1,6 +1,7 @@
 import { loadRegistry } from '@hareru/registry';
 import type { Command } from 'commander';
 import { formatBundleList, formatComponentList } from '../utils/format.js';
+import { printRegistryError } from '../utils/registry-error.js';
 
 export function registerListCommand(program: Command): void {
   program
@@ -14,7 +15,7 @@ export function registerListCommand(program: Command): void {
       try {
         registry = loadRegistry();
       } catch (err) {
-        console.error((err as Error).message);
+        printRegistryError(err);
         process.exitCode = 1;
         return;
       }

@@ -1,6 +1,8 @@
 import { loadRegistry } from '@hareru/registry';
 import type { Command } from 'commander';
+import { c } from '../utils/colors.js';
 import { formatBundleDetail, formatComponentDetail } from '../utils/format.js';
+import { printRegistryError } from '../utils/registry-error.js';
 
 export function registerInfoCommand(program: Command): void {
   program
@@ -12,7 +14,7 @@ export function registerInfoCommand(program: Command): void {
       try {
         registry = loadRegistry();
       } catch (err) {
-        console.error((err as Error).message);
+        printRegistryError(err);
         process.exitCode = 1;
         return;
       }
@@ -51,9 +53,13 @@ export function registerInfoCommand(program: Command): void {
       );
 
       if (suggestions.length > 0) {
-        console.error(`"${name}" not found. Did you mean: ${suggestions.join(', ')}?`);
+        console.error(
+          `${c.error(`"${name}" not found.`)} Did you mean: ${suggestions.join(', ')}?`,
+        );
       } else {
-        console.error(`"${name}" not found. Run "hareru list" to see available components.`);
+        console.error(
+          `${c.error(`"${name}" not found.`)} Run "hareru list" to see available components.`,
+        );
       }
       process.exitCode = 1;
     });

@@ -3,6 +3,18 @@ title: Changelog
 description: Release history and version notes for Hareru UI
 ---
 
+## 0.5.1
+
+`@hareru/registry@0.4.2` · `@hareru/mcp@0.4.2` · `@hareru/cli@0.4.1`
+
+### Error Hardening
+
+- **Registry loader** — Per-step error handling (read/parse/resolve) with `{ cause }` chain preservation. Error messages now include filename, path, and root cause for easier debugging.
+- **MCP server** — No longer crashes when registry artifacts are missing at startup. Resources return JSON error objects, tools return `isError: true`, and prompts return error text instead of throwing.
+- **CLI** — Shared `printRegistryError()` helper with contextual hints: "not found" suggests `pnpm build`, "parse" suggests corruption, "read" suggests permissions. Consistent styled error output across `add`, `list`, and `info` commands.
+
+---
+
 ## 0.5.0
 
 `@hareru/cli@0.4.0`

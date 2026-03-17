@@ -10,6 +10,21 @@ import {
 } from './utils.js';
 import type { ComponentEntry } from './utils.js';
 
+function safeLoad<T>(
+  loader: () => T,
+  label: string,
+): { data: T; error?: undefined } | { data?: undefined; error: string } {
+  try {
+    return { data: loader() };
+  } catch (err) {
+    return { error: `${label}: ${err instanceof Error ? err.message : String(err)}` };
+  }
+}
+
+function mcpError(message: string) {
+  return { content: [{ type: 'text' as const, text: message }], isError: true };
+}
+
 function escPipe(s: string): string {
   return s.replace(/\|/g, '\\|');
 }
@@ -200,7 +215,9 @@ export function registerTools(server: McpServer): void {
     'Get usage documentation for a Hareru UI component — import, structure, variants, props, states, accessibility, slots, and examples',
     { componentName: z.string().describe('Component name (e.g. "Button", "Card", "Alert")') },
     async ({ componentName }) => {
-      const registry = loadRegistry();
+      const result = safeLoad(loadRegistry, 'Component registry');
+      if (result.error) return mcpError(result.error);
+      const registry = result.data;
       const entry = registry.components.find(
         (c) => c.name.toLowerCase() === componentName.toLowerCase(),
       );
@@ -229,7 +246,9 @@ export function registerTools(server: McpServer): void {
     'Get usage documentation for a Hareru UI task bundle — components, CSS imports, and token categories',
     { bundleName: z.string().describe('Bundle name (e.g. "agent-chat-shell", "form-basics")') },
     async ({ bundleName }) => {
-      const registry = loadRegistry();
+      const result = safeLoad(loadRegistry, 'Component registry');
+      if (result.error) return mcpError(result.error);
+      const registry = result.data;
       const bundles = registry.taskBundles ?? [];
       const bundle = bundles.find((b) => b.name.toLowerCase() === bundleName.toLowerCase());
 
@@ -324,7 +343,9 @@ export function registerTools(server: McpServer): void {
       value: z.string().describe('The value to validate (e.g. "oklch(0.5 0.2 250)")'),
     },
     async ({ tokenType, value }) => {
-      const schema = loadSchema();
+      const result = safeLoad(loadSchema, 'Token schema');
+      if (result.error) return mcpError(result.error);
+      const schema = result.data;
       const constraint =
         schema.properties.typeConstraints.properties[
           tokenType as keyof typeof schema.properties.typeConstraints.properties
@@ -448,7 +469,9 @@ export function registerTools(server: McpServer): void {
         .describe('Component group to filter by'),
     },
     async ({ group }) => {
-      const registry = loadRegistry();
+      const result = safeLoad(loadRegistry, 'Component registry');
+      if (result.error) return mcpError(result.error);
+      const registry = result.data;
       const filtered = registry.components.filter((c) => c.group === group);
 
       if (filtered.length === 0) {

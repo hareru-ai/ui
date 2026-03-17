@@ -13,6 +13,7 @@ import {
   generateCssImports,
 } from '../utils/format.js';
 import { detectPackage } from '../utils/pkg-detector.js';
+import { printRegistryError } from '../utils/registry-error.js';
 
 export function registerAddCommand(program: Command): void {
   program
@@ -56,7 +57,7 @@ export function registerAddCommand(program: Command): void {
         try {
           registry = loadRegistry();
         } catch (err) {
-          console.error((err as Error).message);
+          printRegistryError(err);
           process.exitCode = 1;
           return;
         }

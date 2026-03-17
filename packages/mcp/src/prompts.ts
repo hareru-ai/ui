@@ -2,6 +2,17 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { loadConsumerRules, loadRegistry, loadSchema } from './utils.js';
 
+function promptError(message: string) {
+  return {
+    messages: [
+      {
+        role: 'user' as const,
+        content: { type: 'text' as const, text: `Error: ${message}` },
+      },
+    ],
+  };
+}
+
 export function registerPrompts(server: McpServer): void {
   server.prompt(
     'create-ui',
@@ -15,8 +26,14 @@ export function registerPrompts(server: McpServer): void {
       framework: z.string().optional().describe('Target framework: react (default)'),
     },
     async ({ description, framework }) => {
-      const registry = loadRegistry();
-      const schema = loadSchema();
+      let registry: ReturnType<typeof loadRegistry>;
+      let schema: ReturnType<typeof loadSchema>;
+      try {
+        registry = loadRegistry();
+        schema = loadSchema();
+      } catch (err) {
+        return promptError(err instanceof Error ? err.message : String(err));
+      }
 
       const componentList = registry.components
         .map((c) => {
@@ -89,7 +106,12 @@ Generate a complete ${fw} component that fulfills this requirement.`,
         ),
     },
     async ({ description }) => {
-      const registry = loadRegistry();
+      let registry: ReturnType<typeof loadRegistry>;
+      try {
+        registry = loadRegistry();
+      } catch (err) {
+        return promptError(err instanceof Error ? err.message : String(err));
+      }
 
       const componentList = registry.components
         .map((c) => {
@@ -165,7 +187,12 @@ Generate a complete React component that combines Tailwind layout utilities with
     'Get the rules for using Hareru UI in your project',
     {},
     async () => {
-      const rules = loadConsumerRules();
+      let rules: ReturnType<typeof loadConsumerRules>;
+      try {
+        rules = loadConsumerRules();
+      } catch (err) {
+        return promptError(err instanceof Error ? err.message : String(err));
+      }
 
       const CODE_BLOCK_SECTIONS = new Set(['cssImports']);
 
