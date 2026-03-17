@@ -5,14 +5,38 @@ description: Framework-specific installation guides for Hareru UI
 
 ## CLI Quick Setup
 
-Generate CSS imports and auto-append to your stylesheet:
+Initialize your project and generate CSS imports:
 
 ```bash
+# Initialize (auto-detects framework and CSS mode, creates managed block + hareru.json)
+npx @hareru/cli init --write
+
+# Or add individual components
 npx @hareru/cli add Button --write
 npx @hareru/cli add Button --write --mode tailwind
 ```
 
-The CLI auto-detects your CSS entry file and package manager. CSS mode defaults to `per-component` when `--mode` is not specified.
+The CLI auto-detects your CSS entry file, package manager, and framework. When using `init`, the CLI writes a **managed block** to your CSS file:
+
+```css
+/* hareru:start managed */
+@import '@hareru/ui/styles.css';
+/* hareru:end */
+```
+
+For Tailwind projects, `init` uses the `tailwind` mode automatically and writes:
+
+```css
+/* hareru:start managed */
+@layer theme, base, hui, components, utilities;
+@import '@hareru/tokens/css';
+@import '@hareru/ui/styles/components.layer.css';
+/* hareru:end */
+
+@import 'tailwindcss';  /* you manage this line — keep it after the block */
+```
+
+> The `@import 'tailwindcss'` line must come **after** the managed block so the `@layer` declaration takes effect.
 
 ---
 

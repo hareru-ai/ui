@@ -115,6 +115,12 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 ## CLI
 
 ```bash
+# Initialize project (auto-detects framework + CSS mode)
+npx @hareru/cli init --write
+
+# Switch CSS mode
+npx @hareru/cli update --mode portable --write
+
 # List all components
 npx @hareru/cli list
 
@@ -135,7 +141,7 @@ npx @hareru/cli add Button --write --mode tailwind
 | [`@hareru/tokens`](./packages/tokens) | Design tokens and CSS custom properties (DTCG format) |
 | [`@hareru/ui`](./packages/ui) | 51 React components with semantic CSS styling |
 | [`@hareru/registry`](./packages/registry) | Shared registry types, loaders, and CSS mode recommendation |
-| [`@hareru/cli`](./packages/cli) | CLI for component management — list, info, add |
+| [`@hareru/cli`](./packages/cli) | CLI for component management — init, update, list, info, add |
 | [`@hareru/mcp`](./packages/mcp) | MCP server for AI agent integration (6 resources, 5 tools, 3 prompts) |
 
 ## Contributing

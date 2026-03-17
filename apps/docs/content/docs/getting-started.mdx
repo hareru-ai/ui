@@ -11,9 +11,12 @@ npm install @hareru/tokens @hareru/ui
 
 ### CLI (optional)
 
-The Hareru CLI generates CSS imports and auto-detects your CSS entry file:
+The Hareru CLI auto-detects your framework and generates CSS imports:
 
 ```bash
+# Initialize project (auto-detects framework + CSS mode)
+npx @hareru/cli init --write
+
 # Add a component (defaults to per-component CSS mode)
 npx @hareru/cli add Button --write
 
@@ -51,6 +54,8 @@ Add one of the following import patterns to your global stylesheet (e.g., `globa
 @import "@hareru/ui/styles/components.layer.css";
 @import "@hareru/ui/styles/scope.css"; /* opt-in */
 ```
+
+> When using `hareru init --write --mode tailwind`, the CLI wraps Hareru imports in a managed block and keeps `@import "tailwindcss"` outside it. The import order above is equivalent — `@layer` must appear before `@import "tailwindcss"`.
 
 **D. Per-component** (minimal bundle):
 

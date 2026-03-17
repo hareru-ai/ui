@@ -1,6 +1,6 @@
 # @hareru/cli
 
-CLI for [Hareru UI](https://github.com/hareru-ai/ui) — list components, inspect details, and generate CSS imports.
+CLI for [Hareru UI](https://github.com/hareru-ai/ui) — initialize projects, list components, inspect details, and generate CSS imports.
 
 [![npm](https://img.shields.io/npm/v/@hareru/cli)](https://www.npmjs.com/package/@hareru/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENSE)
@@ -8,6 +8,9 @@ CLI for [Hareru UI](https://github.com/hareru-ai/ui) — list components, inspec
 ## Quick Start
 
 ```bash
+# Initialize project (auto-detects framework + CSS mode)
+npx @hareru/cli init --write
+
 # List all components
 npx @hareru/cli list
 
@@ -29,6 +32,50 @@ hareru list
 ```
 
 ## Commands
+
+### `hareru init`
+
+Initialize Hareru UI in your project. Auto-detects framework and CSS mode, generates a managed CSS block and `hareru.json`.
+
+```bash
+hareru init                          # Dry-run preview
+hareru init --write                  # Apply changes
+hareru init --write --mode tailwind  # Specify CSS mode
+hareru init --write --force          # Overwrite existing config
+```
+
+**Init options:**
+
+| Flag | Description |
+|------|-------------|
+| `--mode <mode>` | CSS mode: `standalone`, `portable`, `tailwind` (auto-detected if omitted) |
+| `--css-file <path>` | CSS file to write to (auto-detected if omitted) |
+| `--framework <fw>` | Framework: `next`, `vite`, `remix`, `astro` (auto-detected if omitted) |
+| `--write` | Apply changes (dry-run by default) |
+| `--scope` | Add `styles/scope.css` import |
+| `--baseline` | Add `styles/baseline.css` import |
+| `--layer` | Use layer-wrapped CSS variant |
+| `--force` | Overwrite existing config and managed block |
+| `--json` | JSON output |
+
+### `hareru update`
+
+Change the CSS mode. Rewrites the managed block in your CSS file.
+
+```bash
+hareru update --mode portable          # Preview changes
+hareru update --mode portable --write  # Apply changes
+hareru update --mode tailwind --write  # Switch to Tailwind mode
+```
+
+| Flag | Description |
+|------|-------------|
+| `--mode <mode>` | New CSS mode: `standalone`, `portable`, `tailwind` |
+| `--scope` | Add `styles/scope.css` import |
+| `--baseline` | Add `styles/baseline.css` import |
+| `--layer` | Use layer-wrapped CSS variant |
+| `--write` | Apply changes (diff preview by default) |
+| `--json` | JSON output |
 
 ### `hareru list`
 

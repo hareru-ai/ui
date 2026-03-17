@@ -1,6 +1,12 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createProgram } from '../index.js';
 
+// biome-ignore lint/suspicious/noControlCharactersInRegex: ANSI escape stripping requires control chars
+const ANSI_RE = /\x1b\[[0-9;]*m/g;
+function stripAnsi(s: string): string {
+  return s.replace(ANSI_RE, '');
+}
+
 function runCommand(...args: string[]): { stdout: string; exitCode: number | undefined } {
   const logs: string[] = [];
   const spy = vi.spyOn(console, 'log').mockImplementation((...a) => logs.push(a.join(' ')));
@@ -21,7 +27,7 @@ function runCommand(...args: string[]): { stdout: string; exitCode: number | und
   errSpy.mockRestore();
   process.exitCode = undefined;
 
-  return { stdout: logs.join('\n'), exitCode };
+  return { stdout: stripAnsi(logs.join('\n')), exitCode };
 }
 
 describe('hareru list', () => {

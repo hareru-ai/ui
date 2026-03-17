@@ -48,17 +48,18 @@
       }
     },
     "cssImports": {
-      "description": "CSS import patterns — choose based on your project setup",
+      "description": "CSS import patterns — choose based on your project setup. Use 'hareru init --write' to auto-generate.",
       "rules": [
         "Standalone: @import '@hareru/ui/styles.css' — all-in-one bundle, no separate token import needed",
         "Portable: @import '@hareru/tokens/css' + @import '@hareru/ui/styles/components.css' — no global reset. Optionally add @hareru/ui/styles/baseline.css for minimal reset, @hareru/ui/styles/scope.css for .hui-root typography scoping",
-        "Tailwind v4: declare @layer order first, then tokens + components.layer.css. components.layer.css is pre-wrapped in @layer hui for correct cascade with Tailwind utilities",
-        "Per-component: @import '@hareru/tokens/css' + individual @hareru/ui/styles/components/{Name}.css — minimal bundle. Add animations.css if using StreamingText, ReasoningPanel, or ToolCallCard"
+        "Tailwind v4: declare @layer order first, then tokens + components.layer.css. components.layer.css is pre-wrapped in @layer hui for correct cascade with Tailwind utilities. @import 'tailwindcss' must come AFTER the managed block (@layer declaration must precede it)",
+        "Per-component: @import '@hareru/tokens/css' + individual @hareru/ui/styles/components/{Name}.css — minimal bundle. Add animations.css if using StreamingText, ReasoningPanel, or ToolCallCard",
+        "CLI managed block: 'hareru init' wraps @hareru/ imports in /* hareru:start managed */ ... /* hareru:end */ markers. The CLI only modifies content inside these markers. @import 'tailwindcss' is app-managed and must be placed after the managed block."
       ],
       "examples": {
         "standalone": "@import '@hareru/ui/styles.css';",
         "portable": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components.css';\n@import '@hareru/ui/styles/scope.css'; /* opt-in */",
-        "tailwind": "@layer theme, base, hui, components, utilities;\n@import 'tailwindcss';\n@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components.layer.css';",
+        "tailwind": "/* hareru:start managed */\n@layer theme, base, hui, components, utilities;\n@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components.layer.css';\n/* hareru:end */\n@import 'tailwindcss';",
         "per-component": "@import '@hareru/tokens/css';\n@import '@hareru/ui/styles/components/Button.css';\n@import '@hareru/ui/styles/components/Card.css';"
       }
     }

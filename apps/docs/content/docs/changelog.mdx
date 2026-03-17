@@ -3,6 +3,20 @@ title: Changelog
 description: Release history and version notes for Hareru UI
 ---
 
+## 0.5.0
+
+`@hareru/cli@0.4.0`
+
+### CLI
+
+- **`hareru init`** — New command for project setup. Auto-detects framework (Next.js, Vite, Remix, Astro) and CSS mode, generates a managed CSS block with `/* hareru:start managed */` markers and `hareru.json` config.
+- **`hareru update`** — New command for CSS mode switching. Rewrites the managed block content (`standalone` ↔ `portable` ↔ `tailwind`) and updates `hareru.json`.
+- **Colored output** — All CLI output now uses semantic colors via picocolors. Automatically disabled in non-TTY environments and when `NO_COLOR` is set.
+- **Managed block** — CSS imports are wrapped in marker comments. The CLI only modifies content inside the block. `@import 'tailwindcss'` is kept outside as an app-managed line.
+- **Security** — Path traversal prevention on `cssFile` in `hareru.json`. ENOENT/EACCES errors handled gracefully.
+
+---
+
 ## 0.4.0
 
 `@hareru/ui@0.4.0` · `@hareru/registry@0.4.1` · `@hareru/mcp@0.4.1` · `@hareru/cli@0.3.1`

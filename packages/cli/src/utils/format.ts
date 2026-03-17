@@ -1,5 +1,6 @@
 import type { ComponentEntry, ComponentGroup, CssMode, TaskBundle } from '@hareru/registry';
 import { CSS_MODES, buildSlotTree } from '@hareru/registry';
+import { c } from './colors.js';
 
 export type { CssMode };
 export { CSS_MODES };
@@ -34,9 +35,9 @@ export function formatComponentList(components: ComponentEntry[], group?: string
   for (const g of GROUP_ORDER) {
     const comps = grouped.get(g);
     if (!comps) continue;
-    lines.push(`${g}:`);
-    for (const c of comps) {
-      lines.push(`  ${c.name}`);
+    lines.push(`${c.heading(g)}:`);
+    for (const comp of comps) {
+      lines.push(`  ${comp.name}`);
     }
     lines.push('');
   }
@@ -49,9 +50,9 @@ export function formatBundleList(bundles: TaskBundle[]): string {
 
   const lines: string[] = [];
   for (const b of bundles) {
-    lines.push(`${b.name}`);
+    lines.push(`${c.heading(b.name)}`);
     lines.push(`  ${b.description}`);
-    lines.push(`  Components: ${b.components.join(', ')}`);
+    lines.push(`  ${c.dim('Components:')} ${b.components.join(', ')}`);
     lines.push('');
   }
   return lines.join('\n').trimEnd();
@@ -60,17 +61,19 @@ export function formatBundleList(bundles: TaskBundle[]): string {
 export function formatComponentDetail(entry: ComponentEntry): string {
   const lines: string[] = [];
 
-  lines.push(entry.displayName);
+  lines.push(c.bold(entry.displayName));
   lines.push('');
   lines.push(entry.description);
   lines.push('');
 
-  lines.push(`Group: ${entry.group}`);
-  lines.push(`CSS:   @hareru/ui/${entry.cssArtifact}`);
+  lines.push(`${c.dim('Group:')} ${entry.group}`);
+  lines.push(`${c.dim('CSS:')}   @hareru/ui/${entry.cssArtifact}`);
   if (entry.requiredCssArtifacts.length > 0) {
-    lines.push(`Deps:  ${entry.requiredCssArtifacts.map((a) => `@hareru/ui/${a}`).join(', ')}`);
+    lines.push(
+      `${c.dim('Deps:')}  ${entry.requiredCssArtifacts.map((a) => `@hareru/ui/${a}`).join(', ')}`,
+    );
   }
-  lines.push(`Tokens: ${entry.tokenCategories.join(', ')}`);
+  lines.push(`${c.dim('Tokens:')} ${entry.tokenCategories.join(', ')}`);
   lines.push('');
 
   // Import
@@ -86,13 +89,13 @@ export function formatComponentDetail(entry: ComponentEntry): string {
     entry.name === 'Table' ? ['TableRow is also valid inside TableHeader.'] : undefined,
   );
   if (slotTree) {
-    lines.push('Structure:');
+    lines.push(`${c.heading('Structure')}:`);
     lines.push(slotTree);
     lines.push('');
   }
 
   // CSS per-component
-  lines.push('CSS (per-component):');
+  lines.push(`${c.heading('CSS (per-component)')}:`);
   lines.push(`  @import '@hareru/tokens/css';`);
   for (const dep of entry.requiredCssArtifacts) {
     lines.push(`  @import '@hareru/ui/${dep}';`);
@@ -103,7 +106,7 @@ export function formatComponentDetail(entry: ComponentEntry): string {
   // Variants
   const variants = entry.variants ?? [];
   if (variants.length > 0) {
-    lines.push('Variants:');
+    lines.push(`${c.heading('Variants')}:`);
     for (const v of variants) {
       for (const [key, options] of Object.entries(v.variants)) {
         const def = v.defaultVariants[key] ?? '-';
@@ -116,7 +119,7 @@ export function formatComponentDetail(entry: ComponentEntry): string {
   // States (Phase 3C)
   const states = entry.states ?? [];
   if (states.length > 0) {
-    lines.push('States:');
+    lines.push(`${c.heading('States')}:`);
     for (const s of states) {
       if (s.type === 'enum') {
         const values = s.values.join(' | ');
@@ -132,7 +135,7 @@ export function formatComponentDetail(entry: ComponentEntry): string {
   // Accessibility (Phase 3C)
   const a11y = entry.a11y;
   if (a11y) {
-    lines.push('Accessibility:');
+    lines.push(`${c.heading('Accessibility')}:`);
     if (a11y.roles?.length) lines.push(`  Roles: ${a11y.roles.join(', ')}`);
     if (a11y.ariaAttributes?.length) lines.push(`  ARIA: ${a11y.ariaAttributes.join(', ')}`);
     if (a11y.semanticElements?.length)
@@ -153,7 +156,7 @@ export function formatComponentDetail(entry: ComponentEntry): string {
   // Example (Phase 3C)
   const examples = entry.examples ?? [];
   if (examples.length > 0) {
-    lines.push('Example:');
+    lines.push(`${c.heading('Example')}:`);
     for (const ex of examples) {
       lines.push(`  [${ex.title}]`);
       lines.push(`  ${ex.code.split('\n').join('\n  ')}`);
@@ -170,7 +173,7 @@ export function formatBundleDetail(
 ): string {
   const lines: string[] = [];
 
-  lines.push(`Bundle: ${bundle.name}`);
+  lines.push(`${c.dim('Bundle:')} ${c.bold(bundle.name)}`);
   lines.push('');
   lines.push(bundle.description);
   lines.push('');
@@ -197,17 +200,17 @@ export function formatBundleDetail(
   lines.push('');
 
   // CSS per-component
-  lines.push('CSS (per-component):');
+  lines.push(`${c.heading('CSS (per-component)')}:`);
   lines.push(`  @import '@hareru/tokens/css';`);
   for (const artifact of bundle.cssArtifacts) {
     lines.push(`  @import '@hareru/ui/${artifact}';`);
   }
   lines.push('');
 
-  lines.push(`Tokens: ${bundle.tokenCategories.join(', ')}`);
+  lines.push(`${c.dim('Tokens:')} ${bundle.tokenCategories.join(', ')}`);
   lines.push('');
 
-  lines.push('Components:');
+  lines.push(`${c.heading('Components')}:`);
   for (const compName of bundle.components) {
     const comp = componentMap.get(compName);
     if (comp) {
@@ -315,28 +318,36 @@ export function formatAddGuide(
   const lines: string[] = [];
 
   if (installCmd) {
-    lines.push('Install:');
+    lines.push(`${c.heading('Install')}:`);
     lines.push(`  ${installCmd}`);
     lines.push('');
   }
 
   if (warnings.length > 0) {
     for (const w of warnings) {
-      lines.push(`Warning: ${w}`);
+      lines.push(`${c.warning('Warning:')} ${w}`);
     }
     lines.push('');
   }
 
-  lines.push(`CSS (${options.mode}):`);
+  lines.push(`${c.heading(`CSS (${options.mode})`)}:`);
   for (const imp of cssImports) {
     lines.push(`  ${imp}`);
   }
   lines.push('');
 
-  lines.push('Import:');
+  lines.push(`${c.heading('Import')}:`);
   for (const imp of jsImports) {
     lines.push(`  ${imp}`);
   }
 
   return lines.join('\n').trimEnd();
+}
+
+/**
+ * Filter out @import 'tailwindcss' from managed imports.
+ * The tailwindcss import is app-managed and should NOT be inside the managed block.
+ */
+export function filterManagedImports(imports: string[]): string[] {
+  return imports.filter((line) => !/^@import\s+['"]tailwindcss['"]/.test(line));
 }

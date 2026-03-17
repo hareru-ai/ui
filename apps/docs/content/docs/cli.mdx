@@ -34,6 +34,61 @@ hareru info Button
 hareru info agent-chat-shell
 ```
 
+### `hareru init`
+
+Initialize Hareru UI in your project. Generates a managed CSS block and `hareru.json` config.
+
+```bash
+hareru init                          # Dry-run preview (auto-detects mode + framework)
+hareru init --write                  # Apply changes
+hareru init --write --mode tailwind  # Specify CSS mode
+hareru init --write --force          # Overwrite existing config
+```
+
+The `init` command:
+
+- Auto-detects your framework (Next.js, Vite, Remix, Astro) and recommends a CSS mode
+- Creates a **managed block** in your CSS file with `/* hareru:start managed */` markers
+- Generates `hareru.json` configuration in your project root
+- Adopts existing `@hareru/` imports into the managed block automatically
+- Validates Tailwind CSS import ordering when using `tailwind` mode
+
+**Managed block example (standalone):**
+
+```css
+/* hareru:start managed */
+@import '@hareru/ui/styles.css';
+/* hareru:end */
+```
+
+**Managed block example (tailwind):**
+
+```css
+/* hareru:start managed */
+@layer theme, base, hui, components, utilities;
+@import '@hareru/tokens/css';
+@import '@hareru/ui/styles/components.layer.css';
+/* hareru:end */
+
+@import 'tailwindcss';  /* app-managed, outside the block */
+```
+
+> The `@import 'tailwindcss'` line is **not** included in the managed block. You manage it yourself.
+
+**Init options:**
+
+| Flag | Description |
+|------|-------------|
+| `--mode <mode>` | CSS mode: `standalone`, `portable`, `tailwind` (auto-detected if omitted) |
+| `--css-file <path>` | CSS file to write to (resolved from cwd; auto-detected if omitted) |
+| `--framework <fw>` | Framework: `next`, `vite`, `remix`, `astro` (auto-detected if omitted) |
+| `--write` | Apply changes (without this flag, shows dry-run preview) |
+| `--scope` | Add `styles/scope.css` import |
+| `--baseline` | Add `styles/baseline.css` import |
+| `--layer` | Use layer-wrapped CSS variant |
+| `--force` | Overwrite existing config and managed block |
+| `--json` | JSON output |
+
 ### `hareru add <name>`
 
 Generate CSS import statements for a component or bundle.
@@ -44,29 +99,48 @@ hareru add Dialog --mode tailwind
 hareru add agent-chat-shell --write
 ```
 
-## CSS Modes
+### `hareru update`
 
-| Mode | Description |
-|------|-------------|
-| `standalone` | All-in-one bundle (`styles.css`) |
-| `portable` | Tokens + component bundle, no reset |
-| `tailwind` | Cascade Layers for Tailwind v4 coexistence |
-| `per-component` | Individual CSS files for minimal bundle (default) |
+Change the CSS mode of an existing project. Only modifies content inside the managed block.
 
-CSS mode defaults to `per-component` when `--mode` is not specified.
+```bash
+hareru update --mode portable          # Preview changes
+hareru update --mode portable --write  # Apply changes
+hareru update --scope --write          # Add scope.css without changing mode
+```
 
-## Options
+The `update` command:
+
+- Reads `hareru.json` and the managed block from your CSS file
+- Shows a diff of what will change (imports to add/remove)
+- Only touches content inside `/* hareru:start managed */` ... `/* hareru:end */`
+- Warns about any `@hareru/` imports found outside the managed block
+- Updates `hareru.json` mode when `--write` is applied
+
+**Update options:**
 
 | Flag | Description |
 |------|-------------|
-| `--mode <mode>` | CSS mode (`standalone`, `portable`, `tailwind`, `per-component`) |
-| `--write` | Append imports to your CSS entry file |
-| `--css-file <path>` | Target CSS file (auto-detected if omitted) |
-| `--layer` | Use `@layer` wrapped variants |
-| `--scope` | Include `.hui-root` scope helper |
-| `--baseline` | Include minimal CSS reset |
-| `--force` | Skip safety checks |
+| `--mode <mode>` | New CSS mode: `standalone`, `portable`, `tailwind` (keeps current if omitted) |
+| `--scope` | Add `styles/scope.css` import |
+| `--baseline` | Add `styles/baseline.css` import |
+| `--layer` | Use layer-wrapped CSS variant |
+| `--write` | Apply changes (diff preview by default) |
 | `--json` | JSON output |
+
+> `@import 'tailwindcss'` is app-managed. The `update` command does not add or remove it.
+
+## CSS Modes
+
+| Mode | Description | Available in |
+|------|-------------|-------------|
+| `standalone` | All-in-one bundle (`styles.css`) | `init`, `update`, `add` |
+| `portable` | Tokens + component bundle, no reset | `init`, `update`, `add` |
+| `tailwind` | Cascade Layers for Tailwind v4 coexistence | `init`, `update`, `add` |
+| `per-component` | Individual CSS files for minimal bundle | `add` only |
+
+- `add` defaults to `per-component` when `--mode` is not specified.
+- `init` auto-detects the best mode based on your project (Tailwind detected → `tailwind`, existing CSS reset → `portable`, otherwise → `standalone`).
 
 ## Auto-Detection
 
@@ -74,3 +148,5 @@ The CLI automatically detects:
 
 - **CSS entry file** — Searches common paths (`globals.css`, `index.css`, `app.css`, etc.)
 - **Package manager** — pnpm, npm, yarn, bun (monorepo-aware lockfile discovery)
+- **Framework** — Next.js, Vite, Remix, Astro (for `init` command)
+- **CSS mode** — Recommends `tailwind` when Tailwind is detected, `portable` with existing resets, `standalone` otherwise

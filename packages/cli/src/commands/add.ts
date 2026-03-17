@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 import { loadRegistry } from '@hareru/registry';
 import type { ComponentEntry, TaskBundle } from '@hareru/registry';
 import type { Command } from 'commander';
+import { c } from '../utils/colors.js';
 import { detectCssFile } from '../utils/css-detector.js';
 import { writeCssImports } from '../utils/css-writer.js';
 import {
@@ -43,7 +44,9 @@ export function registerAddCommand(program: Command): void {
       ) => {
         // Validate mode
         if (!CSS_MODES.includes(opts.mode as CssMode)) {
-          console.error(`Invalid mode "${opts.mode}". Valid modes: ${CSS_MODES.join(', ')}`);
+          console.error(
+            c.error(`Invalid mode "${opts.mode}". Valid modes: ${CSS_MODES.join(', ')}`),
+          );
           process.exitCode = 1;
           return;
         }
@@ -63,7 +66,7 @@ export function registerAddCommand(program: Command): void {
         let entry: ComponentEntry | undefined;
         let bundle: TaskBundle | undefined;
 
-        entry = registry.components.find((c) => c.name.toLowerCase() === nameLower);
+        entry = registry.components.find((comp) => comp.name.toLowerCase() === nameLower);
         if (!entry) {
           const bundles = registry.taskBundles ?? [];
           bundle = bundles.find((b) => b.name.toLowerCase() === nameLower);
@@ -71,16 +74,20 @@ export function registerAddCommand(program: Command): void {
 
         if (!entry && !bundle) {
           const allNames = [
-            ...registry.components.map((c) => c.name),
+            ...registry.components.map((comp) => comp.name),
             ...(registry.taskBundles ?? []).map((b) => b.name),
           ];
           const suggestions = allNames.filter(
             (n) => n.toLowerCase().includes(nameLower) || nameLower.includes(n.toLowerCase()),
           );
           if (suggestions.length > 0) {
-            console.error(`"${name}" not found. Did you mean: ${suggestions.join(', ')}?`);
+            console.error(
+              `${c.error(`"${name}" not found.`)} Did you mean: ${suggestions.join(', ')}?`,
+            );
           } else {
-            console.error(`"${name}" not found. Run "hareru list" to see available components.`);
+            console.error(
+              `${c.error(`"${name}" not found.`)} Run "hareru list" to see available components.`,
+            );
           }
           process.exitCode = 1;
           return;
@@ -102,7 +109,7 @@ export function registerAddCommand(program: Command): void {
           const allNames = [entry.name, ...subs];
           jsImports.push(`import { ${allNames.join(', ')} } from '@hareru/ui';`);
         } else if (bundle) {
-          const componentMap = new Map(registry.components.map((c) => [c.name, c]));
+          const componentMap = new Map(registry.components.map((comp) => [comp.name, comp]));
           const seen = new Set<string>();
           const allImportNames: string[] = [];
           for (const compName of bundle.components) {
@@ -132,31 +139,31 @@ export function registerAddCommand(program: Command): void {
           // Dependency check (unless --force)
           if (!opts.force) {
             if (!pkg.found) {
-              console.error('No package.json found. Cannot verify dependencies.');
+              console.error(`${c.error('No package.json found.')} Cannot verify dependencies.`);
               console.error('');
               console.error('Initialize a project first, then install:');
               console.error(`  ${pkg.installCommand}`);
               console.error('');
-              console.error('To skip this check, use --force.');
+              console.error(`To skip this check, use ${c.bold('--force')}.`);
               process.exitCode = 1;
               return;
             }
             if (pkg.parseError) {
-              console.error(pkg.parseError);
+              console.error(c.error(pkg.parseError));
               console.error('');
               console.error('Fix your package.json and re-run the command.');
-              console.error('To skip this check, use --force.');
+              console.error(`To skip this check, use ${c.bold('--force')}.`);
               process.exitCode = 1;
               return;
             }
             if (!pkg.installed.tokens || !pkg.installed.ui) {
-              console.error('Missing dependencies. Run the following first:');
+              console.error(`${c.error('Missing dependencies.')} Run the following first:`);
               console.error('');
               console.error(`  ${pkg.installCommand}`);
               console.error('');
               console.error(`Then re-run: hareru add ${name} --write`);
               console.error('');
-              console.error('To skip this check, use --force.');
+              console.error(`To skip this check, use ${c.bold('--force')}.`);
               process.exitCode = 1;
               return;
             }
@@ -165,8 +172,8 @@ export function registerAddCommand(program: Command): void {
           // CSS file detection
           const cssFilePath = opts.cssFile ? resolve(opts.cssFile) : detectCssFile(cwd);
           if (!cssFilePath) {
-            console.error('Could not find a CSS file to write to.');
-            console.error('Use --css-file <path> to specify one.');
+            console.error(c.error('Could not find a CSS file to write to.'));
+            console.error(`Use ${c.bold('--css-file <path>')} to specify one.`);
             process.exitCode = 1;
             return;
           }
@@ -184,11 +191,11 @@ export function registerAddCommand(program: Command): void {
             // EACCES is not integration-tested — chmod-based tests are flaky cross-platform.
             const e = err as NodeJS.ErrnoException;
             if (e.code === 'ENOENT') {
-              console.error(`File not found: ${cssFilePath}`);
+              console.error(`${c.error('File not found:')} ${c.path(cssFilePath)}`);
             } else if (e.code === 'EACCES') {
-              console.error(`Permission denied: ${cssFilePath}`);
+              console.error(`${c.error('Permission denied:')} ${c.path(cssFilePath)}`);
             } else {
-              console.error(`Failed to write CSS imports: ${e.message}`);
+              console.error(`${c.error('Failed to write CSS imports:')} ${e.message}`);
             }
             process.exitCode = 1;
             return;
@@ -213,27 +220,27 @@ export function registerAddCommand(program: Command): void {
           } else {
             if (warnings.length > 0) {
               for (const w of warnings) {
-                console.log(`Warning: ${w}`);
+                console.log(`${c.warning('Warning:')} ${w}`);
               }
               console.log('');
             }
             if (result.added.length > 0) {
-              console.log(`Added to ${result.filePath}:`);
+              console.log(`${c.success('Added to')} ${c.path(result.filePath)}:`);
               for (const line of result.added) {
                 console.log(`  ${line}`);
               }
             }
             if (result.skipped.length > 0) {
-              console.log('Already present (skipped):');
+              console.log(`${c.dim('Already present (skipped)')}:`);
               for (const line of result.skipped) {
-                console.log(`  ${line}`);
+                console.log(`  ${c.dim(line)}`);
               }
             }
             if (result.added.length === 0 && result.skipped.length > 0) {
-              console.log('All CSS imports already present.');
+              console.log(c.info('All CSS imports already present.'));
             }
             console.log('');
-            console.log('Import:');
+            console.log(`${c.heading('Import')}:`);
             for (const imp of jsImports) {
               console.log(`  ${imp}`);
             }
@@ -263,7 +270,7 @@ export function registerAddCommand(program: Command): void {
           console.log(JSON.stringify(payload, null, 2));
         } else {
           if (pkg.parseError) {
-            console.error(`Warning: ${pkg.parseError}`);
+            console.error(`${c.warning('Warning:')} ${pkg.parseError}`);
             console.error('');
           }
           console.log(
