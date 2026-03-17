@@ -1,5 +1,12 @@
 # @hareru/docs
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [4e5eb3c]
+  - @hareru/registry@0.4.2
+
 ## 0.0.5
 
 ### Patch Changes
