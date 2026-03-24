@@ -1,5 +1,13 @@
 # @hareru/docs
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [d156178]
+  - @hareru/ui@0.6.0
+  - @hareru/registry@0.4.2
+
 ## 0.0.7
 
 ### Patch Changes
