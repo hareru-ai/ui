@@ -262,6 +262,70 @@
       }
     ]
   },
+  "Breadcrumb": {
+    "componentSource": "src/components/Breadcrumb/Breadcrumb.tsx",
+    "cssSource": "src/components/Breadcrumb/Breadcrumb.css",
+    "description": "Navigation breadcrumb trail showing the current page location within a hierarchy.",
+    "aiHint": "Use for hierarchical page navigation. Combine BreadcrumbLink for intermediate pages and BreadcrumbPage for the current page. BreadcrumbLink supports asChild for router integration (e.g. Next.js Link).",
+    "peerComponents": ["NavigationMenu"],
+    "a11y": {
+      "roles": ["navigation"],
+      "ariaAttributes": ["aria-label=\"Breadcrumb\"", "aria-current=\"page\""],
+      "keyboardInteractions": ["Tab to navigate between links"],
+      "semanticElements": ["nav", "ol", "li"],
+      "notes": "Uses nav landmark with aria-label. Separators are aria-hidden. Current page marked with aria-current=\"page\"."
+    },
+    "examples": [
+      {
+        "title": "Basic breadcrumb",
+        "code": "<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem>\n      <BreadcrumbLink href=\"/\">Home</BreadcrumbLink>\n    </BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem>\n      <BreadcrumbLink href=\"/products\">Products</BreadcrumbLink>\n    </BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem>\n      <BreadcrumbPage>Widget</BreadcrumbPage>\n    </BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "BreadcrumbList",
+        "role": "container",
+        "parent": "Breadcrumb",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "BreadcrumbItem",
+        "role": "item",
+        "parent": "BreadcrumbList",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "BreadcrumbLink",
+        "role": "trigger",
+        "parent": "BreadcrumbItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "BreadcrumbPage",
+        "role": "content",
+        "parent": "BreadcrumbItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "BreadcrumbSeparator",
+        "role": "separator",
+        "parent": "BreadcrumbList",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "BreadcrumbEllipsis",
+        "role": "indicator",
+        "parent": "BreadcrumbItem",
+        "expected": false,
+        "multiple": false
+      }
+    ]
+  },
   "BentoGrid": {
     "componentSource": "src/components/BentoGrid/BentoGrid.tsx",
     "cssSource": "src/components/BentoGrid/BentoGrid.css",
@@ -1170,6 +1234,70 @@
         "name": "NavigationMenuViewport",
         "role": "viewport",
         "parent": "NavigationMenu",
+        "expected": false,
+        "multiple": false
+      }
+    ]
+  },
+  "Pagination": {
+    "componentSource": "src/components/Pagination/Pagination.tsx",
+    "cssSource": "src/components/Pagination/Pagination.css",
+    "description": "Page navigation with numbered links, previous/next controls, and ellipsis for long page ranges.",
+    "aiHint": "Use with Table or list views for paginated data. PaginationLink supports isActive for current page and asChild for router integration. PaginationPrevious/Next support disabled prop.",
+    "peerComponents": ["Table"],
+    "a11y": {
+      "roles": ["navigation"],
+      "ariaAttributes": ["aria-label=\"Pagination\"", "aria-current=\"page\"", "aria-disabled"],
+      "keyboardInteractions": ["Tab to navigate between page links"],
+      "semanticElements": ["nav", "ul", "li"],
+      "notes": "Uses nav landmark with aria-label. Active page marked with aria-current=\"page\". Disabled controls use aria-disabled, tabIndex={-1}, and CSS pointer-events: none."
+    },
+    "examples": [
+      {
+        "title": "Basic pagination",
+        "code": "<Pagination>\n  <PaginationContent>\n    <PaginationItem>\n      <PaginationPrevious href=\"/page/1\">Previous</PaginationPrevious>\n    </PaginationItem>\n    <PaginationItem>\n      <PaginationLink href=\"/page/1\">1</PaginationLink>\n    </PaginationItem>\n    <PaginationItem>\n      <PaginationLink href=\"/page/2\" isActive>2</PaginationLink>\n    </PaginationItem>\n    <PaginationItem>\n      <PaginationLink href=\"/page/3\">3</PaginationLink>\n    </PaginationItem>\n    <PaginationItem>\n      <PaginationNext href=\"/page/3\">Next</PaginationNext>\n    </PaginationItem>\n  </PaginationContent>\n</Pagination>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "PaginationContent",
+        "role": "container",
+        "parent": "Pagination",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "PaginationItem",
+        "role": "item",
+        "parent": "PaginationContent",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "PaginationLink",
+        "role": "trigger",
+        "parent": "PaginationItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "PaginationPrevious",
+        "role": "trigger",
+        "parent": "PaginationItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "PaginationNext",
+        "role": "trigger",
+        "parent": "PaginationItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "PaginationEllipsis",
+        "role": "indicator",
+        "parent": "PaginationItem",
         "expected": false,
         "multiple": false
       }

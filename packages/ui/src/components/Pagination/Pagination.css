@@ -1,0 +1,84 @@
+.hui-pagination {
+  font-family: var(--hui-font-family-sans);
+}
+
+.hui-pagination__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hui-pagination__item {
+  display: inline-flex;
+}
+
+/* --- Link base --- */
+.hui-pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--hui-spacing-9);
+  height: var(--hui-spacing-9);
+  padding: 0 var(--hui-spacing-2);
+  border: 1px solid transparent;
+  border-radius: var(--hui-radius-md);
+  color: var(--hui-color-foreground);
+  font-size: var(--hui-font-size-sm);
+  text-decoration: none;
+  transition: background-color var(--hui-duration-fast) var(--hui-easing-out), border-color
+    var(--hui-duration-fast) var(--hui-easing-out);
+  cursor: pointer;
+}
+
+.hui-pagination__link:hover {
+  background-color: var(--hui-color-accent);
+}
+
+/* --- Size variants --- */
+.hui-pagination__link--sm {
+  min-width: var(--hui-spacing-8);
+  height: var(--hui-spacing-8);
+  font-size: var(--hui-font-size-xs);
+}
+
+.hui-pagination__link--lg {
+  min-width: var(--hui-spacing-10);
+  height: var(--hui-spacing-10);
+  font-size: var(--hui-font-size-base);
+}
+
+/* --- Active --- */
+.hui-pagination__link--active {
+  border-color: var(--hui-color-border);
+  background-color: var(--hui-color-background);
+  font-weight: var(--hui-font-weight-medium);
+}
+
+/* --- Disabled --- */
+.hui-pagination__link--disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* --- Previous / Next --- */
+.hui-pagination__link--previous,
+.hui-pagination__link--next {
+  gap: var(--hui-spacing-1);
+  padding: 0 var(--hui-spacing-3);
+}
+
+/* --- Ellipsis --- */
+.hui-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hui-spacing-9);
+  height: var(--hui-spacing-9);
+  color: var(--hui-color-muted-foreground);
+  font-size: var(--hui-font-size-sm);
+}

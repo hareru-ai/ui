@@ -55,6 +55,22 @@ export {
 } from './components/Avatar';
 export { Badge, badgeVariants, type BadgeProps } from './components/Badge';
 export {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+  type BreadcrumbProps,
+  type BreadcrumbListProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbLinkProps,
+  type BreadcrumbPageProps,
+  type BreadcrumbSeparatorProps,
+  type BreadcrumbEllipsisProps,
+} from './components/Breadcrumb';
+export {
   BentoGrid,
   BentoGridItem,
   BENTO_PRESETS,
@@ -192,6 +208,23 @@ export {
   type NavigationMenuIndicatorProps,
   type NavigationMenuViewportProps,
 } from './components/NavigationMenu';
+export {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+  paginationLinkVariants,
+  type PaginationProps,
+  type PaginationContentProps,
+  type PaginationItemProps,
+  type PaginationLinkProps,
+  type PaginationPreviousProps,
+  type PaginationNextProps,
+  type PaginationEllipsisProps,
+} from './components/Pagination';
 export { Separator, type SeparatorProps } from './components/Separator';
 export {
   Sheet,

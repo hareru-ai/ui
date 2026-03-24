@@ -3,6 +3,22 @@ title: Changelog
 description: Release history and version notes for Hareru UI
 ---
 
+## 0.6.0
+
+`@hareru/ui@0.6.0`
+
+### New Components
+
+- **Breadcrumb** — Navigation breadcrumb trail showing the current page location within a hierarchy. Composite component with BreadcrumbList, BreadcrumbItem, BreadcrumbLink (asChild for router integration), BreadcrumbPage, BreadcrumbSeparator (customizable), and BreadcrumbEllipsis.
+- **Pagination** — Page navigation with numbered links, previous/next controls, and ellipsis for long page ranges. PaginationLink supports `isActive` state, CVA size variants (sm, md, lg), and `asChild`. PaginationPrevious/Next support `disabled` prop with 4-layer disabled control (CSS pointer-events, tabIndex, onClick preventDefault, aria-disabled).
+- Component count: 53 → 55.
+
+### Fixes
+
+- Added Accordion and Slider to docs sidebar (`meta.json`) and README component tables (omitted in previous release).
+
+---
+
 ## 0.5.0
 
 `@hareru/ui@0.5.0`

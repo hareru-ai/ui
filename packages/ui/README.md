@@ -7,7 +7,7 @@ Semantic CSS component library for [Hareru UI](https://github.com/hareru-ai/ui).
 
 ## Features
 
-- **53 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
+- **55 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
 - **Semantic CSS** — BEM naming (`hui-*`) with CSS custom properties (`--hui-*`)
 - **CVA variants** — Type-safe variant management with [class-variance-authority](https://cva.style/)
 - **Accessible** — Built on [Base UI](https://base-ui.com/) primitives, WAI-ARIA compliant
@@ -123,6 +123,7 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 | BentoGrid, BentoGridItem | Drag-and-drop grid layout with presets |
 | Separator | Horizontal or vertical divider |
 | ScrollArea | Custom scrollbar container |
+| Accordion | Expandable content sections |
 | Collapsible | Expandable content section |
 | AspectRatio | Fixed aspect ratio container |
 
@@ -138,6 +139,7 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 | Switch | Toggle switch |
 | Toggle | Toggle button with variants |
 | Label | Form field label |
+| Slider | Numeric range input |
 | FormField, FormFieldLabel, FormFieldControl, FormFieldMessage | Form field validation wrapper |
 
 ### Overlay
@@ -156,6 +158,8 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 
 | Component | Description |
 |-----------|-------------|
+| Breadcrumb | Navigation breadcrumb trail |
+| Pagination | Page navigation |
 | Tabs | Tab navigation |
 | NavigationMenu | Site navigation |
 

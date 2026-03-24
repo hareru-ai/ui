@@ -1,0 +1,150 @@
+---
+title: Pagination
+description: Page navigation with numbered links, previous/next controls, and ellipsis for long page ranges.
+---
+
+**Category:** Navigation — **Pattern:** Pure React Composite
+
+## Import
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Pagination` | Component | Root `<nav>` wrapper with `aria-label="Pagination"` |
+| `PaginationContent` | Component | `<ul>` list container for pagination items |
+| `PaginationItem` | Component | `<li>` wrapper for each pagination entry |
+| `PaginationLink` | Component | Page number link; supports `isActive`, `size` variant, and `asChild` |
+| `PaginationPrevious` | Component | Previous page link with `disabled` support |
+| `PaginationNext` | Component | Next page link with `disabled` support |
+| `PaginationEllipsis` | Component | Ellipsis indicator for skipped page ranges |
+| `paginationLinkVariants` | CVA function | Variant helper for link size classes |
+
+## Key Props
+
+### PaginationLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isActive` | `boolean` | `false` | Marks the current page (`aria-current="page"`) |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Link size variant |
+| `asChild` | `boolean` | `false` | Render as the child element for router integration |
+
+### PaginationPrevious / PaginationNext
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | Disables the control (aria-disabled, tabIndex={-1}, pointer-events: none) |
+| `asChild` | `boolean` | `false` | Render as the child element for router integration |
+
+## Structure
+
+<RegistrySlots name="Pagination" />
+
+## Accessibility
+
+<RegistryA11y name="Pagination" />
+
+## Usage
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@hareru/ui"
+
+// Basic pagination
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="/page/1">Previous</PaginationPrevious>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/1">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/2" isActive>2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/3">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="/page/3">Next</PaginationNext>
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
+// With ellipsis and disabled controls
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious disabled>Previous</PaginationPrevious>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/1" isActive>1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/2">2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/3">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="/page/10">10</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="/page/2">Next</PaginationNext>
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
+// With Next.js Link (asChild)
+import Link from "next/link"
+
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious asChild>
+        <Link href="/page/1">Previous</Link>
+      </PaginationPrevious>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink asChild isActive>
+        <Link href="/page/2">2</Link>
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext asChild>
+        <Link href="/page/3">Next</Link>
+      </PaginationNext>
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+## Notes
+
+- `PaginationLink` size variants (`sm`, `md`, `lg`) control the minimum width and height of the link element.
+- `PaginationPrevious` and `PaginationNext` accept a `disabled` prop that applies `aria-disabled="true"`, `tabIndex={-1}`, and CSS `pointer-events: none`. When not using `asChild`, `href` is also removed. When using `asChild`, the parent calls `e.preventDefault()` via Slot handler merge to prevent navigation.
+- `PaginationEllipsis` renders `…` and is `aria-hidden` — use it between page ranges to indicate skipped pages.
+- All link components support `asChild` for framework router integration (e.g. Next.js `Link`, React Router `Link`).

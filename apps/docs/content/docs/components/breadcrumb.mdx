@@ -1,0 +1,138 @@
+---
+title: Breadcrumb
+description: Navigation breadcrumb trail showing the current page location within a hierarchy.
+---
+
+**Category:** Navigation — **Pattern:** Pure React Composite
+
+## Import
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Breadcrumb` | Component | Root `<nav>` wrapper with `aria-label="Breadcrumb"` |
+| `BreadcrumbList` | Component | `<ol>` list container for breadcrumb items |
+| `BreadcrumbItem` | Component | `<li>` wrapper for each breadcrumb entry |
+| `BreadcrumbLink` | Component | Anchor link to a parent page; supports `asChild` for router integration |
+| `BreadcrumbPage` | Component | Current page indicator with `aria-current="page"` |
+| `BreadcrumbSeparator` | Component | Visual separator between items (default `/`) |
+| `BreadcrumbEllipsis` | Component | Ellipsis indicator for collapsed middle items |
+
+## Key Props
+
+### BreadcrumbLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as the child element (e.g. Next.js `Link`) instead of `<a>` |
+| `href` | `string` | — | Link destination |
+
+## Structure
+
+<RegistrySlots name="Breadcrumb" />
+
+## Accessibility
+
+<RegistryA11y name="Breadcrumb" />
+
+## Usage
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@hareru/ui"
+
+// Basic breadcrumb
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Widget</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+
+// With ellipsis for deep hierarchies
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/products/widgets">Widgets</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Settings</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+
+// Custom separator
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator>&gt;</BreadcrumbSeparator>
+    <BreadcrumbItem>
+      <BreadcrumbPage>Current</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+
+// With Next.js Link (asChild)
+import Link from "next/link"
+
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink asChild>
+        <Link href="/">Home</Link>
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Current</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## Notes
+
+- `BreadcrumbSeparator` defaults to `/` when no children are provided. Pass any element or string as children for a custom separator.
+- `BreadcrumbPage` is for the **current page** — it renders as a non-interactive `<span>` with `aria-current="page"` and `aria-disabled="true"`.
+- `BreadcrumbEllipsis` renders `…` and is `aria-hidden` — use it when truncating long breadcrumb trails.
+- `BreadcrumbLink` supports the `asChild` pattern for router integration. Pass a framework `Link` component as its child to inherit client-side navigation.
