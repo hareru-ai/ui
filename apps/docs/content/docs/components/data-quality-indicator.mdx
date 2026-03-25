@@ -5,6 +5,33 @@ description: Visual indicator of data quality score with dimension-level breakdo
 
 **Category:** DI Domain / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="data-quality-indicator-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { DataQualityIndicator } from "@hareru/ui"
+
+    <DataQualityIndicator
+      datasetName="orders"
+      overallScore={0.87}
+      dimensions={[
+        { name: "completeness", label: "Completeness", score: 0.95, alertLevel: "none" },
+        { name: "freshness", label: "Freshness", score: 0.72, alertLevel: "warning" },
+        { name: "validity", label: "Validity", score: 0.88, alertLevel: "none" },
+      ]}
+      alerts={[
+        { level: "warning", message: "No updates for over 24 hours", dimension: "freshness" },
+      ]}
+      onDetailClick={() => console.log("show details")}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

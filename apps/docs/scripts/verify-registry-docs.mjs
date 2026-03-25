@@ -193,6 +193,43 @@ for (const entry of registry.components) {
 }
 
 // ---------------------------------------------------------------------------
+// Preview coverage checks
+// ---------------------------------------------------------------------------
+
+// Load demo registry keys from demo-registry.ts
+const demoRegistryPath = join(docsRoot, 'app', 'components', 'preview', 'demo-registry.ts');
+const demoRegistrySource = readFileSync(demoRegistryPath, 'utf-8');
+const demoKeys = new Set([...demoRegistrySource.matchAll(/'([^']+)':\s*lazy/g)].map((m) => m[1]));
+
+for (const entry of registry.components) {
+  const mdx = mdxByTitle.get(entry.name);
+  if (!mdx) continue;
+
+  const { file, content } = mdx;
+
+  // Every component MDX must have ## Preview heading
+  const hasPreviewHeading = /^## Preview$/m.test(content);
+  if (!hasPreviewHeading) {
+    errors.push(`${file}: missing "## Preview" heading for "${entry.name}"`);
+  }
+
+  // Every component MDX must have <ComponentPreview tag
+  const hasPreviewTag = content.includes('<ComponentPreview');
+  if (!hasPreviewTag) {
+    errors.push(`${file}: missing <ComponentPreview tag for "${entry.name}"`);
+  }
+
+  // Validate ComponentPreview name exists in demo registry
+  const previewNamePattern = /<ComponentPreview\s+name="([^"]+)"/g;
+  for (const m of content.matchAll(previewNamePattern)) {
+    const demoName = m[1];
+    if (!demoKeys.has(demoName)) {
+      errors.push(`${file}: <ComponentPreview name="${demoName}" /> not found in demo-registry.ts`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Report
 // ---------------------------------------------------------------------------
 

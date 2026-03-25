@@ -5,6 +5,28 @@ description: Displays a single agent tool invocation with its name, arguments, a
 
 **Category:** AI / Chat / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="tool-call-card-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ToolCallCard } from "@hareru/ui"
+
+    <ToolCallCard
+      toolName="search_documents"
+      status="done"
+      args={{ query: "quarterly revenue", limit: 10 }}
+      result={<span>Found 3 documents</span>}
+      duration={245}
+      defaultExpanded
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

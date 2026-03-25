@@ -7,6 +7,44 @@ description: Slide-in panel (drawer) anchored to any edge of the viewport, built
 
 **Dependency:** `@base-ui-components/react/dialog`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="sheet-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Sheet,
+      SheetTrigger,
+      SheetClose,
+      SheetContent,
+      SheetHeader,
+      SheetFooter,
+      SheetTitle,
+      SheetDescription,
+      Button,
+    } from "@hareru/ui"
+
+    <Sheet>
+      <SheetTrigger asChild><Button variant="outline">Open Panel</Button></SheetTrigger>
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle>Settings</SheetTitle>
+          <SheetDescription>Modify your settings.</SheetDescription>
+        </SheetHeader>
+        <div>Content</div>
+        <SheetFooter>
+          <SheetClose asChild><Button variant="outline">Close</Button></SheetClose>
+          <Button>Save</Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

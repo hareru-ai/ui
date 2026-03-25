@@ -5,6 +5,26 @@ description: Side-by-side comparison of original and corrected field values with
 
 **Category:** Data Display / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="field-diff-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { FieldDiff } from "@hareru/ui"
+
+    <FieldDiff
+      original={{ name: "John", email: "john@old.com", role: "user" }}
+      corrected={{ name: "John", email: "john@new.com", role: "admin" }}
+      changedFields={["email", "role"]}
+      labels={{ name: "Name", email: "Email", role: "Role" }}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

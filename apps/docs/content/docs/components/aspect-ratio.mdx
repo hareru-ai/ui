@@ -5,6 +5,27 @@ description: Container that enforces a fixed aspect ratio for its child content.
 
 **Category:** Layout / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="aspect-ratio-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { AspectRatio } from "@hareru/ui"
+
+    <AspectRatio ratio={16 / 9}>
+      <img
+        src="photo.jpg"
+        alt="Photo"
+        style={{ objectFit: "cover", width: "100%", height: "100%" }}
+      />
+    </AspectRatio>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

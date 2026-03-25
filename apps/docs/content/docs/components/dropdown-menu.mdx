@@ -7,6 +7,39 @@ description: Accessible dropdown menu with support for groups, submenus, checkbo
 
 **Dependency:** `@base-ui-components/react/menu`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="dropdown-menu-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      DropdownMenu,
+      DropdownMenuTrigger,
+      DropdownMenuContent,
+      DropdownMenuItem,
+      DropdownMenuLabel,
+      DropdownMenuSeparator,
+      Button,
+    } from "@hareru/ui"
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild><Button variant="outline">Menu</Button></DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Log out</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

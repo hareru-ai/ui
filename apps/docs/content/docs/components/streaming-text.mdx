@@ -5,6 +5,27 @@ description: Wraps streaming LLM output with an optional animated cursor indicat
 
 **Category:** AI / Chat / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="streaming-text-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { StreamingText } from "@hareru/ui"
+
+    <StreamingText streaming>
+      The answer to your question is...
+    </StreamingText>
+
+    <StreamingText streaming={false}>
+      The answer to your question is 42.
+    </StreamingText>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

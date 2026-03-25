@@ -5,6 +5,39 @@ description: Tabbed browser for exploring semantic models, metrics, and dimensio
 
 **Category:** DI Domain / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="definition-browser-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { DefinitionBrowser } from "@hareru/ui"
+
+    <DefinitionBrowser
+      models={[
+        {
+          name: "smb_sales",
+          description: "SMB sales model",
+          metricCount: 5,
+          dimensionCount: 12,
+          validationStatus: "valid",
+        },
+      ]}
+      metrics={[
+        { name: "total_amount", description: "Total sales amount", semanticModelName: "smb_sales" },
+      ]}
+      dimensions={[
+        { name: "order_date", description: "Order date", semanticModelName: "smb_sales", isTime: true },
+      ]}
+      defaultTab="metrics"
+      onSelectMetric={(metric) => console.log("Selected:", metric)}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

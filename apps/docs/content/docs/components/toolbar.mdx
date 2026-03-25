@@ -7,6 +7,38 @@ description: Container for grouping action buttons, links, and separators into a
 
 **Dependency:** `@base-ui-components/react/toolbar`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="toolbar-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Toolbar,
+      ToolbarButton,
+      ToolbarGroup,
+      ToolbarSeparator,
+    } from "@hareru/ui"
+
+    <Toolbar>
+      <ToolbarGroup>
+        <ToolbarButton aria-label="Bold">B</ToolbarButton>
+        <ToolbarButton aria-label="Italic">I</ToolbarButton>
+        <ToolbarButton aria-label="Underline">U</ToolbarButton>
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      <ToolbarGroup>
+        <ToolbarButton variant="outline">Left</ToolbarButton>
+        <ToolbarButton variant="outline">Center</ToolbarButton>
+        <ToolbarButton variant="outline">Right</ToolbarButton>
+      </ToolbarGroup>
+    </Toolbar>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

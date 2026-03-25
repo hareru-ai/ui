@@ -7,6 +7,28 @@ description: Floating card that appears on hover over a link, showing a preview 
 
 **Dependency:** `@base-ui-components/react/preview-card`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="preview-card-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { PreviewCard, PreviewCardTrigger, PreviewCardContent } from "@hareru/ui"
+
+    <PreviewCard>
+      <PreviewCardTrigger href="https://example.com">
+        Example Website
+      </PreviewCardTrigger>
+      <PreviewCardContent>
+        <p>A preview of the linked content appears here.</p>
+      </PreviewCardContent>
+    </PreviewCard>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

@@ -5,6 +5,27 @@ description: Visual divider line supporting horizontal and vertical orientations
 
 **Category:** Layout / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="separator-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Separator } from "@hareru/ui"
+
+    <Separator />
+
+    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", height: "1.25rem" }}>
+      <span>Left</span>
+      <Separator orientation="vertical" />
+      <span>Right</span>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

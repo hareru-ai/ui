@@ -5,6 +5,26 @@ description: Single chat bubble that renders user, assistant, or system messages
 
 **Category:** AI / Chat / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="chat-message-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ChatMessage, ChatMessageContent, ChatMessageTimestamp } from "@hareru/ui"
+
+    <ChatMessage variant="user">How do I create a new project?</ChatMessage>
+
+    <ChatMessage variant="assistant">
+      <ChatMessageContent>Here's how to get started...</ChatMessageContent>
+      <ChatMessageTimestamp dateTime="2025-01-15T10:30:00Z">10:30 AM</ChatMessageTimestamp>
+    </ChatMessage>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

@@ -5,6 +5,42 @@ description: Navigation breadcrumb trail showing the current page location withi
 
 **Category:** Navigation — **Pattern:** Pure React Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="breadcrumb-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Breadcrumb,
+      BreadcrumbList,
+      BreadcrumbItem,
+      BreadcrumbLink,
+      BreadcrumbPage,
+      BreadcrumbSeparator,
+    } from "@hareru/ui"
+
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Widget</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

@@ -7,6 +7,44 @@ description: Vertically stacked set of interactive headings that each reveal a s
 
 **Dependency:** `@base-ui-components/react/accordion`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="accordion-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Accordion,
+      AccordionItem,
+      AccordionHeader,
+      AccordionTrigger,
+      AccordionContent,
+    } from "@hareru/ui"
+
+    <Accordion defaultValue={["item-1"]}>
+      <AccordionItem value="item-1">
+        <AccordionHeader>
+          <AccordionTrigger>What is Hareru UI?</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>
+          <p>A semantic design system built for agents.</p>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionHeader>
+          <AccordionTrigger>How do I install it?</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>
+          <p>Run <code>npm install @hareru/tokens @hareru/ui</code>.</p>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

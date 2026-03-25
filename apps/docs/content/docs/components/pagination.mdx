@@ -5,6 +5,46 @@ description: Page navigation with numbered links, previous/next controls, and el
 
 **Category:** Navigation — **Pattern:** Pure React Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="pagination-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Pagination,
+      PaginationContent,
+      PaginationItem,
+      PaginationLink,
+      PaginationPrevious,
+      PaginationNext,
+    } from "@hareru/ui"
+
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious href="/page/1">Previous</PaginationPrevious>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="/page/1">1</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="/page/2" isActive>2</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="/page/3">3</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext href="/page/3">Next</PaginationNext>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

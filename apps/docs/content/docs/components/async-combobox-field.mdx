@@ -5,6 +5,26 @@ description: Combobox with debounced async search, loading state, and integrated
 
 **Category:** Form / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="async-combobox-field-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { AsyncComboboxField } from "@hareru/ui"
+
+    <AsyncComboboxField
+      label="Account"
+      fetchUrl="/api/accounts"
+      value={selectedAccount}
+      onValueChange={(value) => setSelectedAccount(value)}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

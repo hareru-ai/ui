@@ -7,6 +7,48 @@ description: Right-click context menu with items, checkboxes, radio items, separ
 
 **Dependency:** `@base-ui-components/react/context-menu`, `@base-ui-components/react/menu`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="context-menu-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      ContextMenu,
+      ContextMenuTrigger,
+      ContextMenuContent,
+      ContextMenuItem,
+      ContextMenuLabel,
+      ContextMenuSeparator,
+      ContextMenuShortcut,
+    } from "@hareru/ui"
+
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <div style={{ padding: "2rem", border: "1px dashed gray" }}>
+          Right-click here
+        </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuLabel>Edit</ContextMenuLabel>
+        <ContextMenuSeparator />
+        <ContextMenuItem>
+          Cut <ContextMenuShortcut>Ctrl+X</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Copy <ContextMenuShortcut>Ctrl+C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Paste <ContextMenuShortcut>Ctrl+V</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

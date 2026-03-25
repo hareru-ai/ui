@@ -7,6 +7,28 @@ description: Accessible show/hide section that toggles between expanded and coll
 
 **Dependency:** `@base-ui-components/react/collapsible`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="collapsible-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Collapsible,
+      CollapsibleTrigger,
+      CollapsibleContent,
+    } from "@hareru/ui"
+
+    <Collapsible>
+      <CollapsibleTrigger>Show Details</CollapsibleTrigger>
+      <CollapsibleContent><p>Collapsible content</p></CollapsibleContent>
+    </Collapsible>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx
@@ -22,7 +44,7 @@ import {
 | Name | Type | Description |
 |------|------|-------------|
 | `Collapsible` | Component | Root collapsible context; accepts `open`, `defaultOpen`, and `onOpenChange` |
-| `CollapsibleTrigger` | Component | Element that toggles the expanded state; supports `asChild` |
+| `CollapsibleTrigger` | Component | Element that toggles the expanded state |
 | `CollapsibleContent` | Component | Section that is shown or hidden based on open state |
 
 ## Key Props
@@ -54,11 +76,10 @@ import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
-  Button,
 } from "@hareru/ui"
 
 <Collapsible>
-  <CollapsibleTrigger asChild><Button variant="ghost">Show Details</Button></CollapsibleTrigger>
+  <CollapsibleTrigger>Show Details</CollapsibleTrigger>
   <CollapsibleContent><p>Collapsible content</p></CollapsibleContent>
 </Collapsible>
 ```

@@ -7,6 +7,38 @@ description: Accessible top-level navigation menu with animated content panels, 
 
 **Dependency:** `@base-ui-components/react/navigation-menu`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="navigation-menu-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      NavigationMenu,
+      NavigationMenuList,
+      NavigationMenuItem,
+      NavigationMenuTrigger,
+      NavigationMenuContent,
+      NavigationMenuLink,
+    } from "@hareru/ui"
+
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuLink href="/about">About</NavigationMenuLink>
+            <NavigationMenuLink href="/docs">Docs</NavigationMenuLink>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

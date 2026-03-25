@@ -7,6 +7,36 @@ description: Responsive drag-and-drop grid layout built on react-grid-layout wit
 
 **Dependency:** `react-grid-layout`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="bento-grid-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { BentoGrid, BentoGridItem } from "@hareru/ui"
+    import { Card, CardContent, CardHeader, CardTitle } from "@hareru/ui"
+
+    const layouts = {
+      lg: [
+        { i: "a", x: 0, y: 0, w: 6, h: 2 },
+        { i: "b", x: 6, y: 0, w: 6, h: 2 },
+      ],
+    }
+
+    <BentoGrid layouts={layouts} rowHeight={80} gap={[12, 12]}>
+      <BentoGridItem key="a">
+        <Card><CardHeader><CardTitle>Visits</CardTitle></CardHeader><CardContent>12,340</CardContent></Card>
+      </BentoGridItem>
+      <BentoGridItem key="b">
+        <Card><CardHeader><CardTitle>Revenue</CardTitle></CardHeader><CardContent>$4,200</CardContent></Card>
+      </BentoGridItem>
+    </BentoGrid>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

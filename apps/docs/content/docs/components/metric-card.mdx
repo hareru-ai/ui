@@ -5,6 +5,27 @@ description: Dashboard tile that highlights a key metric value with freshness in
 
 **Category:** DI Domain / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="metric-card-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { MetricCard } from "@hareru/ui"
+
+    <MetricCard
+      metricName="total_amount"
+      displayName="Total Sales"
+      value={1234567}
+      unit="USD"
+      description="Sum of all order amounts"
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx
