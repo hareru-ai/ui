@@ -7,6 +7,36 @@ description: Accessible modal dialog built on Base UI Dialog primitives.
 
 **Dependency:** `@base-ui-components/react/dialog`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="dialog-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose, Button } from "@hareru/ui"
+
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Dialog Title</DialogTitle>
+          <DialogDescription>Dialog description text.</DialogDescription>
+        </DialogHeader>
+        <p>Dialog body content.</p>
+        <DialogFooter>
+          <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+          <Button>Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx
