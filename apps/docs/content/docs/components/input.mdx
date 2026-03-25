@@ -5,6 +5,25 @@ description: Single-line text input with error state and file input support.
 
 **Category:** Form / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="input-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Input, Label } from "@hareru/ui"
+
+    <Label htmlFor="email">Email</Label>
+    <Input id="email" type="email" placeholder="you@example.com" />
+
+    <Label htmlFor="disabled">Disabled</Label>
+    <Input id="disabled" placeholder="Disabled input" disabled />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

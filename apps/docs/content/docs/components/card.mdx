@@ -5,6 +5,33 @@ description: Semantic content container using article, header, and footer HTML e
 
 **Category:** Layout / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="card-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button } from "@hareru/ui"
+
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card description with supporting text.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>Main content area of the card.</p>
+      </CardContent>
+      <CardFooter>
+        <Button>Save</Button>
+        <Button variant="outline">Cancel</Button>
+      </CardFooter>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

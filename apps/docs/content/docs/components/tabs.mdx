@@ -7,6 +7,30 @@ description: Accessible tabbed interface for switching between related content p
 
 **Dependency:** `@base-ui-components/react/tabs`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="tabs-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Tabs, TabsList, TabsTrigger, TabsContent } from "@hareru/ui"
+
+    <Tabs defaultValue="account">
+      <TabsList>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">Account settings content.</TabsContent>
+      <TabsContent value="password">Password settings content.</TabsContent>
+      <TabsContent value="settings">Application settings content.</TabsContent>
+    </Tabs>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

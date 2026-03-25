@@ -1,0 +1,15 @@
+.hui-preview-container {
+  border: 1px solid var(--hui-color-border);
+  border-radius: var(--hui-radius-lg);
+  overflow: hidden;
+  background-color: var(--hui-color-background);
+}
+
+.hui-preview-content {
+  padding: var(--hui-spacing-6);
+}
+
+/* Fumadocs Tabs trigger cursor fix */
+[role="tab"] {
+  cursor: pointer;
+}
