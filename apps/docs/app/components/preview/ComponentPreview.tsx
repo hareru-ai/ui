@@ -1,5 +1,6 @@
 'use client';
 
+import { Toaster, TooltipProvider } from '@hareru/ui';
 import { Suspense } from 'react';
 import { demos } from './demo-registry';
 import './ComponentPreview.css';
@@ -21,9 +22,12 @@ export function ComponentPreview({ name }: ComponentPreviewProps) {
   return (
     <div className="hui-preview-container">
       <div className="hui-root hui-preview-content">
-        <Suspense fallback={<div style={{ padding: '1rem' }}>Loading preview...</div>}>
-          <Demo />
-        </Suspense>
+        <TooltipProvider>
+          <Suspense fallback={<div style={{ padding: '1rem' }}>Loading preview...</div>}>
+            <Demo />
+          </Suspense>
+          <Toaster />
+        </TooltipProvider>
       </div>
     </div>
   );

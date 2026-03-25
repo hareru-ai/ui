@@ -5,6 +5,28 @@ description: Renders a list of key-value pairs in a definition-list style, suita
 
 **Category:** Data Display / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="key-value-list-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { KeyValueList, Badge } from "@hareru/ui"
+
+    <KeyValueList
+      items={[
+        { label: "Company", value: "MUSUBI Inc." },
+        { label: "Role", value: "CEO" },
+        { label: "Location", value: "Tokyo, Japan" },
+        { label: "Status", value: <Badge>Active</Badge> },
+      ]}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

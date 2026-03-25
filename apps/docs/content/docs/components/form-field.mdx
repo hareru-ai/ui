@@ -5,6 +5,34 @@ description: Composite form field providing accessible label, control, descripti
 
 **Category:** Form / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="form-field-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      FormField,
+      FormFieldLabel,
+      FormFieldControl,
+      FormFieldDescription,
+      FormFieldMessage,
+      Input,
+    } from "@hareru/ui"
+
+    <FormField>
+      <FormFieldLabel>Email</FormFieldLabel>
+      <FormFieldControl>
+        <Input type="email" placeholder="you@example.com" />
+      </FormFieldControl>
+      <FormFieldDescription>The email address used for login</FormFieldDescription>
+    </FormField>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

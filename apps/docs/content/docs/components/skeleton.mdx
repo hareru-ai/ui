@@ -5,6 +5,27 @@ description: A loading placeholder that mimics the shape of content while it loa
 
 **Category:** Feedback / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="skeleton-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Skeleton } from "@hareru/ui"
+
+    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+      <Skeleton style={{ width: "2.5rem", height: "2.5rem", borderRadius: "9999px" }} />
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
+        <Skeleton style={{ width: "60%", height: "0.875rem" }} />
+        <Skeleton style={{ width: "40%", height: "0.875rem" }} />
+      </div>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
 Import from `@hareru/ui`:
 
 ```tsx

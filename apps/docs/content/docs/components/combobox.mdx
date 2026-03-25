@@ -7,6 +7,54 @@ description: Searchable select with popover overlay, built on Base UI Popover an
 
 **Dependencies:** `@base-ui-components/react`, `cmdk`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="combobox-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { useState } from "react"
+    import {
+      Combobox,
+      ComboboxTrigger,
+      ComboboxContent,
+      ComboboxInput,
+      ComboboxList,
+      ComboboxItem,
+      ComboboxEmpty,
+    } from "@hareru/ui"
+
+    const fruits = [
+      { value: "apple", label: "Apple" },
+      { value: "banana", label: "Banana" },
+      { value: "cherry", label: "Cherry" },
+    ]
+
+    function FruitCombobox() {
+      const [value, setValue] = useState("")
+      return (
+        <Combobox>
+          <ComboboxTrigger>{value || "Select a fruit..."}</ComboboxTrigger>
+          <ComboboxContent>
+            <ComboboxInput placeholder="Search..." />
+            <ComboboxList>
+              <ComboboxEmpty>No results found</ComboboxEmpty>
+              {fruits.map((fruit) => (
+                <ComboboxItem key={fruit.value} value={fruit.value} onSelect={() => setValue(fruit.label)}>
+                  {fruit.label}
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      )
+    }
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

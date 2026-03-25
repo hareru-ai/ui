@@ -7,6 +7,32 @@ description: Contextual label shown on hover or focus, built on Base UI Tooltip.
 
 **Dependency:** `@base-ui-components/react/tooltip`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="tooltip-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Tooltip,
+      TooltipProvider,
+      TooltipTrigger,
+      TooltipContent,
+      Button,
+    } from "@hareru/ui"
+
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild><Button variant="outline">Hover me</Button></TooltipTrigger>
+        <TooltipContent><p>Tooltip content</p></TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

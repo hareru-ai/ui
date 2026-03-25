@@ -5,6 +5,49 @@ description: Semantic HTML table with styled header, body, and rows for displayi
 
 **Category:** Data Display / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="table-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Table,
+      TableHeader,
+      TableBody,
+      TableRow,
+      TableHead,
+      TableCell,
+      Badge,
+    } from "@hareru/ui"
+
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead align="right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>Invoice #001</TableCell>
+          <TableCell><Badge variant="secondary">Pending</Badge></TableCell>
+          <TableCell align="right">$1,200.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Invoice #002</TableCell>
+          <TableCell><Badge>Paid</Badge></TableCell>
+          <TableCell align="right">$800.00</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

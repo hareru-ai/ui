@@ -5,6 +5,33 @@ description: Displays a placeholder UI when there is no content to show.
 
 **Category:** Feedback / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="empty-state-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      EmptyState,
+      EmptyStateTitle,
+      EmptyStateDescription,
+      EmptyStateAction,
+      Button,
+    } from "@hareru/ui"
+
+    <EmptyState>
+      <EmptyStateTitle>No data found</EmptyStateTitle>
+      <EmptyStateDescription>Create your first item to get started.</EmptyStateDescription>
+      <EmptyStateAction>
+        <Button>Create New</Button>
+      </EmptyStateAction>
+    </EmptyState>
+    ```
+  </Tab>
+</Tabs>
+
 Import from `@hareru/ui`:
 
 ```tsx

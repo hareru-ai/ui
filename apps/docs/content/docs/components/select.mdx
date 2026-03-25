@@ -7,6 +7,36 @@ description: Accessible dropdown select built on Base UI Select primitives.
 
 **Dependency:** `@base-ui-components/react`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="select-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Select,
+      SelectValue,
+      SelectTrigger,
+      SelectContent,
+      SelectItem,
+    } from "@hareru/ui"
+
+    <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="Select an option" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+        <SelectItem value="cherry">Cherry</SelectItem>
+      </SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

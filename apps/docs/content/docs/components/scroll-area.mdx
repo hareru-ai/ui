@@ -7,6 +7,25 @@ description: Custom-styled scrollable container built on Base UI ScrollArea prim
 
 **Dependency:** `@base-ui-components/react`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="scroll-area-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ScrollArea } from "@hareru/ui"
+
+    <ScrollArea style={{ height: "200px" }}>
+      <div style={{ padding: "var(--hui-spacing-4)" }}>
+        {longContent}
+      </div>
+    </ScrollArea>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

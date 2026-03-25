@@ -7,6 +7,29 @@ description: Non-modal floating panel anchored to a trigger element, built on Ba
 
 **Dependency:** `@base-ui-components/react/popover`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="popover-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Popover,
+      PopoverTrigger,
+      PopoverContent,
+      Button,
+    } from "@hareru/ui"
+
+    <Popover>
+      <PopoverTrigger asChild><Button variant="outline">Open</Button></PopoverTrigger>
+      <PopoverContent><p>Popover content</p></PopoverContent>
+    </Popover>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

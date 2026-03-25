@@ -5,6 +5,23 @@ description: Collects binary helpful/unhelpful feedback on a query result or AI-
 
 **Category:** DI Domain / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="query-feedback-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { QueryFeedback } from "@hareru/ui"
+
+    <QueryFeedback
+      onFeedback={(value) => console.log("Feedback:", value)}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

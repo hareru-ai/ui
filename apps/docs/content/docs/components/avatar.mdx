@@ -5,6 +5,24 @@ description: User avatar with automatic image load state management and initials
 
 **Category:** Data Display / Global Service
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="avatar-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Avatar, AvatarImage, AvatarFallback } from "@hareru/ui"
+
+    <Avatar>
+      <AvatarImage src="/avatar.png" alt="User" />
+      <AvatarFallback>YT</AvatarFallback>
+    </Avatar>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

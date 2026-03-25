@@ -7,6 +7,43 @@ description: Command palette with fuzzy search, built on cmdk.
 
 **Dependency:** `cmdk`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="command-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { useState } from "react"
+    import {
+      CommandDialog,
+      CommandInput,
+      CommandList,
+      CommandEmpty,
+      CommandGroup,
+      CommandItem,
+    } from "@hareru/ui"
+
+    function CommandPalette() {
+      const [open, setOpen] = useState(false)
+      return (
+        <CommandDialog open={open} onOpenChange={setOpen} title="Commands">
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results</CommandEmpty>
+            <CommandGroup heading="Actions">
+              <CommandItem>Settings</CommandItem>
+              <CommandItem>Profile</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
+      )
+    }
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

@@ -7,6 +7,31 @@ description: Groups multiple Checkbox components with shared value state for mul
 
 **Dependency:** `@base-ui-components/react/checkbox-group`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="checkbox-group-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { CheckboxGroup, Checkbox } from "@hareru/ui"
+
+    <CheckboxGroup defaultValue={["apple"]}>
+      <label>
+        <Checkbox value="apple" /> Apple
+      </label>
+      <label>
+        <Checkbox value="banana" /> Banana
+      </label>
+      <label>
+        <Checkbox value="cherry" /> Cherry
+      </label>
+    </CheckboxGroup>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

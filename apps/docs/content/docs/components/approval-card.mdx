@@ -5,6 +5,28 @@ description: Human-in-the-loop approval card with approve/reject controls and ri
 
 **Category:** AI / Chat / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="approval-card-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ApprovalCard } from "@hareru/ui"
+
+    <ApprovalCard
+      title="Delete 3 records from orders table"
+      description="This action will permanently remove the selected records."
+      status="pending"
+      risk="high"
+      onApprove={() => console.log("approved")}
+      onReject={() => console.log("rejected")}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

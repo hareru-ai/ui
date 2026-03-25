@@ -5,6 +5,29 @@ description: Suggestion card with type-based styling, evidence display, and acce
 
 **Category:** DI Domain / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="semantic-suggest-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SemanticSuggest } from "@hareru/ui"
+
+    <SemanticSuggest
+      type="add_synonym"
+      title='Add "revenue" as synonym for "total_amount"'
+      description="Users frequently search for 'revenue' when looking for the total_amount metric."
+      evidence={{ queryCount: 42, successRate: 0.23, pattern: "revenue → total_amount" }}
+      confidence={0.89}
+      onAccept={() => console.log("accepted")}
+      onReject={() => console.log("dismissed")}
+    />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

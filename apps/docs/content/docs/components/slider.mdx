@@ -7,6 +7,33 @@ description: Input control for selecting a numeric value or range by dragging a 
 
 **Dependency:** `@base-ui-components/react/slider`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="slider-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Slider,
+      SliderTrack,
+      SliderRange,
+      SliderThumb,
+      SliderOutput,
+    } from "@hareru/ui"
+
+    <Slider defaultValue={40}>
+      <SliderOutput />
+      <SliderTrack>
+        <SliderRange />
+        <SliderThumb />
+      </SliderTrack>
+    </Slider>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

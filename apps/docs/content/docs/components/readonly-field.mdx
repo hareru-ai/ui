@@ -5,6 +5,22 @@ description: Displays a labeled field value in a read-only presentation, styled 
 
 **Category:** Data Display / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="readonly-field-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ReadonlyField, Badge } from "@hareru/ui"
+
+    <ReadonlyField label="Name" value="Tanaka Yuichi" />
+    <ReadonlyField label="Status" value={<Badge>Active</Badge>} />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

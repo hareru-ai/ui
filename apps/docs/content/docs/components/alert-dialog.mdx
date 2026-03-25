@@ -7,6 +7,43 @@ description: Accessible confirmation dialog that requires an explicit user actio
 
 **Dependency:** `@base-ui-components/react/alert-dialog`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="alert-dialog-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      AlertDialog,
+      AlertDialogTrigger,
+      AlertDialogContent,
+      AlertDialogHeader,
+      AlertDialogFooter,
+      AlertDialogTitle,
+      AlertDialogDescription,
+      AlertDialogAction,
+      AlertDialogCancel,
+    } from "@hareru/ui"
+
+    <AlertDialog>
+      <AlertDialogTrigger>Delete account</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx
@@ -28,7 +65,7 @@ import {
 | Name | Type | Description |
 |------|------|-------------|
 | `AlertDialog` | Component | Root alert dialog context provider |
-| `AlertDialogTrigger` | Component | Button that opens the dialog; supports `asChild` |
+| `AlertDialogTrigger` | Component | Button that opens the dialog |
 | `AlertDialogContent` | Component | Modal panel; includes overlay automatically |
 | `AlertDialogHeader` | Component | Header section wrapper |
 | `AlertDialogFooter` | Component | Footer section wrapper |
@@ -59,11 +96,10 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-  Button,
 } from "@hareru/ui"
 
 <AlertDialog>
-  <AlertDialogTrigger asChild><Button variant="destructive">Delete</Button></AlertDialogTrigger>
+  <AlertDialogTrigger>Delete account</AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogTitle>Are you sure?</AlertDialogTitle>

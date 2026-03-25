@@ -7,6 +7,23 @@ description: Displays brief, non-blocking notifications triggered imperatively v
 
 **Dependency:** `@base-ui-components/react/toast`
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="toast-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { toast } from "@hareru/ui"
+
+    toast({ title: "Done", description: "The operation completed successfully." })
+
+    toast({ title: "Error", description: "Something went wrong.", variant: "destructive" })
+    ```
+  </Tab>
+</Tabs>
+
 Import from `@hareru/ui`:
 
 ```tsx

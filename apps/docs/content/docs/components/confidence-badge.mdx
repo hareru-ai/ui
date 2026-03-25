@@ -5,6 +5,24 @@ description: Displays a confidence level with color-coded source-type styling an
 
 **Category:** DI Domain / Standalone
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="confidence-badge-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ConfidenceBadge } from "@hareru/ui"
+
+    <ConfidenceBadge level="auto" score={0.85} />
+    <ConfidenceBadge level="validated" showScore={false} />
+    <ConfidenceBadge level="reviewed" score={0.98} size="md" />
+    <ConfidenceBadge level="authored" />
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx

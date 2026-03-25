@@ -5,6 +5,45 @@ description: Compound component for composing and submitting chat messages with 
 
 **Category:** AI / Chat / Composite
 
+## Preview
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <ComponentPreview name="chat-composer-demo" />
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { useState, type FormEvent } from "react"
+    import {
+      ChatComposer,
+      ChatComposerInput,
+      ChatComposerSend,
+    } from "@hareru/ui"
+
+    function MyChatInput() {
+      const [message, setMessage] = useState("")
+
+      const handleSubmit = (e: FormEvent) => {
+        if (!message.trim()) return
+        console.log("send:", message)
+        setMessage("")
+      }
+
+      return (
+        <ChatComposer onSubmit={handleSubmit}>
+          <ChatComposerInput
+            value={message}
+            onValueChange={setMessage}
+            placeholder="Type a message..."
+          />
+          <ChatComposerSend />
+        </ChatComposer>
+      )
+    }
+    ```
+  </Tab>
+</Tabs>
+
 ## Import
 
 ```tsx
