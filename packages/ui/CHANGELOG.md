@@ -1,5 +1,15 @@
 # @hareru/ui
 
+## 0.8.0
+
+### Minor Changes
+
+- 82495fd: feat(ui): add PreviewCard, Toolbar, and CheckboxGroup components
+
+  - **PreviewCard** — Hover-triggered floating preview card for links, built on Base UI PreviewCard. Follows Tooltip/Popover pattern with Portal + Positioner + Popup composition.
+  - **Toolbar** — Action control container with ToolbarButton (CVA variant/size), ToolbarGroup, ToolbarSeparator, and ToolbarLink. Built on Base UI Toolbar with roving tabindex keyboard navigation.
+  - **CheckboxGroup** — Group wrapper for multiple Checkbox components with shared `value`/`defaultValue`/`onValueChange` state management. Supports "select all" via `allValues` + `parent` prop.
+
 ## 0.7.0
 
 ### Minor Changes
