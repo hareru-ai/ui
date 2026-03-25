@@ -1,0 +1,97 @@
+---
+title: ToggleGroup
+description: Group of toggle buttons where one or multiple can be pressed, useful for toolbar selections or filter groups.
+---
+
+**Category:** Core — **Pattern:** Base UI ToggleGroup + Toggle
+
+**Dependency:** `@base-ui-components/react/toggle-group`, `@base-ui-components/react/toggle`
+
+## Import
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ToggleGroup` | Component | Root group container wrapping Base UI ToggleGroup |
+| `ToggleGroupItem` | Component | Individual toggle button within the group; `value` is required |
+
+## Key Props
+
+### ToggleGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `multiple` | `boolean` | `false` | When `true`, multiple items can be pressed simultaneously |
+| `value` | `any[]` | — | Controlled pressed state (array of pressed item values) |
+| `defaultValue` | `any[]` | — | Uncontrolled initial pressed state |
+| `onValueChange` | `(value: any[], details) => void` | — | Callback fired when pressed state changes |
+| `disabled` | `boolean` | `false` | Disables all items in the group |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction; affects arrow key navigation |
+| `loopFocus` | `boolean` | `true` | Whether arrow key focus loops from last to first item |
+
+### ToggleGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | **Required.** Unique identifier within the group |
+| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+| `disabled` | `boolean` | `false` | Disables this individual item |
+
+## Structure
+
+<RegistrySlots name="ToggleGroup" />
+
+## States
+
+<RegistryStates name="ToggleGroup" />
+
+## Accessibility
+
+<RegistryA11y name="ToggleGroup" />
+
+## Usage
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@hareru/ui"
+
+// Single selection (default)
+<ToggleGroup defaultValue={["bold"]}>
+  <ToggleGroupItem value="bold" aria-label="Bold">B</ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Italic">I</ToggleGroupItem>
+  <ToggleGroupItem value="underline" aria-label="Underline">U</ToggleGroupItem>
+</ToggleGroup>
+
+// Multiple selection
+<ToggleGroup multiple defaultValue={["bold", "italic"]}>
+  <ToggleGroupItem value="bold" aria-label="Bold">B</ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Italic">I</ToggleGroupItem>
+  <ToggleGroupItem value="underline" aria-label="Underline">U</ToggleGroupItem>
+</ToggleGroup>
+
+// Outline variant, small size
+<ToggleGroup>
+  <ToggleGroupItem value="left" variant="outline" size="sm">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center" variant="outline" size="sm">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right" variant="outline" size="sm">Right</ToggleGroupItem>
+</ToggleGroup>
+
+// Vertical orientation
+<ToggleGroup orientation="vertical">
+  <ToggleGroupItem value="top">Top</ToggleGroupItem>
+  <ToggleGroupItem value="middle">Middle</ToggleGroupItem>
+  <ToggleGroupItem value="bottom">Bottom</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Notes
+
+- In single mode (default), pressing one item automatically unpresses the others.
+- In `multiple` mode, each item toggles independently.
+- Use the standalone `Toggle` component for a single toggle button that is not part of a group.
+- `ToggleGroupItem` uses `data-pressed` (from Base UI) instead of `data-state` used by the standalone `Toggle`.

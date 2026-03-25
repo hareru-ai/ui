@@ -1,0 +1,91 @@
+/* ToggleGroup container */
+.hui-toggle-group {
+  display: inline-flex;
+  gap: var(--hui-spacing-1);
+}
+
+.hui-toggle-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+/* ToggleGroup item base */
+.hui-toggle-group__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hui-spacing-2);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-toggle-group__item:hover {
+  opacity: 0.9;
+}
+
+.hui-toggle-group__item:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+.hui-toggle-group__item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variant: default */
+.hui-toggle-group__item--default {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+}
+
+.hui-toggle-group__item--default:hover {
+  background-color: var(--hui-color-muted);
+}
+
+.hui-toggle-group__item--default[data-pressed] {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+/* Variant: outline */
+.hui-toggle-group__item--outline {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border-color: var(--hui-color-input);
+}
+
+.hui-toggle-group__item--outline:hover {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+.hui-toggle-group__item--outline[data-pressed] {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+  border-color: var(--hui-color-accent);
+}
+
+/* Sizes */
+.hui-toggle-group__item--sm {
+  height: var(--hui-spacing-8);
+  padding-inline: var(--hui-spacing-2);
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-toggle-group__item--md {
+  height: var(--hui-spacing-10);
+  padding-inline: var(--hui-spacing-3);
+  font-size: var(--hui-font-size-base);
+}
+
+.hui-toggle-group__item--lg {
+  height: var(--hui-spacing-12);
+  padding-inline: var(--hui-spacing-4);
+  font-size: var(--hui-font-size-lg);
+}

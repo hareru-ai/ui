@@ -358,6 +358,39 @@ export {
   type ProgressIndicatorProps,
 } from './components/Progress';
 export { Toggle, toggleVariants, type ToggleProps } from './components/Toggle';
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  toggleGroupItemVariants,
+  type ToggleGroupProps,
+  type ToggleGroupItemProps,
+} from './components/ToggleGroup';
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuGroup,
+  ContextMenuRadioGroup,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  type ContextMenuTriggerProps,
+  type ContextMenuContentProps,
+  type ContextMenuItemProps,
+  type ContextMenuCheckboxItemProps,
+  type ContextMenuRadioItemProps,
+  type ContextMenuLabelProps,
+  type ContextMenuSeparatorProps,
+  type ContextMenuShortcutProps,
+  type ContextMenuSubTriggerProps,
+  type ContextMenuSubContentProps,
+} from './components/ContextMenu';
 
 // Hareru DI integration components
 export {

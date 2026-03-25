@@ -7,7 +7,7 @@ Semantic CSS component library for [Hareru UI](https://github.com/hareru-ai/ui).
 
 ## Features
 
-- **55 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
+- **57 components** — Buttons, forms, overlays, navigation, data display, and AI chat UI
 - **Semantic CSS** — BEM naming (`hui-*`) with CSS custom properties (`--hui-*`)
 - **CVA variants** — Type-safe variant management with [class-variance-authority](https://cva.style/)
 - **Accessible** — Built on [Base UI](https://base-ui.com/) primitives, WAI-ARIA compliant
@@ -138,6 +138,7 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 | Combobox | Searchable select with autocomplete |
 | Switch | Toggle switch |
 | Toggle | Toggle button with variants |
+| ToggleGroup | Group of toggle buttons (single or multiple selection) |
 | Label | Form field label |
 | Slider | Numeric range input |
 | FormField, FormFieldLabel, FormFieldControl, FormFieldMessage | Form field validation wrapper |
@@ -151,7 +152,8 @@ All components are exported from `@hareru/ui`. There are no subpath imports.
 | Sheet | Slide-out panel |
 | Popover | Floating content panel |
 | Tooltip | Hover information |
-| DropdownMenu | Context menu |
+| DropdownMenu | Click-triggered dropdown menu |
+| ContextMenu | Right-click context menu |
 | Command | Command palette (cmdk) |
 
 ### Navigation

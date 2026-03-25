@@ -38,6 +38,7 @@ const TAXONOMY = {
   Combobox: 'form',
   Command: 'overlay',
   ConfidenceBadge: 'data-display',
+  ContextMenu: 'overlay',
   DataQualityIndicator: 'data-display',
   DefinitionBrowser: 'di-domain',
   Dialog: 'overlay',
@@ -71,6 +72,7 @@ const TAXONOMY = {
   Textarea: 'core',
   Toast: 'feedback',
   Toggle: 'core',
+  ToggleGroup: 'core',
   ToolCallCard: 'agent',
   Tooltip: 'overlay',
 };

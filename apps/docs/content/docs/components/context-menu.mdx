@@ -1,0 +1,107 @@
+---
+title: ContextMenu
+description: Right-click context menu with items, checkboxes, radio items, separators, and submenus.
+---
+
+**Category:** Overlay — **Pattern:** Base UI ContextMenu
+
+**Dependency:** `@base-ui-components/react/context-menu`, `@base-ui-components/react/menu`
+
+## Import
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuGroup,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `ContextMenu` | Component | Root context menu provider |
+| `ContextMenuTrigger` | Component | Right-click target area; renders `<div>` by default, supports `asChild` |
+| `ContextMenuContent` | Component | Floating menu panel |
+| `ContextMenuItem` | Component | Clickable menu item; accepts `inset` prop |
+| `ContextMenuCheckboxItem` | Component | Menu item with a checkbox; accepts `checked` and `onCheckedChange` |
+| `ContextMenuRadioItem` | Component | Menu item within a radio group |
+| `ContextMenuLabel` | Component | Non-interactive section label; accepts `inset` prop |
+| `ContextMenuSeparator` | Component | Visual divider between sections |
+| `ContextMenuShortcut` | Component | Keyboard shortcut hint (right-aligned text) |
+| `ContextMenuGroup` | Component | Semantic grouping wrapper |
+| `ContextMenuSub` | Component | Submenu root context |
+| `ContextMenuSubTrigger` | Component | Item that opens a submenu; accepts `inset` prop |
+| `ContextMenuSubContent` | Component | Floating panel for the submenu |
+
+## Key Props
+
+| Prop | Type | Component | Description |
+|------|------|-----------|-------------|
+| `asChild` | `boolean` | Trigger | Render as the child element instead of a `<div>` |
+| `inset` | `boolean` | Item, Label, SubTrigger | Adds left padding to align with items that have icons |
+
+## Structure
+
+<RegistrySlots name="ContextMenu" />
+
+## Accessibility
+
+<RegistryA11y name="ContextMenu" />
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+} from "@hareru/ui"
+
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div style={{ padding: "2rem", border: "1px dashed gray" }}>
+      Right-click here
+    </div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuLabel>Edit</ContextMenuLabel>
+    <ContextMenuSeparator />
+    <ContextMenuItem>
+      Cut <ContextMenuShortcut>Ctrl+X</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      Copy <ContextMenuShortcut>Ctrl+C</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      Paste <ContextMenuShortcut>Ctrl+V</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem>Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Notes
+
+- `ContextMenuTrigger` renders a `<div>` by default (unlike `DropdownMenuTrigger` which renders a `<button>`). Use `asChild` to wrap an existing element.
+- The `hui-context-menu__trigger` BEM class is always applied to the trigger, with or without `asChild`.
+- `ContextMenuCheckboxItem` and `ContextMenuRadioItem` manage their own internal state when used uncontrolled. Pass `checked` / `onCheckedChange` for controlled usage.
+- `ContextMenuRadioItem` must be nested inside a `ContextMenuRadioGroup` with a `value` prop.
+- `ContextMenuShortcut` is purely decorative; keyboard shortcuts must be registered separately in your application.
+- The menu opens on right-click (desktop) or long-press (mobile).

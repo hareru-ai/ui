@@ -741,6 +741,121 @@
       }
     ]
   },
+  "ContextMenu": {
+    "componentSource": "src/components/ContextMenu/ContextMenu.tsx",
+    "cssSource": "src/components/ContextMenu/ContextMenu.css",
+    "description": "Right-click context menu with items, checkboxes, radio items, separators, and submenus.",
+    "aiHint": "Use for right-click context menus on elements. Use DropdownMenu for click-triggered menus anchored to a button.",
+    "peerComponents": ["DropdownMenu"],
+    "a11y": {
+      "roles": ["menu"],
+      "keyboardInteractions": [
+        "Arrow keys to navigate items",
+        "Enter to select",
+        "Escape to close"
+      ],
+      "notes": "ARIA menu pattern provided by Base UI. Opens on right-click or long-press."
+    },
+    "examples": [
+      {
+        "title": "Basic context menu",
+        "code": "<ContextMenu>\n  <ContextMenuTrigger>\n    <div style={{ padding: '2rem', border: '1px dashed gray' }}>Right-click here</div>\n  </ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Edit</ContextMenuItem>\n    <ContextMenuItem>Duplicate</ContextMenuItem>\n    <ContextMenuSeparator />\n    <ContextMenuItem>Delete</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "ContextMenuTrigger",
+        "role": "trigger",
+        "parent": "ContextMenu",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ContextMenuContent",
+        "role": "content",
+        "parent": "ContextMenu",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "ContextMenuItem",
+        "role": "item",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuCheckboxItem",
+        "role": "item",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuRadioGroup",
+        "role": "container",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuRadioItem",
+        "role": "item",
+        "parent": "ContextMenuRadioGroup",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuLabel",
+        "role": "label",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ContextMenuSeparator",
+        "role": "separator",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuShortcut",
+        "role": "description",
+        "parent": "ContextMenuItem",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ContextMenuGroup",
+        "role": "container",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuSub",
+        "role": "submenu",
+        "parent": "ContextMenuContent",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ContextMenuSubTrigger",
+        "role": "trigger",
+        "parent": "ContextMenuSub",
+        "expected": false,
+        "multiple": false
+      },
+      {
+        "name": "ContextMenuSubContent",
+        "role": "content",
+        "parent": "ContextMenuSub",
+        "expected": false,
+        "multiple": false
+      }
+    ]
+  },
   "ConfidenceBadge": {
     "componentSource": "src/components/ConfidenceBadge/ConfidenceBadge.tsx",
     "cssSource": "src/components/ConfidenceBadge/ConfidenceBadge.css",
@@ -1923,6 +2038,34 @@
       {
         "title": "Toggle button",
         "code": "<Toggle aria-label=\"Toggle bold\">\n  <strong>B</strong>\n</Toggle>"
+      }
+    ]
+  },
+  "ToggleGroup": {
+    "componentSource": "src/components/ToggleGroup/ToggleGroup.tsx",
+    "cssSource": "src/components/ToggleGroup/ToggleGroup.css",
+    "description": "Group of toggle buttons where one or multiple can be pressed, useful for toolbar selections or filter groups.",
+    "aiHint": "Use for toolbar button groups or mutually exclusive selections. Use Toggle for a standalone toggle button.",
+    "peerComponents": ["Toggle"],
+    "a11y": {
+      "roles": ["group"],
+      "ariaAttributes": ["aria-pressed"],
+      "keyboardInteractions": ["Arrow keys to navigate items", "Enter or Space to toggle"],
+      "notes": "WAI-ARIA toolbar pattern with keyboard navigation provided by Base UI ToggleGroup."
+    },
+    "examples": [
+      {
+        "title": "Single selection toggle group",
+        "code": "<ToggleGroup defaultValue={['bold']}>\n  <ToggleGroupItem value=\"bold\" aria-label=\"Bold\">B</ToggleGroupItem>\n  <ToggleGroupItem value=\"italic\" aria-label=\"Italic\">I</ToggleGroupItem>\n  <ToggleGroupItem value=\"underline\" aria-label=\"Underline\">U</ToggleGroupItem>\n</ToggleGroup>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "ToggleGroupItem",
+        "role": "item",
+        "parent": "ToggleGroup",
+        "expected": true,
+        "multiple": true
       }
     ]
   },
