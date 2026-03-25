@@ -35,7 +35,7 @@ import {
 
 // Load the component registry
 const registry = loadRegistry();
-console.log(registry.components.length); // 57
+console.log(registry.components.length); // 60
 
 // Recommend a CSS mode
 const { mode, reason } = recommendCssMode({

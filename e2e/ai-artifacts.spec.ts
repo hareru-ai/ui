@@ -195,8 +195,8 @@ test.describe('AI artifacts — component-registry.json', () => {
     expect(registry.componentCount).toBe(registry.components.length);
   });
 
-  test('has 57 components', () => {
-    expect(registry.componentCount).toBe(57);
+  test('has 60 components', () => {
+    expect(registry.componentCount).toBe(60);
   });
 
   test('every component has name and displayName', () => {

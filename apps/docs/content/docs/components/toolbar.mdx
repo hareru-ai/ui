@@ -1,0 +1,104 @@
+---
+title: Toolbar
+description: Container for grouping action buttons, links, and separators into a cohesive control bar.
+---
+
+**Category:** Core — **Pattern:** Base UI Toolbar
+
+**Dependency:** `@base-ui-components/react/toolbar`
+
+## Import
+
+```tsx
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarLink,
+} from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `Toolbar` | Component | Root toolbar container (`role="toolbar"`) |
+| `ToolbarButton` | Component | Action button with variant and size props |
+| `ToolbarGroup` | Component | Logical grouping of related toolbar items |
+| `ToolbarSeparator` | Component | Visual divider between groups |
+| `ToolbarLink` | Component | Navigation link within the toolbar |
+
+## Key Props
+
+### Toolbar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | Disables all items in the toolbar |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction; affects arrow key navigation |
+| `loopFocus` | `boolean` | `true` | Whether arrow key focus loops from last to first item |
+
+### ToolbarButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+| `disabled` | `boolean` | `false` | Disables this individual button |
+
+## Structure
+
+<RegistrySlots name="Toolbar" />
+
+## States
+
+<RegistryStates name="Toolbar" />
+
+## Accessibility
+
+<RegistryA11y name="Toolbar" />
+
+## Usage
+
+```tsx
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarLink,
+} from "@hareru/ui"
+
+// Basic toolbar with groups
+<Toolbar>
+  <ToolbarGroup>
+    <ToolbarButton aria-label="Bold">B</ToolbarButton>
+    <ToolbarButton aria-label="Italic">I</ToolbarButton>
+    <ToolbarButton aria-label="Underline">U</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarGroup>
+    <ToolbarButton variant="outline">Left</ToolbarButton>
+    <ToolbarButton variant="outline">Center</ToolbarButton>
+    <ToolbarButton variant="outline">Right</ToolbarButton>
+  </ToolbarGroup>
+  <ToolbarSeparator />
+  <ToolbarLink href="https://example.com">Help</ToolbarLink>
+</Toolbar>
+
+// Vertical toolbar
+<Toolbar orientation="vertical">
+  <ToolbarButton size="sm">Cut</ToolbarButton>
+  <ToolbarButton size="sm">Copy</ToolbarButton>
+  <ToolbarButton size="sm">Paste</ToolbarButton>
+</Toolbar>
+```
+
+## Notes
+
+- `Toolbar` renders a `<div>` with `role="toolbar"` and manages roving tabindex keyboard navigation via Base UI.
+- Arrow keys navigate between items; Tab moves focus out of the toolbar entirely.
+- `ToolbarSeparator` automatically renders as a vertical line in horizontal toolbars and a horizontal line in vertical toolbars.
+- Use `ToolbarGroup` to semantically group related buttons. Each group can be independently disabled.
+- For toggle-style toolbar items, compose `ToggleGroup` inside the `Toolbar`.

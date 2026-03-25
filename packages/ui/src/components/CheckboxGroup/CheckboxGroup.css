@@ -1,0 +1,10 @@
+.hui-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hui-spacing-2);
+}
+
+.hui-checkbox-group[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}

@@ -60,6 +60,8 @@ export interface CheckboxProps
   name?: string;
   value?: string;
   required?: boolean;
+  /** Whether this checkbox acts as a parent "select all" control inside a CheckboxGroup. */
+  parent?: boolean;
 }
 
 export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
@@ -74,6 +76,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
       name,
       value,
       required,
+      parent,
       ...props
     },
     ref,
@@ -88,6 +91,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
       name={name}
       value={value}
       required={required}
+      parent={parent}
       className={cn('hui-checkbox', className)}
       render={<button type="button" disabled={disabled} {...props} />}
     >

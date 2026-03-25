@@ -1,0 +1,124 @@
+/* Toolbar container */
+.hui-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+}
+
+.hui-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+/* Toolbar button base */
+.hui-toolbar__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hui-spacing-2);
+  border-radius: var(--hui-radius-md);
+  font-family: var(--hui-font-family-sans);
+  font-weight: var(--hui-font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  outline: none;
+}
+
+.hui-toolbar__button:hover {
+  opacity: 0.9;
+}
+
+.hui-toolbar__button:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+}
+
+.hui-toolbar__button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variant: default */
+.hui-toolbar__button--default {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+}
+
+.hui-toolbar__button--default:hover {
+  background-color: var(--hui-color-muted);
+}
+
+/* Variant: outline */
+.hui-toolbar__button--outline {
+  background-color: transparent;
+  color: var(--hui-color-foreground);
+  border-color: var(--hui-color-input);
+}
+
+.hui-toolbar__button--outline:hover {
+  background-color: var(--hui-color-accent);
+  color: var(--hui-color-accent-foreground);
+}
+
+/* Sizes */
+.hui-toolbar__button--sm {
+  height: var(--hui-spacing-8);
+  padding-inline: var(--hui-spacing-2);
+  font-size: var(--hui-font-size-sm);
+}
+
+.hui-toolbar__button--md {
+  height: var(--hui-spacing-10);
+  padding-inline: var(--hui-spacing-3);
+  font-size: var(--hui-font-size-base);
+}
+
+.hui-toolbar__button--lg {
+  height: var(--hui-spacing-12);
+  padding-inline: var(--hui-spacing-4);
+  font-size: var(--hui-font-size-lg);
+}
+
+/* Toolbar group */
+.hui-toolbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hui-spacing-1);
+}
+
+/* Toolbar separator */
+.hui-toolbar__separator {
+  width: 1px;
+  height: var(--hui-spacing-5);
+  background-color: var(--hui-color-border);
+  margin-inline: var(--hui-spacing-1);
+}
+
+.hui-toolbar[data-orientation="vertical"] .hui-toolbar__separator {
+  width: auto;
+  height: 1px;
+  min-width: var(--hui-spacing-5);
+  margin-block: var(--hui-spacing-1);
+  margin-inline: 0;
+}
+
+/* Toolbar link */
+.hui-toolbar__link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--hui-font-family-sans);
+  font-size: var(--hui-font-size-sm);
+  color: var(--hui-color-primary);
+  text-decoration: none;
+  outline: none;
+}
+
+.hui-toolbar__link:hover {
+  text-decoration: underline;
+}
+
+.hui-toolbar__link:focus-visible {
+  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  border-radius: var(--hui-radius-sm);
+}

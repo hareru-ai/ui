@@ -1,0 +1,83 @@
+---
+title: PreviewCard
+description: Floating card that appears on hover over a link, showing a preview of the linked content.
+---
+
+**Category:** Overlay — **Pattern:** Base UI PreviewCard
+
+**Dependency:** `@base-ui-components/react/preview-card`
+
+## Import
+
+```tsx
+import { PreviewCard, PreviewCardTrigger, PreviewCardContent } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `PreviewCard` | Component | Root context provider (no DOM output) |
+| `PreviewCardTrigger` | Component | Hover target; renders `<a>` by default, supports `asChild` |
+| `PreviewCardContent` | Component | Floating card panel |
+
+## Key Props
+
+### PreviewCardTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Render as the child element instead of `<a>` |
+| `href` | `string` | — | Link destination (when rendering as `<a>`) |
+
+### PreviewCardContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `sideOffset` | `number` | `4` | Gap in pixels between trigger and card |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred placement side |
+
+## Structure
+
+<RegistrySlots name="PreviewCard" />
+
+## Accessibility
+
+<RegistryA11y name="PreviewCard" />
+
+## Usage
+
+```tsx
+import { PreviewCard, PreviewCardTrigger, PreviewCardContent } from "@hareru/ui"
+
+<PreviewCard>
+  <PreviewCardTrigger href="https://example.com">
+    Example Website
+  </PreviewCardTrigger>
+  <PreviewCardContent>
+    <img
+      src="https://example.com/og-image.png"
+      alt="Example preview"
+      style={{ width: "100%", borderRadius: "0.25rem" }}
+    />
+    <p>A preview of the linked content appears here.</p>
+  </PreviewCardContent>
+</PreviewCard>
+
+// With asChild to use a custom trigger
+<PreviewCard>
+  <PreviewCardTrigger asChild>
+    <button type="button">Preview</button>
+  </PreviewCardTrigger>
+  <PreviewCardContent side="top" sideOffset={8}>
+    <p>Rich preview content with images, text, and more.</p>
+  </PreviewCardContent>
+</PreviewCard>
+```
+
+## Notes
+
+- `PreviewCardTrigger` renders an `<a>` element by default (unlike `TooltipTrigger` which renders a `<button>`). Use `asChild` to wrap a different element.
+- The card opens on hover with a 600ms delay and closes after 300ms (Base UI defaults). These delays are configurable via `delay` and `closeDelay` props on `PreviewCardTrigger`.
+- Unlike `Tooltip`, `PreviewCardContent` renders rich content (images, links, text) and uses a larger card style similar to `Popover`.
+- Do not use PreviewCard as a general popover — use `Popover` for interactive content triggered by click.

@@ -31,6 +31,7 @@ const TAXONOMY = {
   Button: 'core',
   Card: 'layout',
   Checkbox: 'form',
+  CheckboxGroup: 'form',
   ChatComposer: 'agent',
   ChatContainer: 'agent',
   ChatMessage: 'agent',
@@ -53,6 +54,7 @@ const TAXONOMY = {
   NavigationMenu: 'navigation',
   Pagination: 'navigation',
   Popover: 'overlay',
+  PreviewCard: 'overlay',
   Progress: 'feedback',
   QueryFeedback: 'di-domain',
   RadioGroup: 'form',
@@ -73,6 +75,7 @@ const TAXONOMY = {
   Toast: 'feedback',
   Toggle: 'core',
   ToggleGroup: 'core',
+  Toolbar: 'core',
   ToolCallCard: 'agent',
   Tooltip: 'overlay',
 };

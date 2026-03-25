@@ -85,6 +85,7 @@ export {
   type CheckboxProps,
   type CheckboxIndicatorProps,
 } from './components/Checkbox';
+export { CheckboxGroup, type CheckboxGroupProps } from './components/CheckboxGroup';
 export {
   Combobox,
   ComboboxTrigger,
@@ -288,6 +289,19 @@ export {
   type ToasterToast,
 } from './components/Toast';
 export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarLink,
+  toolbarButtonVariants,
+  type ToolbarProps,
+  type ToolbarButtonProps,
+  type ToolbarGroupProps,
+  type ToolbarSeparatorProps,
+  type ToolbarLinkProps,
+} from './components/Toolbar';
+export {
   Tooltip,
   TooltipProvider,
   TooltipTrigger,
@@ -328,6 +342,13 @@ export {
   PopoverContent,
   type PopoverContentProps,
 } from './components/Popover';
+export {
+  PreviewCard,
+  PreviewCardTrigger,
+  PreviewCardContent,
+  type PreviewCardTriggerProps,
+  type PreviewCardContentProps,
+} from './components/PreviewCard';
 export {
   ScrollArea,
   ScrollBar,

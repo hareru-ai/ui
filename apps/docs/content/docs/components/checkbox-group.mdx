@@ -1,0 +1,100 @@
+---
+title: CheckboxGroup
+description: Groups multiple Checkbox components with shared value state for multi-select patterns.
+---
+
+**Category:** Form — **Pattern:** Base UI CheckboxGroup
+
+**Dependency:** `@base-ui-components/react/checkbox-group`
+
+## Import
+
+```tsx
+import { CheckboxGroup } from "@hareru/ui"
+import { Checkbox } from "@hareru/ui"
+import { Label } from "@hareru/ui"
+```
+
+## Exports
+
+| Name | Type | Description |
+|------|------|-------------|
+| `CheckboxGroup` | Component | Root group container; manages shared value state for child Checkbox components |
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string[]` | — | Controlled array of checked checkbox values |
+| `defaultValue` | `string[]` | — | Uncontrolled initial checked values |
+| `onValueChange` | `(value: string[], event: Event) => void` | — | Callback fired when any checkbox in the group changes |
+| `allValues` | `string[]` | — | All possible values; enables "select all" checkbox via `parent` prop |
+| `disabled` | `boolean` | `false` | Disables all checkboxes in the group |
+
+## States
+
+<RegistryStates name="CheckboxGroup" />
+
+## Accessibility
+
+<RegistryA11y name="CheckboxGroup" />
+
+## Usage
+
+```tsx
+import { CheckboxGroup, Checkbox, Label } from "@hareru/ui"
+
+// Basic checkbox group
+<CheckboxGroup defaultValue={["apple"]}>
+  <label>
+    <Checkbox value="apple" /> Apple
+  </label>
+  <label>
+    <Checkbox value="banana" /> Banana
+  </label>
+  <label>
+    <Checkbox value="cherry" /> Cherry
+  </label>
+</CheckboxGroup>
+
+// Controlled with callback
+const [selected, setSelected] = useState<string[]>([])
+
+<CheckboxGroup value={selected} onValueChange={(v) => setSelected(v)}>
+  <label>
+    <Checkbox value="read" /> Read
+  </label>
+  <label>
+    <Checkbox value="write" /> Write
+  </label>
+  <label>
+    <Checkbox value="admin" /> Admin
+  </label>
+</CheckboxGroup>
+
+// Select all with allValues
+<CheckboxGroup
+  allValues={["a", "b", "c"]}
+  defaultValue={["a"]}
+>
+  <label>
+    <Checkbox parent /> Select all
+  </label>
+  <label>
+    <Checkbox value="a" /> Option A
+  </label>
+  <label>
+    <Checkbox value="b" /> Option B
+  </label>
+  <label>
+    <Checkbox value="c" /> Option C
+  </label>
+</CheckboxGroup>
+```
+
+## Notes
+
+- `CheckboxGroup` does not render its own checkbox items — use the existing `Checkbox` component as children with a `value` prop.
+- The `parent` prop on a `Checkbox` inside a `CheckboxGroup` creates a "select all" checkbox. Combine with `allValues` on the group.
+- When all individual checkboxes are checked, the parent checkbox shows as checked. When some are checked, it shows as indeterminate.
+- For single checkbox usage without group management, use `Checkbox` standalone.

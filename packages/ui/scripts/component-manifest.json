@@ -391,6 +391,27 @@
       }
     ]
   },
+  "CheckboxGroup": {
+    "componentSource": "src/components/CheckboxGroup/CheckboxGroup.tsx",
+    "cssSource": "src/components/CheckboxGroup/CheckboxGroup.css",
+    "description": "Groups multiple Checkbox components with shared value state, enabling multi-select patterns and optional 'select all' via allValues.",
+    "aiHint": "Use to manage multiple related checkboxes as a single controlled/uncontrolled group. Pair with existing Checkbox and Label components as children.",
+    "peerComponents": ["Checkbox", "Label", "FormField"],
+    "a11y": {
+      "roles": ["group"],
+      "keyboardInteractions": [
+        "Space to toggle individual checkboxes",
+        "Tab to navigate between checkboxes"
+      ],
+      "notes": "Groups checkboxes semantically. Individual checkbox a11y is inherited from the Checkbox component."
+    },
+    "examples": [
+      {
+        "title": "Basic checkbox group",
+        "code": "<CheckboxGroup defaultValue={['apple']}>\n  <label><Checkbox value=\"apple\" /> Apple</label>\n  <label><Checkbox value=\"banana\" /> Banana</label>\n  <label><Checkbox value=\"cherry\" /> Cherry</label>\n</CheckboxGroup>"
+      }
+    ]
+  },
   "Card": {
     "componentSource": "src/components/Card/Card.tsx",
     "cssSource": "src/components/Card/Card.css",
@@ -1458,6 +1479,39 @@
       }
     ]
   },
+  "PreviewCard": {
+    "componentSource": "src/components/PreviewCard/PreviewCard.tsx",
+    "cssSource": "src/components/PreviewCard/PreviewCard.css",
+    "description": "Floating card that appears on hover over a link, showing a preview of the linked content without navigating away.",
+    "aiHint": "Use for link previews where users benefit from seeing a summary before clicking. Unlike Tooltip, PreviewCard renders rich content and is anchored to links.",
+    "peerComponents": ["Tooltip", "Popover"],
+    "a11y": {
+      "keyboardInteractions": ["Escape to close"],
+      "notes": "Non-modal floating panel that opens on hover. Trigger renders as an anchor element by default."
+    },
+    "examples": [
+      {
+        "title": "Link preview",
+        "code": "<PreviewCard>\n  <PreviewCardTrigger href=\"https://example.com\">Example</PreviewCardTrigger>\n  <PreviewCardContent>\n    <p>Preview of the linked page content.</p>\n  </PreviewCardContent>\n</PreviewCard>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "PreviewCardTrigger",
+        "role": "trigger",
+        "parent": "PreviewCard",
+        "expected": true,
+        "multiple": false
+      },
+      {
+        "name": "PreviewCardContent",
+        "role": "content",
+        "parent": "PreviewCard",
+        "expected": true,
+        "multiple": false
+      }
+    ]
+  },
   "Progress": {
     "componentSource": "src/components/Progress/Progress.tsx",
     "cssSource": "src/components/Progress/Progress.css",
@@ -2065,6 +2119,54 @@
         "role": "item",
         "parent": "ToggleGroup",
         "expected": true,
+        "multiple": true
+      }
+    ]
+  },
+  "Toolbar": {
+    "componentSource": "src/components/Toolbar/Toolbar.tsx",
+    "cssSource": "src/components/Toolbar/Toolbar.css",
+    "description": "Horizontal or vertical container for grouping action buttons, links, and separators into a cohesive toolbar.",
+    "aiHint": "Use for grouping related action controls (formatting buttons, view toggles). Use ToggleGroup when items are mutually exclusive toggles.",
+    "peerComponents": ["ToggleGroup", "Button", "Separator"],
+    "a11y": {
+      "roles": ["toolbar"],
+      "keyboardInteractions": ["Arrow keys to navigate items", "Tab to move focus out of toolbar"],
+      "notes": "WAI-ARIA toolbar pattern with roving tabindex keyboard navigation provided by Base UI."
+    },
+    "examples": [
+      {
+        "title": "Basic toolbar",
+        "code": "<Toolbar>\n  <ToolbarGroup>\n    <ToolbarButton>Bold</ToolbarButton>\n    <ToolbarButton>Italic</ToolbarButton>\n  </ToolbarGroup>\n  <ToolbarSeparator />\n  <ToolbarLink href=\"https://example.com\">Help</ToolbarLink>\n</Toolbar>"
+      }
+    ],
+    "slots": [
+      {
+        "name": "ToolbarButton",
+        "role": "action",
+        "parent": "Toolbar",
+        "expected": true,
+        "multiple": true
+      },
+      {
+        "name": "ToolbarGroup",
+        "role": "container",
+        "parent": "Toolbar",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ToolbarSeparator",
+        "role": "separator",
+        "parent": "Toolbar",
+        "expected": false,
+        "multiple": true
+      },
+      {
+        "name": "ToolbarLink",
+        "role": "action",
+        "parent": "Toolbar",
+        "expected": false,
         "multiple": true
       }
     ]
