@@ -1,5 +1,11 @@
 # @hareru/ui
 
+## 0.7.0
+
+### Minor Changes
+
+- 514b451: Add ToggleGroup and ContextMenu components (55 → 57 components)
+
 ## 0.6.0
 
 ### Minor Changes
