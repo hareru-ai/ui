@@ -13,10 +13,14 @@ const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-
 };
 
 export function createServer(): McpServer {
-  const server = new McpServer({
-    name: 'hareru-ui',
-    version: pkg.version,
-  });
+  const server = new McpServer(
+    {
+      name: 'hareru-ui',
+      version: pkg.version,
+    },
+    // Tools accept small scalar arguments; reject oversized collections before schema validation.
+    { maxToolInputElements: 256 },
+  );
 
   registerResources(server);
   registerTools(server);

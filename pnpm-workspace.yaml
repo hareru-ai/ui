@@ -1,3 +1,10 @@
 packages:
   - "packages/*"
   - "apps/*"
+
+# Delay newly published dependencies; urgent fixes can use a reviewed exact-version exception.
+minimumReleaseAge: 1440
+strictDepBuilds: true
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

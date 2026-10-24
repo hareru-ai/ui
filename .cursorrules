@@ -4,6 +4,9 @@ Hareru UI is a semantic CSS design system for React. Follow these rules when gen
 
 ## Imports
 
+- CLI writes must stay inside the nearest package root, including symlink targets; never bypass path checks with `--force`.
+- The MCP server uses stdio and limits tool arguments to 256 combined array elements and object members; custom HTTP transports need separate authentication and request-byte limits.
+
 - Import all components from `@hareru/ui` — no subpath imports exist
 - Import token types from `@hareru/tokens`
 - Never import from `@base-ui-components/*` directly — use Hareru wrappers

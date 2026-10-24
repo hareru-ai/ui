@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -222,25 +222,25 @@ describe('config', () => {
 
   describe('resolveCssFilePath', () => {
     it('resolves relative path from configDir', () => {
-      const result = resolveCssFilePath('/project', 'src/app/globals.css');
-      expect(result).toBe(resolve('/project', 'src/app/globals.css'));
+      const result = resolveCssFilePath(testDir, 'src/app/globals.css');
+      expect(result).toBe(resolve(realpathSync(testDir), 'src/app/globals.css'));
     });
 
     it('rejects paths that escape configDir', () => {
-      expect(() => resolveCssFilePath('/mono/packages/app', '../shared/styles.css')).toThrow(
+      expect(() => resolveCssFilePath(testDir, '../shared/styles.css')).toThrow(
         'resolves outside the project root',
       );
     });
 
     it('rejects sibling directories with shared prefix', () => {
-      expect(() => resolveCssFilePath('/tmp/project', '../project-evil/outside.css')).toThrow(
+      expect(() => resolveCssFilePath(testDir, `${testDir}-evil/outside.css`)).toThrow(
         'resolves outside the project root',
       );
     });
 
     it('allows subdirectory paths', () => {
-      const result = resolveCssFilePath('/project', 'src/styles/globals.css');
-      expect(result).toBe(resolve('/project', 'src/styles/globals.css'));
+      const result = resolveCssFilePath(testDir, 'src/styles/globals.css');
+      expect(result).toBe(resolve(realpathSync(testDir), 'src/styles/globals.css'));
     });
   });
 });

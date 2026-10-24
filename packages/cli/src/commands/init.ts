@@ -21,6 +21,7 @@ import {
 } from '../utils/format.js';
 import { type FrameworkDetection, detectFramework } from '../utils/framework-detector.js';
 import { detectPackage } from '../utils/pkg-detector.js';
+import { resolveProjectPath } from '../utils/project-path.js';
 
 const INIT_MODES: readonly InitMode[] = ['standalone', 'portable', 'tailwind'] as const;
 
@@ -143,6 +144,17 @@ export function registerInitCommand(program: Command): void {
           }
         }
 
+        // Validate both destinations before reading or modifying either file.
+        let configPath: string;
+        try {
+          cssFilePath = resolveProjectPath(configDir, cssFilePath, 'cssFile');
+          configPath = resolveProjectPath(configDir, 'hareru.json', 'hareru.json');
+        } catch (err) {
+          console.error(c.error((err as Error).message));
+          process.exitCode = 1;
+          return;
+        }
+
         // 6. Generate CSS imports
         const importOptions: CssImportOptions = {
           mode,
@@ -227,7 +239,6 @@ export function registerInitCommand(program: Command): void {
         }
 
         // 10. Check existing config
-        const configPath = resolve(configDir, 'hareru.json');
         const hasExistingConfig = existsSync(configPath);
 
         // 11. Deps check

@@ -95,6 +95,23 @@ describe('MCP Server integration', () => {
   });
 
   describe('tools', () => {
+    it('rejects oversized arguments and remains usable for the next request', async () => {
+      const rejected = await client.callTool({
+        name: 'get-component-usage',
+        arguments: { componentName: 'Button', extra: Array.from({ length: 256 }, () => 0) },
+      });
+      expect(rejected.isError).toBe(true);
+      expect(rejected.content).toEqual([
+        expect.objectContaining({ text: expect.stringContaining('maximum of 256 elements') }),
+      ]);
+
+      const accepted = await client.callTool({
+        name: 'get-component-usage',
+        arguments: { componentName: 'Button' },
+      });
+      expect(accepted.isError).not.toBe(true);
+    });
+
     it('lists 5 tools', async () => {
       const result = await client.listTools();
       expect(result.tools).toHaveLength(5);

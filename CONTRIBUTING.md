@@ -33,8 +33,10 @@ If you're working on an accepted contribution:
 
 ### Prerequisites
 
-- Node.js >= 20
-- pnpm >= 9
+- Node.js 24 (use the version in `.node-version`)
+- pnpm 10.34.8 (pinned in `package.json`)
+
+Dependency installs use a 24-hour minimum release age and allow build scripts only for `esbuild` and `sharp`. Review any new build-script permission or release-age exception before committing it. Run `pnpm audit` when updating dependencies. See [SECURITY.md](./SECURITY.md) for release and repository protection settings.
 
 ### Getting Started
 

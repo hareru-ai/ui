@@ -1,7 +1,8 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import type { CssMode } from './format.js';
 import { detectPackage } from './pkg-detector.js';
+import { resolveProjectPath } from './project-path.js';
 
 export type InitMode = Exclude<CssMode, 'per-component'>;
 
@@ -30,7 +31,12 @@ export type LoadConfigResult =
 
 export function loadConfig(cwd: string): LoadConfigResult | null {
   const configDir = resolveConfigDir(cwd);
-  const configPath = join(configDir, 'hareru.json');
+  let configPath = join(configDir, 'hareru.json');
+  try {
+    configPath = resolveProjectPath(configDir, configPath, 'hareru.json');
+  } catch (err) {
+    return { configPath, error: (err as Error).message };
+  }
 
   if (!existsSync(configPath)) {
     return null;
@@ -43,7 +49,12 @@ export function loadConfig(cwd: string): LoadConfigResult | null {
   } catch {
     return { configPath, error: `Failed to parse ${configPath}` };
   }
-  if (!config.mode || !config.cssFile) {
+  if (
+    !config ||
+    typeof config.cssFile !== 'string' ||
+    !config.cssFile ||
+    !['standalone', 'portable', 'tailwind'].includes(config.mode)
+  ) {
     return { configPath, error: 'Invalid hareru.json: missing required fields (mode, cssFile)' };
   }
   return { config, configDir, configPath };
@@ -59,8 +70,9 @@ export function writeConfig(
   cssFileAbsolute: string,
 ): string {
   const configDir = resolveConfigDir(cwd);
-  const configPath = join(configDir, 'hareru.json');
-  const relativeCssFile = relative(configDir, cssFileAbsolute);
+  const configPath = resolveProjectPath(configDir, 'hareru.json', 'hareru.json');
+  const safeCssFile = resolveProjectPath(configDir, cssFileAbsolute, 'cssFile');
+  const relativeCssFile = relative(realpathSync(configDir), safeCssFile);
 
   const output: HareruConfig = {
     $schema: 'https://ui.hareru.ai/schema/hareru.json',
@@ -93,9 +105,10 @@ export function updateConfig(
   configPath: string,
   updates: Partial<Pick<HareruConfig, 'mode' | 'options'>>,
 ): void {
+  const safeConfigPath = resolveProjectPath(dirname(configPath), configPath, 'hareru.json');
   let config: HareruConfig;
   try {
-    const raw = readFileSync(configPath, 'utf-8');
+    const raw = readFileSync(safeConfigPath, 'utf-8');
     config = JSON.parse(raw) as HareruConfig;
   } catch (err) {
     throw new Error(`Failed to parse ${configPath}: ${(err as Error).message}`);
@@ -115,7 +128,7 @@ export function updateConfig(
     config.options = Object.keys(clean).length > 0 ? clean : undefined;
   }
 
-  writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`);
+  writeFileSync(safeConfigPath, `${JSON.stringify(config, null, 2)}\n`);
 }
 
 /**
@@ -123,14 +136,5 @@ export function updateConfig(
  * Rejects paths that escape the project root (path traversal prevention).
  */
 export function resolveCssFilePath(configDir: string, relativePath: string): string {
-  const resolved = resolve(configDir, relativePath);
-  // Use configDir + separator to ensure segment-boundary matching
-  // (prevents /tmp/project-evil matching /tmp/project)
-  const boundary = configDir.endsWith(sep) ? configDir : `${configDir}${sep}`;
-  if (resolved !== configDir && !resolved.startsWith(boundary)) {
-    throw new Error(
-      `cssFile "${relativePath}" resolves outside the project root. Update cssFile in hareru.json to a path within the project.`,
-    );
-  }
-  return resolved;
+  return resolveProjectPath(configDir, relativePath, 'cssFile');
 }

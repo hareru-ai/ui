@@ -142,6 +142,12 @@ The `update` command:
 - `add` defaults to `per-component` when `--mode` is not specified.
 - `init` auto-detects the best mode based on your project (Tailwind detected → `tailwind`, existing CSS reset → `portable`, otherwise → `standalone`).
 
+## File Safety
+
+CSS and `hareru.json` must stay inside the project containing the nearest `package.json`. This applies to `init`, `add --write`, and `update`, including explicit `--css-file` paths and symlinked files or directories. Dangling symlinks are rejected. Links targeting files within the project remain supported. With `add --force` and no package, the boundary is the current directory.
+
+`--force` never overrides path checks. `init` checks both destinations before modifying either file.
+
 ## Auto-Detection
 
 The CLI automatically detects:
