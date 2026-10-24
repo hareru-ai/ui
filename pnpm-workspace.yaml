@@ -8,3 +8,6 @@ strictDepBuilds: true
 onlyBuiltDependencies:
   - esbuild
   - sharp
+# Biome's postinstall only probes the optional binary; the CLI resolves it directly.
+ignoredBuiltDependencies:
+  - "@biomejs/biome"

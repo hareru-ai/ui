@@ -130,6 +130,8 @@ jobs:
         run: test -n "$NODE_AUTH_TOKEN" || { echo 'Configure the npm-publish environment NPM_TOKEN secret.'; exit 1; }
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Recheck main immediately before publishing
+        run: bash .github/scripts/check-release-head.sh
       - name: Publish prebuilt packages
         uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:

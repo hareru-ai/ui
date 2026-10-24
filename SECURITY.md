@@ -26,7 +26,7 @@ Prefer [npm trusted publishing](https://docs.npmjs.com/trusted-publishers) when 
 
 ## Dependency Maintenance
 
-Use Node.js 24 from `.node-version` and the pinned pnpm version. The lockfile is committed and CI uses frozen installs. Newly published packages wait 24 hours before resolution. Install scripts are allowed only for `esbuild` and `sharp`; new permissions require review.
+Use Node.js 24 from `.node-version` and the pinned pnpm version. The lockfile is committed and CI uses frozen installs. Newly published packages wait 24 hours before resolution. Install scripts are allowed only for `esbuild` and `sharp`; new permissions require review. Biome's optional-binary probe is explicitly skipped; its CLI resolves the installed platform binary directly.
 
 Dependabot checks npm and Actions weekly. CI blocks high/critical dependency advisories; the weekly audit reports every severity. CodeQL scans JavaScript/TypeScript and dependency review checks pull requests. Audit results identify known vulnerable versions, not proof that each issue is exploitable in this application.
 
