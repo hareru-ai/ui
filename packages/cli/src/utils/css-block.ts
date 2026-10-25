@@ -1,4 +1,6 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { resolveProjectPath, writeProjectFile } from './project-path.js';
 
 export const MARKER_START = '/* hareru:start managed */';
 export const MARKER_END = '/* hareru:end */';
@@ -119,7 +121,8 @@ export function findTailwindImport(content: string): { index: number; text: stri
  * Inserts at file start (after @charset if present).
  */
 export function writeManagedBlock(
-  filePath: string,
+  root: string,
+  path: string,
   imports: string[],
   options: {
     force?: boolean;
@@ -132,7 +135,9 @@ export function writeManagedBlock(
   adopted: string[];
   replaced: boolean;
 } {
-  const content = existsSync(filePath) ? readFileSync(filePath, 'utf-8') : '';
+  const filePath = resolve(root, path);
+  const target = resolveProjectPath(root, filePath, 'cssFile');
+  const content = existsSync(target) ? readFileSync(target, 'utf-8') : '';
   let lines = content.split('\n');
 
   // Handle empty file (just newline)
@@ -199,7 +204,7 @@ export function writeManagedBlock(
   // Insert block with trailing newline
   lines.splice(insertAt, 0, ...blockLines, '');
 
-  writeFileSync(filePath, lines.join('\n'));
+  writeProjectFile(root, filePath, lines.join('\n'));
 
   return {
     filePath,
@@ -213,14 +218,17 @@ export function writeManagedBlock(
  * Replace the content inside an existing managed block.
  */
 export function replaceManagedBlock(
-  filePath: string,
+  root: string,
+  path: string,
   newImports: string[],
 ): {
   filePath: string;
   removed: string[];
   added: string[];
 } {
-  const content = readFileSync(filePath, 'utf-8');
+  const filePath = resolve(root, path);
+  const target = resolveProjectPath(root, filePath, 'cssFile');
+  const content = readFileSync(target, 'utf-8');
   const lines = content.split('\n');
 
   const block = findManagedBlock(content);
@@ -235,7 +243,7 @@ export function replaceManagedBlock(
   const newBlockLines = [MARKER_START, ...newImports, MARKER_END];
   lines.splice(block.startLine, block.endLine - block.startLine + 1, ...newBlockLines);
 
-  writeFileSync(filePath, lines.join('\n'));
+  writeProjectFile(root, filePath, lines.join('\n'));
 
   return {
     filePath,

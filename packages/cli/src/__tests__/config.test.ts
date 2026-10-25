@@ -150,6 +150,23 @@ describe('config', () => {
   });
 
   describe('loadConfig', () => {
+    it('distinguishes an invalid mode from missing required fields', () => {
+      writeFileSync(join(testDir, 'package.json'), '{}');
+      writeFileSync(
+        join(testDir, 'hareru.json'),
+        JSON.stringify({ mode: 'per-component', cssFile: 'index.css' }),
+      );
+      expect(loadConfig(testDir)?.error).toBe(
+        'Invalid hareru.json: invalid mode "per-component". Valid modes: standalone, portable, tailwind',
+      );
+    });
+
+    it('reports missing fields when mode is absent', () => {
+      writeFileSync(join(testDir, 'package.json'), '{}');
+      writeFileSync(join(testDir, 'hareru.json'), JSON.stringify({ cssFile: 'index.css' }));
+      expect(loadConfig(testDir)?.error).toContain('missing required fields');
+    });
+
     it('returns null when hareru.json does not exist', () => {
       writeFileSync(join(testDir, 'package.json'), '{}');
       const result = loadConfig(testDir);
@@ -177,7 +194,9 @@ describe('config', () => {
     it('throws on corrupt hareru.json', () => {
       const configPath = join(testDir, 'hareru.json');
       writeFileSync(configPath, '{bad json');
-      expect(() => updateConfig(configPath, { mode: 'portable' })).toThrow('Failed to parse');
+      expect(() => updateConfig(testDir, configPath, { mode: 'portable' })).toThrow(
+        'Failed to parse',
+      );
     });
 
     it('updates mode in existing config', () => {
@@ -185,7 +204,7 @@ describe('config', () => {
       const configPath = join(testDir, 'hareru.json');
       writeFileSync(configPath, JSON.stringify({ mode: 'standalone', cssFile: 'src/index.css' }));
 
-      updateConfig(configPath, { mode: 'portable' });
+      updateConfig(testDir, configPath, { mode: 'portable' });
 
       const raw = JSON.parse(readFileSync(configPath, 'utf-8'));
       expect(raw.mode).toBe('portable');
@@ -196,7 +215,7 @@ describe('config', () => {
       const configPath = join(testDir, 'hareru.json');
       writeFileSync(configPath, JSON.stringify({ mode: 'portable', cssFile: 'src/index.css' }));
 
-      updateConfig(configPath, { options: { scope: true } });
+      updateConfig(testDir, configPath, { options: { scope: true } });
 
       const raw = JSON.parse(readFileSync(configPath, 'utf-8'));
       expect(raw.options).toEqual({ scope: true });
@@ -213,7 +232,7 @@ describe('config', () => {
         }),
       );
 
-      updateConfig(configPath, { options: { scope: false } });
+      updateConfig(testDir, configPath, { options: { scope: false } });
 
       const raw = JSON.parse(readFileSync(configPath, 'utf-8'));
       expect(raw.options).toBeUndefined();

@@ -1,10 +1,11 @@
-import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import type { CssMode } from './format.js';
 import { detectPackage } from './pkg-detector.js';
-import { resolveProjectPath } from './project-path.js';
+import { resolveProjectPath, writeProjectFile } from './project-path.js';
 
 export type InitMode = Exclude<CssMode, 'per-component'>;
+export const INIT_MODES: readonly InitMode[] = ['standalone', 'portable', 'tailwind'] as const;
 
 export interface HareruConfig {
   $schema?: string;
@@ -31,31 +32,33 @@ export type LoadConfigResult =
 
 export function loadConfig(cwd: string): LoadConfigResult | null {
   const configDir = resolveConfigDir(cwd);
-  let configPath = join(configDir, 'hareru.json');
+  const configPath = join(configDir, 'hareru.json');
+  let safeConfigPath: string;
   try {
-    configPath = resolveProjectPath(configDir, configPath, 'hareru.json');
+    safeConfigPath = resolveProjectPath(configDir, configPath, 'hareru.json');
   } catch (err) {
     return { configPath, error: (err as Error).message };
   }
 
-  if (!existsSync(configPath)) {
+  if (!existsSync(safeConfigPath)) {
     return null;
   }
 
   let config: HareruConfig;
   try {
-    const raw = readFileSync(configPath, 'utf-8');
+    const raw = readFileSync(safeConfigPath, 'utf-8');
     config = JSON.parse(raw) as HareruConfig;
   } catch {
     return { configPath, error: `Failed to parse ${configPath}` };
   }
-  if (
-    !config ||
-    typeof config.cssFile !== 'string' ||
-    !config.cssFile ||
-    !['standalone', 'portable', 'tailwind'].includes(config.mode)
-  ) {
+  if (!config || typeof config.cssFile !== 'string' || !config.cssFile || !config.mode) {
     return { configPath, error: 'Invalid hareru.json: missing required fields (mode, cssFile)' };
+  }
+  if (!INIT_MODES.includes(config.mode)) {
+    return {
+      configPath,
+      error: `Invalid hareru.json: invalid mode "${config.mode}". Valid modes: ${INIT_MODES.join(', ')}`,
+    };
   }
   return { config, configDir, configPath };
 }
@@ -65,14 +68,13 @@ export function loadConfig(cwd: string): LoadConfigResult | null {
  * Converts the cssFile absolute path to a relative path from configDir.
  */
 export function writeConfig(
-  cwd: string,
+  configDir: string,
   config: Omit<HareruConfig, 'cssFile' | '$schema'>,
   cssFileAbsolute: string,
 ): string {
-  const configDir = resolveConfigDir(cwd);
-  const configPath = resolveProjectPath(configDir, 'hareru.json', 'hareru.json');
-  const safeCssFile = resolveProjectPath(configDir, cssFileAbsolute, 'cssFile');
-  const relativeCssFile = relative(realpathSync(configDir), safeCssFile);
+  const configPath = resolve(configDir, 'hareru.json');
+  resolveProjectPath(configDir, cssFileAbsolute, 'cssFile');
+  const relativeCssFile = relative(resolve(configDir), resolve(configDir, cssFileAbsolute));
 
   const output: HareruConfig = {
     $schema: 'https://ui.hareru.ai/schema/hareru.json',
@@ -94,7 +96,7 @@ export function writeConfig(
     }
   }
 
-  writeFileSync(configPath, `${JSON.stringify(output, null, 2)}\n`);
+  writeProjectFile(configDir, configPath, `${JSON.stringify(output, null, 2)}\n`);
   return configPath;
 }
 
@@ -102,10 +104,11 @@ export function writeConfig(
  * Update an existing hareru.json with new values.
  */
 export function updateConfig(
+  configDir: string,
   configPath: string,
   updates: Partial<Pick<HareruConfig, 'mode' | 'options'>>,
 ): void {
-  const safeConfigPath = resolveProjectPath(dirname(configPath), configPath, 'hareru.json');
+  const safeConfigPath = resolveProjectPath(configDir, configPath, 'hareru.json');
   let config: HareruConfig;
   try {
     const raw = readFileSync(safeConfigPath, 'utf-8');
@@ -128,7 +131,7 @@ export function updateConfig(
     config.options = Object.keys(clean).length > 0 ? clean : undefined;
   }
 
-  writeFileSync(safeConfigPath, `${JSON.stringify(config, null, 2)}\n`);
+  writeProjectFile(configDir, configPath, `${JSON.stringify(config, null, 2)}\n`);
 }
 
 /**

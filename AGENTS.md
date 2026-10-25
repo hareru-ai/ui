@@ -481,7 +481,9 @@ npx hareru add <name> --write    # Write files and inject CSS imports automatica
 
 Key options: `--write`, `--json`, `--force`, `--css-file <path>`, `--scope <selector>`, `--baseline`, `--layer`.
 
-`add --write` fails fast on missing `package.json`, broken JSON, or missing peer dependencies; `--force` overrides only those dependency checks. All CLI writes keep CSS and configuration paths inside the nearest package root after resolving symlinks. Explicit paths and dangling symlinks are checked too. `--force` never bypasses the path boundary. `init` validates both destinations before writing.
+`add --write` fails fast on missing `package.json`, broken JSON, or missing peer dependencies; `--force` overrides only those dependency checks. All CLI writes keep CSS and configuration paths inside the nearest package root after resolving symlinks. Explicit paths and dangling symlinks are checked too. `--force` never bypasses the path boundary. `init` validates both destination paths before writing. Before changing CSS, `init --write` and `update --write` use `assertWritableProjectFile()` to check file types and hard-link counts for both files they will write. An existing config skipped by `init` without `--force` is excluded from these write checks.
+
+All file writers require the project root and use `writeProjectFile()` to check the opened file before truncation, rejecting hard links and non-regular files. Keep normalized user-selected paths in config and output; use canonical paths for validation and filesystem access. Share `INIT_MODES` from `utils/config.ts` across init, update, and config validation. The package boundary is a breaking CLI change: for cross-package CSS, run from the owning package or omit `--write` and paste snippets manually.
 
 ## Documentation Site (apps/docs)
 

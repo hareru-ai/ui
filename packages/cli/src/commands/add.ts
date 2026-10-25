@@ -13,7 +13,6 @@ import {
   generateCssImports,
 } from '../utils/format.js';
 import { detectPackage } from '../utils/pkg-detector.js';
-import { resolveProjectPath } from '../utils/project-path.js';
 import { printRegistryError } from '../utils/registry-error.js';
 
 export function registerAddCommand(program: Command): void {
@@ -188,8 +187,7 @@ export function registerAddCommand(program: Command): void {
           let result: ReturnType<typeof writeCssImports>;
           try {
             const projectDir = pkg.pkgJsonPath ? dirname(pkg.pkgJsonPath) : cwd;
-            const safeCssFile = resolveProjectPath(projectDir, cssFilePath, 'cssFile');
-            result = writeCssImports(safeCssFile, writableImports);
+            result = writeCssImports(projectDir, cssFilePath, writableImports);
           } catch (err) {
             // ENOENT is covered by add.test.ts "--write --css-file with nonexistent path".
             // EACCES is not integration-tested — chmod-based tests are flaky cross-platform.

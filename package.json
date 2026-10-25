@@ -10,7 +10,6 @@
     "format": "biome format --write .",
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm format",
-    "release": "turbo build && changeset publish",
     "test:e2e": "playwright test"
   },
   "devDependencies": {

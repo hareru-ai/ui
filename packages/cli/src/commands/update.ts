@@ -1,7 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import type { Command } from 'commander';
 import { c } from '../utils/colors.js';
-import { loadConfig, resolveCssFilePath, updateConfig } from '../utils/config.js';
+import { INIT_MODES, loadConfig, resolveCssFilePath, updateConfig } from '../utils/config.js';
 import type { InitMode } from '../utils/config.js';
 import {
   findManagedBlock,
@@ -14,8 +15,7 @@ import {
   filterManagedImports,
   generateCssImports,
 } from '../utils/format.js';
-
-const INIT_MODES: readonly InitMode[] = ['standalone', 'portable', 'tailwind'] as const;
+import { assertWritableProjectFile } from '../utils/project-path.js';
 
 export function registerUpdateCommand(program: Command): void {
   program
@@ -46,7 +46,7 @@ export function registerUpdateCommand(program: Command): void {
           process.exitCode = 1;
           return;
         }
-        if (configResult.error) {
+        if (configResult.error !== undefined) {
           console.error(c.error(configResult.error));
           process.exitCode = 1;
           return;
@@ -55,15 +55,16 @@ export function registerUpdateCommand(program: Command): void {
         const { config, configDir, configPath } = configResult;
 
         // 2. Resolve CSS file (rejects path traversal)
-        let cssFilePath: string;
+        const cssFilePath = resolve(configDir, config.cssFile);
+        let safeCssFilePath: string;
         try {
-          cssFilePath = resolveCssFilePath(configDir, config.cssFile);
+          safeCssFilePath = resolveCssFilePath(configDir, config.cssFile);
         } catch (err) {
           console.error(c.error((err as Error).message));
           process.exitCode = 1;
           return;
         }
-        if (!existsSync(cssFilePath)) {
+        if (!existsSync(safeCssFilePath)) {
           console.error(c.error(`CSS file not found: ${c.path(cssFilePath)}`));
           console.error(`Update cssFile in ${configPath} or run "hareru init --write" again.`);
           process.exitCode = 1;
@@ -71,7 +72,7 @@ export function registerUpdateCommand(program: Command): void {
         }
 
         // 3. Read CSS file and find managed block
-        const cssContent = readFileSync(cssFilePath, 'utf-8');
+        const cssContent = readFileSync(safeCssFilePath, 'utf-8');
         const block = findManagedBlock(cssContent);
         if (!block) {
           console.error(c.error('No managed block found in CSS file.'));
@@ -136,7 +137,7 @@ export function registerUpdateCommand(program: Command): void {
         if (noChange) {
           if (opts.write) {
             try {
-              updateConfig(configPath, {
+              updateConfig(configDir, configPath, {
                 mode: newMode,
                 options: {
                   scope: newOptions.scope,
@@ -262,7 +263,9 @@ export function registerUpdateCommand(program: Command): void {
 
         // --write mode: perform write first, then emit output
         try {
-          replaceManagedBlock(cssFilePath, newManagedImports);
+          assertWritableProjectFile(configDir, cssFilePath, 'cssFile');
+          assertWritableProjectFile(configDir, configPath, 'hareru.json');
+          replaceManagedBlock(configDir, cssFilePath, newManagedImports);
         } catch (err) {
           console.error(c.error((err as Error).message));
           process.exitCode = 1;
@@ -270,7 +273,7 @@ export function registerUpdateCommand(program: Command): void {
         }
 
         try {
-          updateConfig(configPath, {
+          updateConfig(configDir, configPath, {
             mode: newMode,
             options: {
               scope: newOptions.scope,
