@@ -18,13 +18,28 @@ These settings live in GitHub, separately from this repository. Review them when
 
 Version PR updates and publishing use separate job-level concurrency groups, so an approval wait does not block version PR updates. After a new push to `main`, a publish job awaiting approval will fail the HEAD check when resumed; reject obsolete pending approvals.
 
-Third-party Actions are pinned to commit SHAs. The npm credential is exposed only to the credential check and final publish step. Publishing disables package lifecycle scripts. No package is published just by opening the maintenance PR. Do not publish from a local machine; use the approved Release workflow so CI, SHA checks, and environment approval are enforced.
+Third-party Actions are pinned to commit SHAs. Do not store npm tokens; only the publish job may request an OIDC token. Publishing disables package lifecycle scripts. No package is published just by opening the maintenance PR. Do not publish from a local machine; use the approved Release workflow so CI, SHA checks, and environment approval are enforced.
 
 ### npm Credentials
 
-The workflow retains token authentication for compatibility with the existing registry setup. Before the next release, verify or rotate `NPM_TOKEN` and store it in the protected `npm-publish` environment. Remove the repository-level copy after the environment secret is configured. GitHub does not expose existing secret values, so they cannot be copied out through its API. Do not paste a token into an issue or a chat.
+Publish through [npm trusted publishing](https://docs.npmjs.com/trusted-publishers) (OIDC) without storing npm tokens in GitHub. On npmjs.com, configure a GitHub Actions trusted publisher for each public package with these exact, case-sensitive values:
 
-Prefer [npm trusted publishing](https://docs.npmjs.com/trusted-publishers) when the npm account owner can configure each public package. Use owner `hareru-ai`, repository `ui`, workflow `release.yml`, and environment `npm-publish`; then grant `id-token: write` only to the publish job and remove token authentication. Trusted publishing is not yet configured by this change. Never enable OIDC permissions in the build job.
+- Owner: `hareru-ai`
+- Repository: `ui`
+- Workflow: `release.yml`
+- Environment: `npm-publish`
+
+Register the configuration on the day of release. A new registration expires unless its first successful publish completes within two days.
+
+Use a GitHub-hosted runner. Provenance is attached automatically, and each package's `repository.url` must match `https://github.com/hareru-ai/ui`.
+
+After the first successful publish:
+
+1. Set each package's Publishing access to **Require two-factor authentication and disallow tokens**.
+2. Delete the `NPM_TOKEN` secret from GitHub, including any repository-level or environment-level copies.
+3. Revoke unused npm tokens.
+
+Grant `id-token: write` only to the publish job. Never grant it to the `select-mode`, `version`, or `pack` jobs; the pack job runs repository build scripts. Do not paste a token into an issue or a chat.
 
 ## Dependency Maintenance
 
