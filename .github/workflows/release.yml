@@ -115,6 +115,7 @@ jobs:
     environment: npm-publish
     permissions:
       contents: write # Create package tags and GitHub releases.
+      id-token: write # Request the OIDC token for npm trusted publishing.
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -128,10 +129,8 @@ jobs:
           package-manager-cache: false
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Check publishing credential
-        run: test -n "$NODE_AUTH_TOKEN" || { echo 'Configure the npm-publish environment NPM_TOKEN secret.'; exit 1; }
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Check trusted publishing token access
+        run: test -n "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" || { echo 'The publish job cannot request an OIDC token for npm trusted publishing.'; exit 1; }
       - name: Recheck main immediately before publishing
         run: bash .github/scripts/check-release-head.sh
       - name: Publish prebuilt packages
@@ -139,5 +138,4 @@ jobs:
         with:
           pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           npm_config_ignore_scripts: 'true'

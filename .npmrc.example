@@ -1,5 +1,3 @@
-# npm public registry (default — no custom config needed)
-# Add auth token for publishing:
-#   npm login --scope=@hareru
-# or set NPM_TOKEN env var in CI:
-#   //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+# Installing public packages does not require authentication.
+# Publish only through trusted publishing in the Release workflow; see SECURITY.md.
+# Do not put tokens in this file.
