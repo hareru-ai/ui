@@ -4,7 +4,7 @@ import { recommendCssMode } from '@hareru/registry';
 import type { Command } from 'commander';
 import { c } from '../utils/colors.js';
 import type { HareruConfig, InitMode } from '../utils/config.js';
-import { writeConfig } from '../utils/config.js';
+import { INIT_MODES, writeConfig } from '../utils/config.js';
 import {
   findLayerHuiDeclarations,
   findManagedBlock,
@@ -21,8 +21,7 @@ import {
 } from '../utils/format.js';
 import { type FrameworkDetection, detectFramework } from '../utils/framework-detector.js';
 import { detectPackage } from '../utils/pkg-detector.js';
-
-const INIT_MODES: readonly InitMode[] = ['standalone', 'portable', 'tailwind'] as const;
+import { assertWritableProjectFile, resolveProjectPath } from '../utils/project-path.js';
 
 export function registerInitCommand(program: Command): void {
   program
@@ -143,6 +142,18 @@ export function registerInitCommand(program: Command): void {
           }
         }
 
+        // Validate both destinations before reading or modifying either file.
+        let safeCssFilePath: string;
+        let configPath: string;
+        try {
+          safeCssFilePath = resolveProjectPath(configDir, cssFilePath, 'cssFile');
+          configPath = resolveProjectPath(configDir, 'hareru.json', 'hareru.json');
+        } catch (err) {
+          console.error(c.error((err as Error).message));
+          process.exitCode = 1;
+          return;
+        }
+
         // 6. Generate CSS imports
         const importOptions: CssImportOptions = {
           mode,
@@ -154,7 +165,9 @@ export function registerInitCommand(program: Command): void {
         const managedImports = filterManagedImports(cssImports);
 
         // 7. Analyze existing CSS file
-        const cssContent = existsSync(cssFilePath) ? readFileSync(cssFilePath, 'utf-8') : '';
+        const cssContent = existsSync(safeCssFilePath)
+          ? readFileSync(safeCssFilePath, 'utf-8')
+          : '';
 
         const existingBlock = findManagedBlock(cssContent);
         const unmanagedImports = findUnmanagedHareruImports(cssContent);
@@ -227,7 +240,6 @@ export function registerInitCommand(program: Command): void {
         }
 
         // 10. Check existing config
-        const configPath = resolve(configDir, 'hareru.json');
         const hasExistingConfig = existsSync(configPath);
 
         // 11. Deps check
@@ -300,12 +312,23 @@ export function registerInitCommand(program: Command): void {
           return;
         }
 
+        try {
+          assertWritableProjectFile(configDir, cssFilePath, 'cssFile');
+          if (!hasExistingConfig || opts.force) {
+            assertWritableProjectFile(configDir, resolve(configDir, 'hareru.json'), 'hareru.json');
+          }
+        } catch (err) {
+          console.error(c.error((err as Error).message));
+          process.exitCode = 1;
+          return;
+        }
+
         // --write mode
         let blockResult: ReturnType<typeof writeManagedBlock>;
         try {
           // Adopt unmanaged imports when action is 'adopt' or when --force is used
           const shouldAdopt = unmanagedImports.length > 0 && (action === 'adopt' || opts.force);
-          blockResult = writeManagedBlock(cssFilePath, managedImports, {
+          blockResult = writeManagedBlock(configDir, cssFilePath, managedImports, {
             force: opts.force,
             adoptLines: shouldAdopt ? unmanagedImports : undefined,
             removeLayerHui: opts.force ? layerHuiDecls : undefined,
@@ -335,7 +358,7 @@ export function registerInitCommand(program: Command): void {
         } else {
           try {
             writeConfig(
-              cwd,
+              configDir,
               {
                 mode,
                 framework: fw.framework as HareruConfig['framework'],

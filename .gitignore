@@ -8,6 +8,10 @@ tsup.config.bundled_*
 test-output.txt
 .DS_Store
 *.local
+.env
+.env.*
+!.env.example
+!.env.*.example
 test-results/
 playwright-report/
 .playwright-mcp/

@@ -12,6 +12,10 @@ MCP server for [Hareru UI](https://github.com/hareru-ai/ui) — exposes design t
 - **3 prompts** — UI generation, Tailwind coexistence, and consumer rules
 - **stdio transport** — Works with Claude Desktop, Cursor, and any MCP-compatible client
 
+## Input Limits
+
+`createServer()` rejects tool arguments containing more than 256 combined array elements and object members before schema validation. Normal tools use small scalar inputs. This is a collection limit, not a request-byte limit. The bundled executable uses stdio; applications attaching a custom HTTP transport must provide authentication, origin checks, and request-byte limits separately.
+
 ## Installation
 
 ```bash

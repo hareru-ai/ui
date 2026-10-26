@@ -126,8 +126,16 @@ hareru add agent-chat-shell --write
 | `--layer` | Use `@layer` wrapped variants |
 | `--scope` | Include `.hui-root` scope helper |
 | `--baseline` | Include minimal CSS reset |
-| `--force` | Skip safety checks |
+| `--force` | Skip dependency checks; path restrictions still apply |
 | `--json` | JSON output |
+
+## File Safety
+
+`init`, `add --write`, and `update` require CSS and `hareru.json` paths to stay inside the project containing the nearest `package.json` (or the current directory for `add --force` without a package). This includes explicit `--css-file` paths, symlinked files, and symlinked parent directories. Dangling symlinks are rejected; symlinks targeting files inside the project are allowed. `--force` does not bypass this boundary. `init` validates both destination paths before modifying either file. Before changing CSS, `init --write` and `update --write` also check file types and hard-link counts for both files they will write. An existing config skipped by `init` without `--force` is excluded from these write checks.
+
+Writes reject hard links and non-regular files before truncating or changing their contents. Configuration and command output preserve normalized user-selected paths, including internal symlinks; validation and writes resolve the targets.
+
+**Migration:** The package boundary is a breaking change for cross-package `--css-file` writes. Run the command from the package directory that owns the CSS file, or omit `--write` and paste the generated snippets manually.
 
 ## Auto-Detection
 

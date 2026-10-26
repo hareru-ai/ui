@@ -134,6 +134,8 @@ npx @hareru/cli add Button --write
 npx @hareru/cli add Button --write --mode tailwind
 ```
 
+CLI writes stay inside the project containing the nearest `package.json`, including symlink targets, and reject hard links before changing file contents. Configuration and output retain normalized user-selected paths. `--force` cannot override this boundary. For cross-package CSS, run from the owning package or omit `--write` and paste snippets manually. The MCP server uses stdio and limits tool arguments to 256 combined collection elements. See [security and maintenance](./SECURITY.md).
+
 ## Packages
 
 | Package | Description |
@@ -147,6 +149,8 @@ npx @hareru/cli add Button --write --mode tailwind
 ## Contributing
 
 Contributions are welcome. Please open an issue first to discuss what you would like to change.
+
+Use Node.js from `.node-version` and the pnpm version pinned in `package.json`.
 
 ```bash
 pnpm install    # Install dependencies

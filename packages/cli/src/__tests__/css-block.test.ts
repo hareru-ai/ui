@@ -206,7 +206,7 @@ describe('writeManagedBlock', () => {
     const cssFile = join(testDir, 'styles.css');
     writeFileSync(cssFile, '');
 
-    const result = writeManagedBlock(cssFile, [
+    const result = writeManagedBlock(testDir, cssFile, [
       "@import '@hareru/tokens/css';",
       "@import '@hareru/ui/styles.css';",
     ]);
@@ -222,7 +222,7 @@ describe('writeManagedBlock', () => {
     const cssFile = join(testDir, 'styles.css');
     writeFileSync(cssFile, 'body { color: red; }\n');
 
-    writeManagedBlock(cssFile, ["@import '@hareru/ui/styles.css';"]);
+    writeManagedBlock(testDir, cssFile, ["@import '@hareru/ui/styles.css';"]);
 
     const content = readFileSync(cssFile, 'utf-8');
     const startIdx = content.indexOf(MARKER_START);
@@ -234,7 +234,7 @@ describe('writeManagedBlock', () => {
     const cssFile = join(testDir, 'styles.css');
     writeFileSync(cssFile, "@charset 'utf-8';\nbody { color: red; }\n");
 
-    writeManagedBlock(cssFile, ["@import '@hareru/ui/styles.css';"]);
+    writeManagedBlock(testDir, cssFile, ["@import '@hareru/ui/styles.css';"]);
 
     const content = readFileSync(cssFile, 'utf-8');
     const lines = content.split('\n');
@@ -246,7 +246,7 @@ describe('writeManagedBlock', () => {
     const cssFile = join(testDir, 'styles.css');
     writeFileSync(cssFile, `${MARKER_START}\n@import '@hareru/tokens/css';\n${MARKER_END}\n`);
 
-    const result = writeManagedBlock(cssFile, ["@import '@hareru/ui/styles.css';"]);
+    const result = writeManagedBlock(testDir, cssFile, ["@import '@hareru/ui/styles.css';"]);
 
     expect(result.added).toHaveLength(0);
     expect(result.replaced).toBe(false);
@@ -259,7 +259,7 @@ describe('writeManagedBlock', () => {
       `${MARKER_START}\n@import '@hareru/tokens/css';\n${MARKER_END}\nbody {}\n`,
     );
 
-    const result = writeManagedBlock(cssFile, ["@import '@hareru/ui/styles.css';"], {
+    const result = writeManagedBlock(testDir, cssFile, ["@import '@hareru/ui/styles.css';"], {
       force: true,
     });
 
@@ -279,6 +279,7 @@ describe('writeManagedBlock', () => {
     );
 
     const result = writeManagedBlock(
+      testDir,
       cssFile,
       ["@import '@hareru/tokens/css';", "@import '@hareru/ui/styles.css';"],
       {
@@ -309,6 +310,7 @@ describe('writeManagedBlock', () => {
     );
 
     writeManagedBlock(
+      testDir,
       cssFile,
       ['@layer theme, base, hui, components, utilities;', "@import '@hareru/tokens/css';"],
       {
@@ -329,7 +331,7 @@ describe('writeManagedBlock', () => {
   it('creates file if it does not exist', () => {
     const cssFile = join(testDir, 'nonexistent.css');
 
-    const result = writeManagedBlock(cssFile, ["@import '@hareru/tokens/css';"]);
+    const result = writeManagedBlock(testDir, cssFile, ["@import '@hareru/tokens/css';"]);
 
     expect(result.added).toHaveLength(1);
     const content = readFileSync(cssFile, 'utf-8');
@@ -356,7 +358,7 @@ describe('replaceManagedBlock', () => {
       `${MARKER_START}\n@import '@hareru/ui/styles.css';\n${MARKER_END}\nbody {}\n`,
     );
 
-    const result = replaceManagedBlock(cssFile, [
+    const result = replaceManagedBlock(testDir, cssFile, [
       "@import '@hareru/tokens/css';",
       "@import '@hareru/ui/styles/components.css';",
     ]);
@@ -374,7 +376,7 @@ describe('replaceManagedBlock', () => {
     const cssFile = join(testDir, 'styles.css');
     writeFileSync(cssFile, 'body {}\n');
 
-    expect(() => replaceManagedBlock(cssFile, ["@import '@hareru/tokens/css';"])).toThrow(
+    expect(() => replaceManagedBlock(testDir, cssFile, ["@import '@hareru/tokens/css';"])).toThrow(
       'No managed block found',
     );
   });

@@ -32,7 +32,7 @@ hareru-ui/
 │   │       └── css-mode.ts  # CSS mode recommendation logic
 │   ├── mcp/                 # @hareru/mcp
 │   │   └── src/
-│   │       ├── server.ts    # MCP server factory (createServer)
+│   │       ├── index.ts     # MCP server factory and stdio entry
 │   │       ├── resources.ts # 6 resources (tokens, schema, components, bundles, rules)
 │   │       ├── tools.ts     # 5 tools
 │   │       └── prompts.ts   # 3 prompts
@@ -51,6 +51,7 @@ hareru-ui/
 ## Stack
 
 - pnpm workspaces + Turborepo
+- Node.js 24 (`.node-version`) and pnpm 10.34.8 (`packageManager`)
 - TypeScript ^5.7 (strict mode, no `any`)
 - React 19
 - tsup (library builds), Vite (playground)
@@ -409,6 +410,8 @@ radius  → <number>px or <number>rem or 9999px
 
 The MCP server exposes Hareru UI design rules to AI agents via stdio transport.
 
+`createServer()` limits each tool call to 256 combined array elements and object members before schema validation. It does not enable HTTP transport or authentication; custom network transports must enforce their own authentication and request-byte limits.
+
 **Resources:**
 
 | URI | Content |
@@ -478,7 +481,9 @@ npx hareru add <name> --write    # Write files and inject CSS imports automatica
 
 Key options: `--write`, `--json`, `--force`, `--css-file <path>`, `--scope <selector>`, `--baseline`, `--layer`.
 
-`--write` safety: fails fast on missing `package.json`, broken JSON, or missing peer dependencies. Override with `--force`.
+`add --write` fails fast on missing `package.json`, broken JSON, or missing peer dependencies; `--force` overrides only those dependency checks. All CLI writes keep CSS and configuration paths inside the nearest package root after resolving symlinks. Explicit paths and dangling symlinks are checked too. `--force` never bypasses the path boundary. `init` validates both destination paths before writing. Before changing CSS, `init --write` and `update --write` use `assertWritableProjectFile()` to check file types and hard-link counts for both files they will write. An existing config skipped by `init` without `--force` is excluded from these write checks.
+
+All file writers require the project root and use `writeProjectFile()` to check the opened file before truncation, rejecting hard links and non-regular files. Keep normalized user-selected paths in config and output; use canonical paths for validation and filesystem access. Share `INIT_MODES` from `utils/config.ts` across init, update, and config validation. The package boundary is a breaking CLI change: for cross-package CSS, run from the owning package or omit `--write` and paste snippets manually.
 
 ## Documentation Site (apps/docs)
 

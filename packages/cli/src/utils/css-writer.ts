@@ -1,4 +1,6 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { resolveProjectPath, writeProjectFile } from './project-path.js';
 
 export interface CssWriteResult {
   filePath: string;
@@ -6,8 +8,10 @@ export interface CssWriteResult {
   skipped: string[];
 }
 
-export function writeCssImports(filePath: string, imports: string[]): CssWriteResult {
-  const content = readFileSync(filePath, 'utf-8');
+export function writeCssImports(root: string, path: string, imports: string[]): CssWriteResult {
+  const filePath = resolve(root, path);
+  const target = resolveProjectPath(root, filePath, 'cssFile');
+  const content = readFileSync(target, 'utf-8');
   const lines = content.split('\n');
 
   // Parse existing @import lines
@@ -83,7 +87,7 @@ export function writeCssImports(filePath: string, imports: string[]): CssWriteRe
     lines.splice(insertAt, 0, ...importLines);
   }
 
-  writeFileSync(filePath, lines.join('\n'));
+  writeProjectFile(root, filePath, lines.join('\n'));
 
   return { filePath, added, skipped };
 }

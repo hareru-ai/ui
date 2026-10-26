@@ -70,6 +70,8 @@ Or if installed locally:
 
 ## Programmatic Usage
 
+Tool arguments are limited to 256 combined array elements and object members before schema validation. The executable uses stdio. This collection limit does not replace authentication, origin checks, or request-byte limits when attaching your own HTTP transport.
+
 ```typescript
 import { createServer } from '@hareru/mcp';
 

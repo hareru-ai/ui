@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { loadRegistry } from '@hareru/registry';
 import type { ComponentEntry, TaskBundle } from '@hareru/registry';
 import type { Command } from 'commander';
@@ -186,7 +186,8 @@ export function registerAddCommand(program: Command): void {
 
           let result: ReturnType<typeof writeCssImports>;
           try {
-            result = writeCssImports(cssFilePath, writableImports);
+            const projectDir = pkg.pkgJsonPath ? dirname(pkg.pkgJsonPath) : cwd;
+            result = writeCssImports(projectDir, cssFilePath, writableImports);
           } catch (err) {
             // ENOENT is covered by add.test.ts "--write --css-file with nonexistent path".
             // EACCES is not integration-tested — chmod-based tests are flaky cross-platform.
