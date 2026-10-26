@@ -14,7 +14,7 @@
     "@hareru/ui": "workspace:*",
     "fumadocs-core": "^16.17.8",
     "fumadocs-mdx": "^14.3.2",
-    "fumadocs-ui": "^16.17.7",
+    "fumadocs-ui": "^16.17.8",
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
