@@ -12,7 +12,7 @@
     "@hareru/registry": "workspace:*",
     "@hareru/tokens": "workspace:*",
     "@hareru/ui": "workspace:*",
-    "fumadocs-core": "^16.17.7",
+    "fumadocs-core": "^16.17.8",
     "fumadocs-mdx": "^14.3.2",
     "fumadocs-ui": "^16.17.7",
     "next": "^16.4.2",
