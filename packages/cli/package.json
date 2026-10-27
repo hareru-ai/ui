@@ -26,6 +26,9 @@
     "access": "public"
   },
   "files": ["dist", "bin", "LICENSE"],
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -33,7 +36,7 @@
   },
   "dependencies": {
     "@hareru/registry": "workspace:*",
-    "commander": "^13.1.0",
+    "commander": "^15.0.0",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
