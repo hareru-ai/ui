@@ -11,3 +11,7 @@ onlyBuiltDependencies:
 # Biome's postinstall only probes the optional binary; the CLI resolves it directly.
 ignoredBuiltDependencies:
   - "@biomejs/biome"
+
+# Keep Node.js types at the oldest runtime that @hareru/cli supports (Node.js 22.12+).
+overrides:
+  "@types/node": "^22.20.5"
