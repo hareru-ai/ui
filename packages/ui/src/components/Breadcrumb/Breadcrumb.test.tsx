@@ -146,14 +146,19 @@ describe('BreadcrumbSeparator', () => {
 });
 
 describe('BreadcrumbEllipsis', () => {
-  it('renders ellipsis with aria-label for screen readers', () => {
+  it('renders ellipsis as a labelled image for screen readers', () => {
     render(<BreadcrumbEllipsis />);
-    const ellipsis = screen.getByLabelText('More');
+    const ellipsis = screen.getByRole('img', { name: 'More' });
     expect(ellipsis).toHaveClass('hui-breadcrumb__ellipsis');
     expect(ellipsis).toHaveAttribute('aria-label', 'More');
     // The visible glyph is hidden from AT
     const glyph = ellipsis.querySelector('span[aria-hidden]');
     expect(glyph).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('accepts a custom aria-label', () => {
+    render(<BreadcrumbEllipsis aria-label="More levels" />);
+    expect(screen.getByRole('img', { name: 'More levels' })).toBeInTheDocument();
   });
 
   it('merges className', () => {

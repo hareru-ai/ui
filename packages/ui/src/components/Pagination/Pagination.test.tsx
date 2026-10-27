@@ -230,14 +230,19 @@ describe('PaginationNext', () => {
 });
 
 describe('PaginationEllipsis', () => {
-  it('renders ellipsis with aria-label for screen readers', () => {
+  it('renders ellipsis as a labelled image for screen readers', () => {
     render(<PaginationEllipsis />);
-    const ellipsis = screen.getByLabelText('More pages');
+    const ellipsis = screen.getByRole('img', { name: 'More pages' });
     expect(ellipsis).toHaveClass('hui-pagination__ellipsis');
     expect(ellipsis).toHaveAttribute('aria-label', 'More pages');
     // The visible glyph is hidden from AT
     const glyph = ellipsis.querySelector('span[aria-hidden]');
     expect(glyph).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('accepts a custom aria-label', () => {
+    render(<PaginationEllipsis aria-label="Skipped pages" />);
+    expect(screen.getByRole('img', { name: 'Skipped pages' })).toBeInTheDocument();
   });
 
   it('merges className', () => {

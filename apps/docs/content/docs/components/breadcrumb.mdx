@@ -170,5 +170,5 @@ import Link from "next/link"
 
 - `BreadcrumbSeparator` defaults to `/` when no children are provided. Pass any element or string as children for a custom separator.
 - `BreadcrumbPage` is for the **current page** — it renders as a non-interactive `<span>` with `aria-current="page"` and `aria-disabled="true"`.
-- `BreadcrumbEllipsis` renders `…` and is `aria-hidden` — use it when truncating long breadcrumb trails.
+- `BreadcrumbEllipsis` renders `…` with `role="img"` and `aria-label="More"`; pass `aria-label` to localize it. Use it when truncating long breadcrumb trails.
 - `BreadcrumbLink` supports the `asChild` pattern for router integration. Pass a framework `Link` component as its child to inherit client-side navigation.
