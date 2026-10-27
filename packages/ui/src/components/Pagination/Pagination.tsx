@@ -1,5 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
-import { type ReactNode, forwardRef, isValidElement } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { forwardRef, isValidElement, type ReactNode } from 'react';
 import { cn } from '../../lib/cn';
 import { Slot } from '../../lib/slot';
 

@@ -1,5 +1,5 @@
 import { Popover as BasePopover } from '@base-ui-components/react/popover';
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, type ReactElement } from 'react';
 import { cn } from '../../lib/cn';
 
 // --- Root ---

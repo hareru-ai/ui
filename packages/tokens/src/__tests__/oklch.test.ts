@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type OKLCHColor, formatOKLCH, parseOKLCH } from '../oklch';
+import { formatOKLCH, type OKLCHColor, parseOKLCH } from '../oklch';
 
 describe('parseOKLCH', () => {
   it('parses basic OKLCH string', () => {

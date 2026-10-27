@@ -1,5 +1,5 @@
 import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, type ReactElement } from 'react';
 import { cn } from '../../lib/cn';
 
 // --- Dialog (root) ---

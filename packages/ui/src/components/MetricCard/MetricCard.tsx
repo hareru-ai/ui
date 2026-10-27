@@ -23,7 +23,7 @@
  * Spec reference: dev-orchestrator/projects/hareru-di/docs/ui-component-interface.yaml
  */
 
-import { type HTMLAttributes, forwardRef } from 'react';
+import { forwardRef, type HTMLAttributes } from 'react';
 import { cn } from '../../lib/cn';
 
 // ---------------------------------------------------------------------------

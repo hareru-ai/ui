@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { type JsonPatchOp, applyPatch, useAGUIState } from './useAGUIState';
+import { applyPatch, type JsonPatchOp, useAGUIState } from './useAGUIState';
 
 describe('applyPatch', () => {
   it('handles add operation', () => {

@@ -21,8 +21,11 @@
   line-height: 1;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast),
-    border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    background-color var(--hui-duration-fast),
+    color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
   outline: none;
 }
 
@@ -31,7 +34,9 @@
 }
 
 .hui-toolbar__button:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 .hui-toolbar__button[data-disabled] {
@@ -119,6 +124,8 @@
 }
 
 .hui-toolbar__link:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
   border-radius: var(--hui-radius-sm);
 }

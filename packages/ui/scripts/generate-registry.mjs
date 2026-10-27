@@ -2,8 +2,8 @@ import {
   copyFileSync,
   existsSync,
   mkdirSync,
-  readFileSync,
   readdirSync,
+  readFileSync,
   writeFileSync,
 } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
@@ -776,7 +776,7 @@ for (const dir of componentDirs) {
   const examples = meta.examples?.length > 0 ? meta.examples : undefined;
 
   // --- Phase 3D: Slots ---
-  let slots = undefined;
+  let slots;
   if (meta.slots && meta.slots.length > 0) {
     validateSlotTree(dir, meta.slots, subcomponents);
     slots = meta.slots;
@@ -821,7 +821,7 @@ for (const dir of componentDirs) {
 
 // --- Phase 3B: Task bundles ---
 const bundlesPath = join(PKG_ROOT, 'data', 'task-bundles.json');
-let taskBundles = undefined;
+let taskBundles;
 if (existsSync(bundlesPath)) {
   const rawBundles = JSON.parse(readFileSync(bundlesPath, 'utf-8'));
   const componentMap = new Map(components.map((c) => [c.name, c]));

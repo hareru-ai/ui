@@ -1,7 +1,7 @@
 // @hareru/ui — ThemeProvider
 // ThemeProvider — light/dark/system theme management via data-theme attribute
 
-import { type ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
 

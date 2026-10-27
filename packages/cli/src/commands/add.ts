@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path';
-import { loadRegistry } from '@hareru/registry';
 import type { ComponentEntry, TaskBundle } from '@hareru/registry';
+import { loadRegistry } from '@hareru/registry';
 import type { Command } from 'commander';
 import { c } from '../utils/colors.js';
 import { detectCssFile } from '../utils/css-detector.js';

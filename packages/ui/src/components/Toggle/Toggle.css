@@ -10,8 +10,11 @@
   line-height: 1;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast),
-    border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    background-color var(--hui-duration-fast),
+    color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
   outline: none;
 }
 
@@ -20,7 +23,9 @@
 }
 
 .hui-toggle:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 .hui-toggle:disabled {

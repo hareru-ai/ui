@@ -1,13 +1,13 @@
 import { flattenTokens, generateThemeCSS, toCSS } from './formats/css';
 import { toDTCG } from './formats/dtcg';
 import {
+  fromPencilGetVariables,
+  fromPencilVariables,
   type PencilDocumentPayload,
   type PencilGetVariable,
   type PencilVariableSet,
-  type ToPencilOptions,
-  fromPencilGetVariables,
-  fromPencilVariables,
   pencilBindings,
+  type ToPencilOptions,
   toPencilDocument,
   toPencilVariables,
 } from './formats/pencil';

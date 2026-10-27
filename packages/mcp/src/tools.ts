@@ -1,14 +1,14 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
+import type { ComponentEntry } from './utils.js';
 import {
-  CSS_MODES,
-  CSS_MODE_DESCRIPTIONS,
   buildSlotTree,
+  CSS_MODE_DESCRIPTIONS,
+  CSS_MODES,
   loadRegistry,
   loadSchema,
   recommendCssMode,
 } from './utils.js';
-import type { ComponentEntry } from './utils.js';
 
 function safeLoad<T>(
   loader: () => T,

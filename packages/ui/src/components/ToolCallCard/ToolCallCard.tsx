@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type ReactNode, forwardRef, useState } from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode, useState } from 'react';
 import { cn } from '../../lib/cn';
 
 export type ToolCallStatus = 'pending' | 'executing' | 'done' | 'error';

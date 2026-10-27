@@ -24,7 +24,9 @@
 }
 
 .hui-combobox__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 .hui-combobox__trigger[data-placeholder] {
@@ -47,8 +49,9 @@
 .hui-combobox__content {
   opacity: 0;
   transform: scale(0.95);
-  transition: opacity var(--hui-duration-fast) var(--hui-easing-out), transform
-    var(--hui-duration-fast) var(--hui-easing-out);
+  transition:
+    opacity var(--hui-duration-fast) var(--hui-easing-out),
+    transform var(--hui-duration-fast) var(--hui-easing-out);
 }
 
 .hui-combobox__content[data-open] {
@@ -59,8 +62,9 @@
 .hui-combobox__content[data-ending-style] {
   opacity: 0;
   transform: scale(0.95);
-  transition: opacity var(--hui-duration-fast) var(--hui-easing-in), transform
-    var(--hui-duration-fast) var(--hui-easing-in);
+  transition:
+    opacity var(--hui-duration-fast) var(--hui-easing-in),
+    transform var(--hui-duration-fast) var(--hui-easing-in);
 }
 
 /* Command wrapper */

@@ -1,10 +1,10 @@
 import {
   Children,
-  type ReactElement,
-  type Ref,
   cloneElement,
   forwardRef,
   isValidElement,
+  type ReactElement,
+  type Ref,
 } from 'react';
 
 function mergeRefs<T>(...refs: (Ref<T> | undefined)[]): Ref<T> | undefined {

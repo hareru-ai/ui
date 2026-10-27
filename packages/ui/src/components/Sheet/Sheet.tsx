@@ -1,6 +1,6 @@
 import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
-import { type VariantProps, cva } from 'class-variance-authority';
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { forwardRef, isValidElement, type ReactElement } from 'react';
 import { cn } from '../../lib/cn';
 
 // --- Sheet (root) ---

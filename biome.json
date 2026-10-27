@@ -1,23 +1,40 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "ignore": [
-      "**/dist/**",
-      "**/.turbo/**",
-      "**/node_modules/**",
-      "**/e2e/**",
-      "**/test-results/**",
-      "**/playwright-report/**",
-      "**/.next/**",
-      "**/.source/**",
-      "**/*.module.css",
-      "**/next-env.d.ts"
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/.turbo",
+      "!**/node_modules",
+      "!**/e2e",
+      "!**/test-results",
+      "!**/playwright-report",
+      "!**/.next",
+      "!**/.source",
+      "!**/*.module.css",
+      "!**/next-env.d.ts"
     ]
   },
-  "organizeImports": { "enabled": true },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "rules": {
+      "preset": "recommended",
+      "a11y": { "useAriaPropsSupportedByRole": "warn" },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
+      }
+    }
   },
   "formatter": {
     "indentStyle": "space",
@@ -26,5 +43,14 @@
   },
   "javascript": {
     "formatter": { "quoteStyle": "single" }
-  }
+  },
+  "html": { "formatter": { "enabled": false }, "linter": { "enabled": false } },
+  "markdown": { "formatter": { "enabled": false }, "linter": { "enabled": false } },
+  "yaml": { "formatter": { "enabled": false }, "linter": { "enabled": false } },
+  "overrides": [
+    {
+      "includes": ["**/index.ts"],
+      "assist": { "actions": { "source": { "organizeImports": "off" } } }
+    }
+  ]
 }

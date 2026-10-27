@@ -26,7 +26,7 @@
  * Spec reference: dev-orchestrator/projects/hareru-di/docs/ui-component-interface.yaml
  */
 
-import { type HTMLAttributes, forwardRef, useMemo, useState } from 'react';
+import { forwardRef, type HTMLAttributes, useMemo, useState } from 'react';
 import { cn } from '../../lib/cn';
 
 // ---------------------------------------------------------------------------

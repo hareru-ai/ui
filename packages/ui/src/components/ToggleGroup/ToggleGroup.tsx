@@ -1,6 +1,6 @@
 import { Toggle } from '@base-ui-components/react/toggle';
 import { ToggleGroup as BaseToggleGroup } from '@base-ui-components/react/toggle-group';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import type React from 'react';
 import { forwardRef } from 'react';
 import { cn } from '../../lib/cn';

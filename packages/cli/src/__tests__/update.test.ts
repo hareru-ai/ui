@@ -55,11 +55,7 @@ describe('hareru update', () => {
     rmSync(testDir, { recursive: true, force: true });
   });
 
-  function setupProject(opts: {
-    mode: string;
-    cssContent: string;
-    cssFile?: string;
-  }) {
+  function setupProject(opts: { mode: string; cssContent: string; cssFile?: string }) {
     writeFileSync(join(testDir, 'package.json'), JSON.stringify({ name: 'test-app' }));
     const cssRelative = opts.cssFile ?? 'src/app/globals.css';
     const cssPath = join(testDir, cssRelative);

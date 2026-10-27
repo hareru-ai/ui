@@ -15,7 +15,9 @@
   line-height: var(--hui-font-leading-normal);
   outline: none;
   cursor: pointer;
-  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    border-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
 }
 
 .hui-select__trigger:focus-visible {

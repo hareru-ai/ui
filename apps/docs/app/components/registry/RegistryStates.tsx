@@ -1,5 +1,5 @@
-import { getComponentOrThrow, hasStatesContent } from '@/lib/registry';
 import type { StateDef } from '@hareru/registry';
+import { getComponentOrThrow, hasStatesContent } from '@/lib/registry';
 
 function renderCssReflection(state: StateDef): string {
   if (!state.cssReflection) return '—';

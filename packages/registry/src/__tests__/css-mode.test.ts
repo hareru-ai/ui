@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CSS_MODES, CSS_MODE_DESCRIPTIONS, recommendCssMode } from '../css-mode.js';
+import { CSS_MODE_DESCRIPTIONS, CSS_MODES, recommendCssMode } from '../css-mode.js';
 
 describe('CSS_MODES', () => {
   it('contains exactly 4 modes', () => {

@@ -1,6 +1,6 @@
+import type { SlotDef } from '@hareru/registry';
 import { getComponentOrThrow, hasSlotsContent } from '@/lib/registry';
 import { SLOT_NOTES } from '@/lib/slot-notes';
-import type { SlotDef } from '@hareru/registry';
 
 interface SlotNode {
   slot: SlotDef;

@@ -16,7 +16,9 @@
   border: 2px solid transparent;
   border-radius: 9999px;
   padding: 0;
-  transition: background-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    background-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
   outline: none;
 }
 
@@ -32,7 +34,9 @@
 
 /* Focus ring */
 .hui-switch:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 /* Disabled */

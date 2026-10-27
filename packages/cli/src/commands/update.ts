@@ -2,8 +2,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { Command } from 'commander';
 import { c } from '../utils/colors.js';
-import { INIT_MODES, loadConfig, resolveCssFilePath, updateConfig } from '../utils/config.js';
 import type { InitMode } from '../utils/config.js';
+import { INIT_MODES, loadConfig, resolveCssFilePath, updateConfig } from '../utils/config.js';
 import {
   findManagedBlock,
   findTailwindImport,

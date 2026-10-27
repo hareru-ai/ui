@@ -1,5 +1,5 @@
 import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, type ReactElement } from 'react';
 import { cn } from '../../lib/cn';
 
 export const TooltipProvider = BaseTooltip.Provider;

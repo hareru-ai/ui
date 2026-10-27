@@ -37,7 +37,9 @@
   border-radius: var(--hui-radius-md);
   cursor: pointer;
   outline: none;
-  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast);
+  transition:
+    background-color var(--hui-duration-fast),
+    color var(--hui-duration-fast);
 }
 
 .hui-navigation-menu__trigger:hover {
@@ -46,7 +48,9 @@
 }
 
 .hui-navigation-menu__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 /* Chevron */
@@ -110,7 +114,9 @@
   text-decoration: none;
   border-radius: var(--hui-radius-md);
   outline: none;
-  transition: background-color var(--hui-duration-fast), color var(--hui-duration-fast);
+  transition:
+    background-color var(--hui-duration-fast),
+    color var(--hui-duration-fast);
 }
 
 .hui-navigation-menu__link:hover {
@@ -119,7 +125,9 @@
 }
 
 .hui-navigation-menu__link:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 /* Indicator */

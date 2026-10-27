@@ -1,6 +1,6 @@
 import { PreviewCard as BasePreviewCard } from '@base-ui-components/react/preview-card';
 import type React from 'react';
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, type ReactElement } from 'react';
 import { cn } from '../../lib/cn';
 
 export const PreviewCard = BasePreviewCard.Root;

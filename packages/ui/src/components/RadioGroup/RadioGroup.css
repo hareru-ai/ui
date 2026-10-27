@@ -45,7 +45,9 @@
 
 /* Focus ring */
 .hui-radio-group-item__control:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 /* Disabled — opacity is handled by .hui-radio-group-item--disabled on the parent */

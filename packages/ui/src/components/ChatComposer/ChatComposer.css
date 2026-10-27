@@ -8,12 +8,16 @@
   border: 1px solid var(--hui-color-border);
   border-radius: var(--hui-radius-lg);
   background-color: var(--hui-color-background);
-  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    border-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
 }
 
 .hui-chat-composer:focus-within {
   border-color: var(--hui-color-ring);
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 .hui-chat-composer--disabled {
