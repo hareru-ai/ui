@@ -11,8 +11,9 @@
   box-shadow: var(--hui-shadow-md);
   opacity: 0;
   transform: translateY(0);
-  transition: opacity var(--hui-duration-fast) var(--hui-easing-out), transform
-    var(--hui-duration-fast) var(--hui-easing-out);
+  transition:
+    opacity var(--hui-duration-fast) var(--hui-easing-out),
+    transform var(--hui-duration-fast) var(--hui-easing-out);
 }
 
 .hui-tooltip__content[data-open] {

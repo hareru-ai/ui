@@ -41,7 +41,9 @@
   border-radius: var(--hui-radius-md) var(--hui-radius-md) 0 0;
   cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: color var(--hui-duration-fast), border-color var(--hui-duration-fast),
+  transition:
+    color var(--hui-duration-fast),
+    border-color var(--hui-duration-fast),
     background-color var(--hui-duration-fast);
   margin-bottom: -1px;
 }

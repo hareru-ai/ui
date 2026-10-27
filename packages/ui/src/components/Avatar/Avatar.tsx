@@ -1,8 +1,8 @@
 import {
-  type HTMLAttributes,
-  type ImgHTMLAttributes,
   createContext,
   forwardRef,
+  type HTMLAttributes,
+  type ImgHTMLAttributes,
   useCallback,
   useContext,
   useEffect,

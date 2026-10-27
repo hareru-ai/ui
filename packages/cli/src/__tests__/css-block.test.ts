@@ -3,12 +3,12 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
-  MARKER_END,
-  MARKER_START,
   findLayerHuiDeclarations,
   findManagedBlock,
   findTailwindImport,
   findUnmanagedHareruImports,
+  MARKER_END,
+  MARKER_START,
   replaceManagedBlock,
   writeManagedBlock,
 } from '../utils/css-block.js';

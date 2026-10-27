@@ -19,7 +19,7 @@ import {
   filterManagedImports,
   generateCssImports,
 } from '../utils/format.js';
-import { type FrameworkDetection, detectFramework } from '../utils/framework-detector.js';
+import { detectFramework, type FrameworkDetection } from '../utils/framework-detector.js';
 import { detectPackage } from '../utils/pkg-detector.js';
 import { assertWritableProjectFile, resolveProjectPath } from '../utils/project-path.js';
 

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
-  type PencilGetVariable,
   colorToHex,
   fromPencilGetVariables,
   fromPencilVariables,
   hslToHex,
+  type PencilGetVariable,
   pencilBinding,
   pencilBindings,
   toPencilDocument,

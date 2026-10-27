@@ -163,8 +163,9 @@
 .hui-command-dialog__content {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.95);
-  transition: opacity var(--hui-duration-normal) var(--hui-easing-out), transform
-    var(--hui-duration-normal) var(--hui-easing-out);
+  transition:
+    opacity var(--hui-duration-normal) var(--hui-easing-out),
+    transform var(--hui-duration-normal) var(--hui-easing-out);
 }
 
 .hui-command-dialog__content[data-open] {
@@ -175,8 +176,9 @@
 .hui-command-dialog__content[data-ending-style] {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.95);
-  transition: opacity var(--hui-duration-fast) var(--hui-easing-in), transform
-    var(--hui-duration-fast) var(--hui-easing-in);
+  transition:
+    opacity var(--hui-duration-fast) var(--hui-easing-in),
+    transform var(--hui-duration-fast) var(--hui-easing-in);
 }
 
 /* Visually hidden (screen-reader only) */

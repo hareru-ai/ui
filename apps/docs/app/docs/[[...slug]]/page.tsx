@@ -1,14 +1,12 @@
-import { ComponentPreview } from '@/app/components/preview';
-import { RegistryA11y, RegistrySlots, RegistryStates } from '@/app/components/registry';
-import { source } from '@/lib/source';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/notebook/page';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { notFound } from 'next/navigation';
+import { ComponentPreview } from '@/app/components/preview';
+import { RegistryA11y, RegistrySlots, RegistryStates } from '@/app/components/registry';
+import { source } from '@/lib/source';
 
-export default async function Page(props: {
-  params: Promise<{ slug?: string[] }>;
-}) {
+export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
   const page = source.getPage(params.slug);
 
@@ -41,9 +39,7 @@ export function generateStaticParams() {
   return source.generateParams();
 }
 
-export async function generateMetadata(props: {
-  params: Promise<{ slug?: string[] }>;
-}) {
+export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
   const page = source.getPage(params.slug);
 

@@ -1,5 +1,5 @@
 import type { ComponentEntry, ComponentGroup, CssMode, TaskBundle } from '@hareru/registry';
-import { CSS_MODES, buildSlotTree } from '@hareru/registry';
+import { buildSlotTree, CSS_MODES } from '@hareru/registry';
 import { c } from './colors.js';
 
 export type { CssMode };

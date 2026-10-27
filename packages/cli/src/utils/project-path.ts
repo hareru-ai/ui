@@ -1,12 +1,12 @@
 import {
-  constants,
-  type Stats,
   closeSync,
+  constants,
   fstatSync,
   ftruncateSync,
   lstatSync,
   openSync,
   realpathSync,
+  type Stats,
   writeFileSync,
 } from 'node:fs';
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';

@@ -1,4 +1,4 @@
-import { type HTMLAttributes, forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, type HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/cn';
 import {
   Combobox,

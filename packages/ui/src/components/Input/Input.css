@@ -10,7 +10,9 @@
   font-family: var(--hui-font-family-sans);
   font-size: var(--hui-font-size-sm);
   line-height: var(--hui-font-leading-normal);
-  transition: border-color var(--hui-duration-fast), box-shadow var(--hui-duration-fast);
+  transition:
+    border-color var(--hui-duration-fast),
+    box-shadow var(--hui-duration-fast);
   outline: none;
 }
 

@@ -43,7 +43,7 @@ Grant `id-token: write` only to the publish job. Never grant it to the `select-m
 
 ## Dependency Maintenance
 
-Use Node.js 24 from `.node-version` and the pinned pnpm version. The lockfile is committed and CI uses frozen installs. Newly published packages wait 24 hours before resolution. Install scripts are allowed only for `esbuild` and `sharp`; new permissions require review. Biome's optional-binary probe is explicitly skipped; its CLI resolves the installed platform binary directly.
+Use Node.js 24 from `.node-version` and the pinned pnpm version. The lockfile is committed and CI uses frozen installs. Newly published packages wait 24 hours before resolution. Install scripts are allowed only for `esbuild` and `sharp`; new permissions require review.
 
 Dependabot checks npm and Actions weekly. Version updates for both ecosystems wait at least 24 hours after release through `cooldown.default-days: 1`; cooldown does not apply to security updates. The non-required Security workflow audits every severity on pushes to `main`, weekly, and on manual dispatch. Audit findings do not block the required CI workflow or release eligibility. CodeQL scans JavaScript/TypeScript and dependency review checks pull requests. Audit results identify known vulnerable versions, not proof that each issue is exploitable in this application.
 

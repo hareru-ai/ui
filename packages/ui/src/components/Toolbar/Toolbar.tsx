@@ -1,5 +1,5 @@
 import { Toolbar as BaseToolbar } from '@base-ui-components/react/toolbar';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import type React from 'react';
 import { forwardRef } from 'react';
 import { cn } from '../../lib/cn';

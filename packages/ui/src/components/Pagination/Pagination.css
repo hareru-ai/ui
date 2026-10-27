@@ -29,8 +29,9 @@
   color: var(--hui-color-foreground);
   font-size: var(--hui-font-size-sm);
   text-decoration: none;
-  transition: background-color var(--hui-duration-fast) var(--hui-easing-out), border-color
-    var(--hui-duration-fast) var(--hui-easing-out);
+  transition:
+    background-color var(--hui-duration-fast) var(--hui-easing-out),
+    border-color var(--hui-duration-fast) var(--hui-easing-out);
   cursor: pointer;
 }
 

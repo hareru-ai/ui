@@ -126,7 +126,9 @@
 }
 
 .hui-sheet__close:focus-visible {
-  box-shadow: 0 0 0 2px var(--hui-color-background), 0 0 0 4px var(--hui-color-ring);
+  box-shadow:
+    0 0 0 2px var(--hui-color-background),
+    0 0 0 4px var(--hui-color-ring);
 }
 
 /* Header */

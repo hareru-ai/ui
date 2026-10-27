@@ -1,5 +1,5 @@
 import { Slider as BaseSlider } from '@base-ui-components/react/slider';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef } from 'react';
 import { cn } from '../../lib/cn';
 
