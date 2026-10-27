@@ -158,6 +158,7 @@ export const PaginationEllipsis = forwardRef<HTMLSpanElement, PaginationEllipsis
   ({ className, ...props }, ref) => (
     <span
       ref={ref}
+      role="img"
       aria-label="More pages"
       className={cn('hui-pagination__ellipsis', className)}
       {...props}

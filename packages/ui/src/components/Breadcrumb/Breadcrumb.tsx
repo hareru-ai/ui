@@ -85,6 +85,7 @@ export const BreadcrumbEllipsis = forwardRef<HTMLSpanElement, BreadcrumbEllipsis
   ({ className, ...props }, ref) => (
     <span
       ref={ref}
+      role="img"
       aria-label="More"
       className={cn('hui-breadcrumb__ellipsis', className)}
       {...props}

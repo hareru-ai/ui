@@ -8,6 +8,7 @@ export interface SeparatorProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Separator = forwardRef<HTMLDivElement, SeparatorProps>(
   ({ className, orientation = 'horizontal', decorative = true, ...props }, ref) => (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-orientation is only set together with role="separator"
     <div
       ref={ref}
       className={cn('hui-separator', `hui-separator--${orientation}`, className)}

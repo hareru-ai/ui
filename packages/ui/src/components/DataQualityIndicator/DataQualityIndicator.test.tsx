@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -124,7 +124,8 @@ describe('DataQualityIndicator', () => {
           ]}
         />,
       );
-      expect(screen.getByLabelText('Alert summary')).toBeInTheDocument();
+      const summary = screen.getByRole('list', { name: 'Alert summary' });
+      expect(within(summary).getAllByRole('listitem')).toHaveLength(2);
     });
 
     it('applies error border class when error alerts exist', () => {

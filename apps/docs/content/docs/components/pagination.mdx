@@ -186,5 +186,5 @@ import Link from "next/link"
 
 - `PaginationLink` size variants (`sm`, `md`, `lg`) control the minimum width and height of the link element.
 - `PaginationPrevious` and `PaginationNext` accept a `disabled` prop that applies `aria-disabled="true"`, `tabIndex={-1}`, and CSS `pointer-events: none`. When not using `asChild`, `href` is also removed. When using `asChild`, the parent calls `e.preventDefault()` via Slot handler merge to prevent navigation.
-- `PaginationEllipsis` renders `…` and is `aria-hidden` — use it between page ranges to indicate skipped pages.
+- `PaginationEllipsis` renders `…` with `role="img"` and `aria-label="More pages"`; pass `aria-label` to localize it. Use it between page ranges to indicate skipped pages.
 - All link components support `asChild` for framework router integration (e.g. Next.js `Link`, React Router `Link`).

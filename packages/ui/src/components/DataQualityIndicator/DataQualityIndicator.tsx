@@ -264,18 +264,18 @@ export const DataQualityIndicator = forwardRef<HTMLElement, DataQualityIndicator
             <span className="hui-dq-indicator__dataset">{datasetName}</span>
           </div>
           {hasAlerts && (
-            <div className="hui-dq-indicator__alert-summary" aria-label="Alert summary">
+            <ul className="hui-dq-indicator__alert-summary" aria-label="Alert summary">
               {errorAlerts.length > 0 && (
-                <span className="hui-dq-indicator__summary-badge hui-dq-indicator__summary-badge--error">
+                <li className="hui-dq-indicator__summary-badge hui-dq-indicator__summary-badge--error">
                   {ALERT_ICONS.error} {errorAlerts.length}
-                </span>
+                </li>
               )}
               {warningAlerts.length > 0 && (
-                <span className="hui-dq-indicator__summary-badge hui-dq-indicator__summary-badge--warning">
+                <li className="hui-dq-indicator__summary-badge hui-dq-indicator__summary-badge--warning">
                   {ALERT_ICONS.warning} {warningAlerts.length}
-                </span>
+                </li>
               )}
-            </div>
+            </ul>
           )}
         </header>
 

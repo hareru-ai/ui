@@ -48,6 +48,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
           group,
         }}
       >
+        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-labelledby is only set together with role="group" */}
         <div
           ref={ref}
           role={group ? 'group' : undefined}

@@ -21,7 +21,6 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
-      "a11y": { "useAriaPropsSupportedByRole": "warn" },
       "style": {
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",
