@@ -231,6 +231,20 @@ describe('colorToHex', () => {
   it('throws on invalid input', () => {
     expect(() => colorToHex('rgb(0, 0, 0)')).toThrow('Invalid color string');
   });
+
+  it('accepts whitespace around the alpha separator and closing parenthesis', () => {
+    expect(colorToHex('oklch(0 0 0 )')).toBe('#000000');
+    expect(colorToHex('oklch(0 0 0/0.8)')).toBe('#000000cc');
+    expect(colorToHex('hsl(0 0% 0% / 0.8 )')).toBe('#000000cc');
+  });
+
+  it('rejects long whitespace runs in linear time', () => {
+    const spaces = ' '.repeat(100_000);
+    const start = performance.now();
+    expect(() => colorToHex(`oklch(1 1 1${spaces}`)).toThrow('Invalid color string');
+    expect(() => colorToHex(`hsl(1 1% 1%${spaces}`)).toThrow('Invalid color string');
+    expect(performance.now() - start).toBeLessThan(1000);
+  });
 });
 
 describe('toPencilDocument', () => {
