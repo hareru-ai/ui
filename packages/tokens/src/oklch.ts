@@ -10,7 +10,7 @@ export interface OKLCHColor {
   alpha?: number;
 }
 
-const OKLCH_RE = /^oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+))?\s*\)$/;
+const OKLCH_RE = /^oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+)\s*)?\)$/;
 
 /**
  * Parse an OKLCH color string into its components.

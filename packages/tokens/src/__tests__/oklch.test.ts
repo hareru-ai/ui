@@ -39,6 +39,19 @@ describe('parseOKLCH', () => {
     expect(parseOKLCH('oklch()')).toBeNull();
     expect(parseOKLCH('oklch(0.5)')).toBeNull();
   });
+
+  it('accepts whitespace around the alpha separator and closing parenthesis', () => {
+    const color = { l: 0.5, c: 0.1, h: 200 };
+    expect(parseOKLCH('oklch(0.5 0.1 200 )')).toEqual(color);
+    expect(parseOKLCH('oklch(0.5 0.1 200/0.5)')).toEqual({ ...color, alpha: 0.5 });
+    expect(parseOKLCH('oklch( 0.5 0.1 200 / 0.5 )')).toEqual({ ...color, alpha: 0.5 });
+  });
+
+  it('rejects long whitespace runs in linear time', () => {
+    const start = performance.now();
+    expect(parseOKLCH(`oklch(1 1 1${' '.repeat(100_000)}`)).toBeNull();
+    expect(performance.now() - start).toBeLessThan(1000);
+  });
 });
 
 describe('formatOKLCH', () => {

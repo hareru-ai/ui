@@ -223,11 +223,11 @@ for (const [exportPath, label] of exportPaths) {
     for (const [pattern, target] of Object.entries(exportsMap)) {
       if (pattern.includes('*')) {
         // Escape regex special chars except *, then replace * with (.*)
-        const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace('*', '(.*)');
+        const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replaceAll('*', '(.*)');
         const regex = new RegExp(`^${escaped}$`);
         const match = exportPath.match(regex);
         if (match) {
-          resolvedTarget = target.replace('*', match[1]);
+          resolvedTarget = target.replaceAll('*', match[1]);
           break;
         }
       }

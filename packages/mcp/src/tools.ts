@@ -25,8 +25,8 @@ function mcpError(message: string) {
   return { content: [{ type: 'text' as const, text: message }], isError: true };
 }
 
-function escPipe(s: string): string {
-  return s.replace(/\|/g, '\\|');
+export function escPipe(s: string): string {
+  return s.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
 }
 
 function formatVariantsTable(entry: ComponentEntry): string {

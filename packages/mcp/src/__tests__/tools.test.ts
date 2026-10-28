@@ -2,6 +2,14 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createServer } from '../index.js';
+import { escPipe } from '../tools.js';
+
+describe('escPipe', () => {
+  it('escapes backslashes before pipes', () => {
+    expect(escPipe('a|b')).toBe('a\\|b');
+    expect(escPipe('a\\|b')).toBe('a\\\\\\|b');
+  });
+});
 
 describe('get-component-usage', () => {
   let client: Client;

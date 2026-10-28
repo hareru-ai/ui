@@ -15,7 +15,12 @@ function parsePath(path: string): string[] {
   return path
     .slice(1)
     .split('/')
-    .map((s) => s.replace(/~1/g, '/').replace(/~0/g, '~'));
+    .map((s) => {
+      const token = s.replace(/~1/g, '/').replace(/~0/g, '~');
+      // A __proto__ token would read or write Object.prototype.
+      if (token === '__proto__') throw new Error(`Unsafe JSON Pointer: ${path}`);
+      return token;
+    });
 }
 
 function getByPath(obj: unknown, tokens: string[]): unknown {
