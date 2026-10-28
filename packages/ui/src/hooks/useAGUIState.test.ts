@@ -59,6 +59,20 @@ describe('applyPatch', () => {
     expect((result as Record<string, { nested: number[] }>).a.nested).toEqual([1, 2]);
   });
 
+  it('rejects __proto__ in paths without modifying Object.prototype', () => {
+    const ops: JsonPatchOp[] = [
+      { op: 'add', path: '/__proto__/polluted', value: true },
+      { op: 'replace', path: '/__proto__/polluted', value: true },
+      { op: 'remove', path: '/__proto__/toString' },
+      { op: 'copy', from: '/__proto__', path: '/copied' },
+    ];
+    for (const op of ops) {
+      expect(() => applyPatch({ a: 1 }, [op])).toThrow('Unsafe JSON Pointer');
+    }
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+    expect(typeof Object.prototype.toString).toBe('function');
+  });
+
   it('add inserts into array at index', () => {
     const result = applyPatch([1, 3], [{ op: 'add', path: '/1', value: 2 }]);
     expect(result).toEqual([1, 2, 3]);
