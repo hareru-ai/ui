@@ -1,6 +1,6 @@
 {
   "name": "@hareru/tokens",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Design tokens and CSS custom properties for Hareru UI",
   "license": "MIT",
   "repository": {
