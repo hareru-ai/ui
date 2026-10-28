@@ -1,5 +1,12 @@
 # @hareru/mcp
 
+## 0.4.4
+
+### Patch Changes
+
+- 0ff6178: Escape backslashes in the Markdown table cells that `get-component-usage` returns, so a backslash in a cell value cannot break the table.
+- @hareru/registry@0.4.2
+
 ## 0.4.3
 
 ### Patch Changes
