@@ -1,5 +1,12 @@
 # @hareru/ui
 
+## 0.8.4
+
+### Patch Changes
+
+- Updated dependencies [6550c08]
+  - @hareru/tokens@0.1.3
+
 ## 0.8.3
 
 ### Patch Changes
